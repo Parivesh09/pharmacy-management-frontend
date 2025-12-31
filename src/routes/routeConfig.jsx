@@ -146,7 +146,7 @@ export const routeConfig = [
     element: <Viewledger />,
   },
   {
-    path: "/master/account/ledger/create",
+    path: "/master/account/ledger/add",
     module: "accounting_ledgers",
     action: "C",
     element: <CreateLedger />,
