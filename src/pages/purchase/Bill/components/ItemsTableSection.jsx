@@ -124,7 +124,7 @@ const ItemsTableSection = ({
                       onItemChange(idx, "quantity", parseFloat(e.target.value) || 1)
                     }
                     className="text-xs text-center"
-                    step="0.01"
+                    step="1"
                   />
                 </td>
                 <td className="px-3 py-2">

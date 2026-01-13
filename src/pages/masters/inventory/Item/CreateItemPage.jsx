@@ -1,10 +1,10 @@
 import { useForm } from "react-hook-form";
-import { useAddItemMutation } from "../../../../services/itemApi";
+import { useAddItemMutation, useUpdateItemMutation, useGetItemByIdQuery } from "../../../../services/itemApi";
 import Input from "../../../../componets/common/Input";
 import Select from "../../../../componets/common/Select";
 import Button from "../../../../componets/common/Button";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { showToast } from "../../../../componets/common/Toast";
 import { SelectField, TextField } from "../../../../componets/common/Fields";
 import LeftColumn from "./components/LeftColumn";
@@ -22,10 +22,15 @@ import { useSelector } from "react-redux";
 
 const ADVANCE_TABS = ["Discount", "Quantity", "Other Info"];
 
-export default function CreateItemPage() {
+export default function CreateItemPage({ isEditMode = false }) {
   const navigate = useNavigate();
+  const { id } = useParams();
   const { currentCompany } = useSelector((state) => state.user);
-  const [addItem, { isLoading }] = useAddItemMutation();
+  const [addItem, { isLoading: isAdding }] = useAddItemMutation();
+  const [updateItem, { isLoading: isUpdating }] = useUpdateItemMutation();
+  const { data: itemData, isLoading: isLoadingItem } = useGetItemByIdQuery(id, { skip: !isEditMode });
+  
+  const isLoading = isAdding || isUpdating || (isEditMode && isLoadingItem);
   const [showAdvance, setShowAdvance] = useState(false);
   const [activeTab, setActiveTab] = useState("Discount");
   const [selectedRack, setSelectedRack] = useState(null);
@@ -118,6 +123,39 @@ export default function CreateItemPage() {
     },
   });
 
+  useEffect(() => {
+    if (isEditMode && itemData?.data) {
+      const rawData = itemData.data;
+      
+      // Helper to extract ID from populated objects or use value as is
+      const getId = (val) => (val && typeof val === 'object' ? (val._id || val.id) : val);
+
+      const data = {
+        ...rawData,
+        company: getId(rawData.company || rawData.CompanyDetails), 
+        unit1: getId(rawData.unit1 || rawData.Unit1), 
+        unit2: getId(rawData.unit2 || rawData.Unit2),
+        rack: getId(rawData.rack),
+        salt: getId(rawData.salt),
+        hsnsac: getId(rawData.hsnsac),
+        taxcategory: getId(rawData.taxcategory),
+      };
+
+      console.log("Edit Mode Data Loaded:", data);
+      reset(data);
+      
+      // Update local states for dependent dropdowns or UI sync
+      if (data.rack) setSelectedRack(data.rack);
+      if (data.company) setSelectedCompany(data.company);
+      if (data.salt) setSelectedSalt(data.salt);
+      if (data.unit1) setSelectedUnit(data.unit1);
+      if (data.unit2) setSelectedUnit2(data.unit2);
+      if (data.hsnsac) setSelectedHSN(data.hsnsac);
+      if (data.taxcategory) setSelectedTaxCategory(data.taxcategory);
+    }
+  }, [itemData, isEditMode, reset]);
+
+
   const handleSave = async (data) => {
     try {
       const requiredFields = {
@@ -140,11 +178,16 @@ export default function CreateItemPage() {
         return;
       }
 
-      await addItem(data).unwrap();
-      showToast("Data saved successfully", { type: "success" });
-      reset();
+      if (isEditMode) {
+        await updateItem({ id, ...data }).unwrap();
+        showToast("Item updated successfully", { type: "success" });
+      } else {
+        await addItem(data).unwrap();
+        showToast("Data saved successfully", { type: "success" });
+        reset();
+      }
     } catch (error) {
-      showToast(error?.data?.message || "Failed to save item", { type: "error" });
+      showToast(error?.data?.message || `Failed to ${isEditMode ? 'update' : 'save'} item`, { type: "error" });
     }
   };
 
@@ -176,7 +219,7 @@ export default function CreateItemPage() {
           >
             
             <div className="flex items-center justify-between sticky top-0 z-10 bg-white">
-              <h1 className="text-xl font-bold">Create Item</h1>
+              <h1 className="text-xl font-bold">{isEditMode ? "Edit Item" : "Create Item"}</h1>
               <Button type="button" variant="secondary" onClick={handleBack}>
                 &#8592; Back
               </Button>
@@ -263,7 +306,7 @@ export default function CreateItemPage() {
                 variant="primary"
                 disabled={isLoading}
               >
-                Save
+                {isEditMode ? "Update" : "Save"}
               </Button>
               <Button
                 type="button"

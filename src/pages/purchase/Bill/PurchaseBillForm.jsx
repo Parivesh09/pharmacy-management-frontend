@@ -8,7 +8,7 @@ import {
 } from "../../../services/purchaseBillApi";
 import { useGetItemsQuery } from "../../../services/itemApi";
 import SelectItemDialog from "../../../componets/common/SelectItemDialog";
-import LedgerListModal from "../../sales/Bill/components/LedgerListModal";
+import CreditorLedgerListModal from "./components/CreditorLedgerListModal";
 import PurchaseMasterListModal from "./components/PurchaseMasterListModal";
 import BatchSelectionDialog from "./components/BatchSelectionDialog";
 import Button from "../../../componets/common/Button";
@@ -214,6 +214,7 @@ const PurchaseBillForm = () => {
     try {
       const payload = {
         ...form,
+        billNo: form.billNo?.trim() || undefined,
         items: calculations.items,
         ...calculations,
       };
@@ -245,7 +246,7 @@ const PurchaseBillForm = () => {
         onClose={() => setShowItemDialog(false)}
         onSelectItem={handleItemSelect}
       />
-      <LedgerListModal
+      <CreditorLedgerListModal
         open={showLedgerDialog}
         onClose={() => setShowLedgerDialog(false)}
         onSelectLedger={(ledger) => {

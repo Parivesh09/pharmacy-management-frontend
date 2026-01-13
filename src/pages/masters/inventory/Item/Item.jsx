@@ -76,7 +76,7 @@ const ItemsPage = () => {
       selectedRow={selectedRow}
       onRowSelect={setSelectedRow}
       onAdd={handleAddItem}
-      onEdit={(row) => console.log("Edit:", row)}
+      onEdit={(row) => navigate(`/master/inventory/items/edit/${row.id}`)}
       onDelete={(row) => console.log("Delete:", row)}
       page={page}
       totalPages={data?.totalPages || 1}

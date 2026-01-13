@@ -10,6 +10,7 @@ const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL
 export const itemApi = createApi({
   reducerPath: 'itemApi',
   baseQuery: createBaseQueryWithAuth(baseUrl),
+  tagTypes: ['Item'],
   endpoints: (builder) => ({
     getItems: builder.query({
       query: ({ page = 1, limit, search = '', filters = {} } = {}, companyId) => ({
@@ -17,6 +18,20 @@ export const itemApi = createApi({
         method: 'GET',
       }),
       providesTags: ['Item'],
+    }),
+    getItemById: builder.query({
+      query: (id) => ({
+        url: `/item/v1/get-item?filters=${JSON.stringify({ _id: id })}`,
+        method: 'GET',
+      }),
+      transformResponse: (response) => {
+        // Handle list response and extract first item
+        if (response?.data && Array.isArray(response.data)) {
+          return { ...response, data: response.data[0] };
+        }
+        return response;
+      },
+      providesTags: (result, error, id) => [{ type: 'Item', id }],
     }),
     addItem: builder.mutation({
       query: (itemData) => ({
@@ -38,4 +53,4 @@ export const itemApi = createApi({
   overrideExisting: false,
 });
 
-export const { useGetItemsQuery, useAddItemMutation, useUpdateItemMutation } = itemApi; 
+export const { useGetItemsQuery, useAddItemMutation, useUpdateItemMutation, useGetItemByIdQuery } = itemApi; 

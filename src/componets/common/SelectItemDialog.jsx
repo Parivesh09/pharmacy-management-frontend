@@ -1,13 +1,28 @@
-import React, { useState, useMemo } from "react";
-import { Search, X } from "lucide-react";
+import React, { useState, useMemo, useEffect } from "react";
+import { Search, X, RefreshCw } from "lucide-react";
 import { useGetItemsQuery } from "../../services/itemApi";
+import BatchSelectionDialog from "../../pages/purchase/Bill/components/BatchSelectionDialog";
 
 const SelectItemDialog = ({ open, onClose, onSelectItem }) => {
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("name");
-  const { data: itemsData, isLoading } = useGetItemsQuery({ limit: 100 });
+  const [refreshKey, setRefreshKey] = useState(0);
+  const [showBatchDialog, setShowBatchDialog] = useState(false);
+  const [selectedItemForBatch, setSelectedItemForBatch] = useState(null);
+  
+  const { data: itemsData, isLoading, refetch } = useGetItemsQuery({ 
+    limit: 100,
+    _refresh: refreshKey // This will force a refetch when refreshKey changes
+  });
 
   console.log(itemsData);
+
+  // Auto-refresh when dialog opens to get latest stock
+  useEffect(() => {
+    if (open) {
+      refetch();
+    }
+  }, [open, refetch]);
 
   const filteredItems = useMemo(() => {
     if (!itemsData?.data) return [];
@@ -25,6 +40,57 @@ const SelectItemDialog = ({ open, onClose, onSelectItem }) => {
 
     return filtered;
   }, [itemsData, search, sortBy]);
+
+  const handleRefresh = () => {
+    setRefreshKey(prev => prev + 1);
+    refetch();
+  };
+
+  const handleItemSelect = (item) => {
+    // Always select item directly without opening batch dialog
+    onSelectItem({
+      id: item.id,
+      name: item.productname,
+      packing: item.packing,
+      mrp: item.price || 0,
+      rate: item.salerate || item.price || 0, // Use salerate for calculations
+      purchasePrice: item.purchasePrice,
+      unit: item.Unit1?.unitName,
+      stock: item.stock || 0,
+      batchId: null, // No batch selected initially
+      batch: "",
+      expiryDate: "",
+      batchQuantity: 0,
+      // Add tax information from TaxCategoryDetail
+      taxCategory: item.TaxCategoryDetail,
+      igstPercent: parseFloat(item.TaxCategoryDetail?.igstPercentage || 0),
+      cgstPercent: parseFloat(item.TaxCategoryDetail?.cgstPercentage || 0),
+      sgstPercent: parseFloat(item.TaxCategoryDetail?.sgstPercentage || 0),
+      cessPercent: parseFloat(item.TaxCategoryDetail?.cessPercentage || 0),
+    });
+    onClose();
+  };
+
+  const handleBatchSelect = (batch) => {
+    if (selectedItemForBatch) {
+      onSelectItem({
+        id: selectedItemForBatch.id,
+        name: selectedItemForBatch.productname,
+        packing: selectedItemForBatch.packing,
+        mrp: batch.mrp || selectedItemForBatch.price,
+        purchasePrice: batch.purchaseRate || selectedItemForBatch.purchasePrice,
+        unit: selectedItemForBatch.Unit1?.unitName,
+        stock: selectedItemForBatch.stock || 0, // Total stock for display
+        batchId: batch.id,
+        batch: batch.batchNumber,
+        expiryDate: batch.expiryDate || "",
+        batchQuantity: batch.quantity || 0, // Specific batch quantity for validation
+      });
+      setShowBatchDialog(false);
+      setSelectedItemForBatch(null);
+      onClose();
+    }
+  };
 
   if (!open) return null;
 
@@ -62,6 +128,14 @@ const SelectItemDialog = ({ open, onClose, onSelectItem }) => {
             <option value="name">Sort by Name</option>
             <option value="stock">Sort by Stock</option>
           </select>
+          <button
+            onClick={handleRefresh}
+            className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center gap-2"
+            title="Refresh stock data"
+          >
+            <RefreshCw size={16} />
+            Refresh
+          </button>
           <div className="text-sm text-gray-600 font-medium">
             Total: {filteredItems.length}
           </div>
@@ -80,8 +154,9 @@ const SelectItemDialog = ({ open, onClose, onSelectItem }) => {
                   <th className="px-4 py-3 text-left font-semibold text-gray-700 min-w-[250px]">Description</th>
                   <th className="px-4 py-3 text-left font-semibold text-gray-700 min-w-[100px]">Packing</th>
                   <th className="px-4 py-3 text-center font-semibold text-gray-700 min-w-[80px]">Stock</th>
+                  <th className="px-4 py-3 text-center font-semibold text-gray-700 min-w-[80px]">Batches</th>
                   <th className="px-4 py-3 text-center font-semibold text-gray-700 min-w-[80px]">Unit</th>
-                  <th className="px-4 py-3 text-right font-semibold text-gray-700 min-w-[100px]">MRP</th>
+                  <th className="px-4 py-3 text-right font-semibold text-gray-700 min-w-[100px]">Sale Rate</th>
                   <th className="px-4 py-3 text-center font-semibold text-gray-700 min-w-[80px]">Action</th>
                 </tr>
               </thead>
@@ -108,34 +183,38 @@ const SelectItemDialog = ({ open, onClose, onSelectItem }) => {
                           {item.stock || 0}
                         </span>
                       </td>
+                      <td className="px-4 py-3 text-center">
+                        <span className="text-xs text-gray-600">
+                          {item.batches?.length || 0} batch{(item.batches?.length || 0) !== 1 ? 'es' : ''}
+                        </span>
+                        {item.batches && item.batches.length > 0 && (
+                          <div className="text-xs text-gray-500 mt-1">
+                            Latest: {item.batches[0]?.batchNumber}
+                          </div>
+                        )}
+                      </td>
                       <td className="px-4 py-3 text-center text-sm text-gray-700">{item.Unit1?.unitName || "-"}</td>
                       <td className="px-4 py-3 text-right font-semibold text-gray-900">
                         ₹{parseFloat(item.salerate || item.price || 0).toFixed(2)}
                       </td>
                       <td className="px-4 py-3 text-center">
                         <button
-                          onClick={() => {
-                            onSelectItem({
-                              id: item.id,
-                              name: item.productname,
-                              packing: item.packing,
-                              mrp: item.price,
-                              purchasePrice: item.purchasePrice,
-                              unit: item.Unit1?.unitName,
-                              stock: item.stock || 0,
-                            });
-                            onClose();
-                          }}
-                          className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 text-xs font-medium transition"
+                          onClick={() => handleItemSelect(item)}
+                          className={`px-3 py-1 rounded text-xs font-medium transition ${
+                            (item.stock || 0) > 0
+                              ? "bg-blue-600 text-white hover:bg-blue-700"
+                              : "bg-gray-400 text-white cursor-not-allowed"
+                          }`}
+                          disabled={(item.stock || 0) === 0}
                         >
-                          Select
+                          {(item.stock || 0) > 0 ? "Select" : "Out of Stock"}
                         </button>
                       </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="6" className="px-4 py-8 text-center text-gray-500">
+                    <td colSpan="7" className="px-4 py-8 text-center text-gray-500">
                       No items found
                     </td>
                   </tr>
@@ -145,6 +224,17 @@ const SelectItemDialog = ({ open, onClose, onSelectItem }) => {
           )}
         </div>
       </div>
+
+      <BatchSelectionDialog
+        open={showBatchDialog}
+        onClose={() => {
+          setShowBatchDialog(false);
+          setSelectedItemForBatch(null);
+        }}
+        onSelectBatch={handleBatchSelect}
+        itemId={selectedItemForBatch?.id}
+        itemName={selectedItemForBatch?.productname || "Unknown Item"}
+      />
     </div>
   );
 };

@@ -23,6 +23,7 @@ export const ledgerApi = createApi({
         limit,
         search = "",
         groupId,
+        groupIds,
         balanceType,
         status,
         isActive,
@@ -33,6 +34,7 @@ export const ledgerApi = createApi({
           limit,
           search,
           groupId,
+          groupIds: groupIds ? groupIds.join(',') : undefined,
           balanceType,
           status,
           isActive,
@@ -48,13 +50,23 @@ export const ledgerApi = createApi({
         limit,
         search = "",
         groupId,
+        groupIds, // New parameter for multiple group IDs
         balanceType,
         status,
         isActive,
         userCompanyId
       } = {}) => ({
         url: `/ledger/v1/get-ledger/by-companyId/${companyId}?${buildQueryParams(
-          { page, limit, search, groupId, balanceType, status, isActive }
+          { 
+            page, 
+            limit, 
+            search, 
+            groupId, 
+            groupIds: groupIds ? groupIds.join(',') : undefined, // Convert array to comma-separated string
+            balanceType, 
+            status, 
+            isActive 
+          }
         )}`,
         method: "GET",
       }),

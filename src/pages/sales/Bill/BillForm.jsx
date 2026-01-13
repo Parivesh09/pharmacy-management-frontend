@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Save, X } from "lucide-react";
 import {
@@ -10,6 +10,7 @@ import PatientListModal from "../../masters/other/prescription/PatientListModal"
 import DoctorListModal from "../../masters/other/doctor/DoctorListModal";
 import LedgerListModal from "../Bill/components/LedgerListModal";
 import SelectItemDialog from "../../../componets/common/SelectItemDialog";
+import BatchSelectionDialog from "../../purchase/Bill/components/BatchSelectionDialog";
 import Button from "../../../componets/common/Button";
 import { calculateBillTotals, formatCurrency } from "../../../utils/billCalculations";
 import toast from "react-hot-toast";
@@ -24,6 +25,10 @@ const BillForm = () => {
   const navigate = useNavigate();
   const { id: billId } = useParams();
   const isEdit = !!billId;
+  const [showBatchDialog, setShowBatchDialog] = useState(false);
+  const [selectedBatchRowIndex, setSelectedBatchRowIndex] = useState(null);
+  const [selectedItemIdForBatch, setSelectedItemIdForBatch] = useState(null);
+
   const { data: billData } = useGetBillQuery(billId, { skip: !isEdit });
   const [createBill] = useCreateBillMutation();
   const [updateBill] = useUpdateBillMutation();
@@ -85,6 +90,39 @@ const BillForm = () => {
     setCalculations(calcs);
   }, [form.items, form.billDiscountPercent, form.cgstPercent, form.sgstPercent]);
 
+  const handleBatchSelect = (batch) => {
+    if (selectedBatchRowIndex !== null) {
+      const newItems = [...form.items];
+      newItems[selectedBatchRowIndex] = {
+        ...newItems[selectedBatchRowIndex],
+        batchId: batch.id,
+        batch: batch.batchNumber,
+        expDate: batch.expiryDate || "",
+        mrp: batch.mrp || newItems[selectedBatchRowIndex].mrp,
+        rate: batch.billingMrp || batch.mrp || newItems[selectedBatchRowIndex].rate,
+        batchQuantity: batch.quantity || 0,
+      };
+      
+      // Recalculate amount with new rate
+      newItems[selectedBatchRowIndex] = calculateItemAmount(newItems[selectedBatchRowIndex]);
+      
+      setForm((prev) => ({ ...prev, items: newItems }));
+      setSelectedBatchRowIndex(null);
+      setSelectedItemIdForBatch(null);
+    }
+    setShowBatchDialog(false);
+  };
+
+  const handleBatchFieldClick = (idx, itemId) => {
+    if (itemId) {
+      setSelectedBatchRowIndex(idx);
+      setSelectedItemIdForBatch(itemId);
+      setShowBatchDialog(true);
+    } else {
+      toast.error("Please select an item first");
+    }
+  };
+
   const handleItemSelect = (item) => {
     if (selectedItemRowIndex !== null) {
       const newItems = [...form.items];
@@ -93,17 +131,76 @@ const BillForm = () => {
         itemId: item.id,
         product: item.name,
         mrp: item.mrp || 0,
-        rate: item.mrp || 0,
+        rate: item.rate || 0, // Use the correct rate for calculations
         packing: item.packing || "",
+        batchId: item.batchId || "",
+        batch: item.batch || "",
+        expDate: item.expiryDate || "",
+        unit1: item.unit || "",
+        availableStock: item.stock || 0,
+        batchQuantity: item.batchQuantity || item.stock || 0,
+        quantity: 1, // Default quantity
+        discountPercent: 0,
+        // Add tax information
+        igstPercent: item.igstPercent || 0,
+        cgstPercent: item.cgstPercent || 0,
+        sgstPercent: item.sgstPercent || 0,
+        cessPercent: item.cessPercent || 0,
       };
+      
+      // Calculate amount for this item
+      const calculatedItem = calculateItemAmount(newItems[selectedItemRowIndex]);
+      newItems[selectedItemRowIndex] = calculatedItem;
+      
       setForm((prev) => ({ ...prev, items: newItems }));
       setSelectedItemRowIndex(null);
     }
   };
 
+  // Function to calculate item amount with taxes
+  const calculateItemAmount = (item) => {
+    const quantity = parseFloat(item.quantity) || 1;
+    const rate = parseFloat(item.rate) || 0;
+    const discountPercent = parseFloat(item.discountPercent) || 0;
+    
+    // Calculate base amount
+    const baseAmount = quantity * rate;
+    
+    // Calculate discount
+    const discountAmount = (baseAmount * discountPercent) / 100;
+    const amountAfterDiscount = baseAmount - discountAmount;
+    
+    // Calculate taxes
+    const igstAmount = (amountAfterDiscount * (item.igstPercent || 0)) / 100;
+    const cgstAmount = (amountAfterDiscount * (item.cgstPercent || 0)) / 100;
+    const sgstAmount = (amountAfterDiscount * (item.sgstPercent || 0)) / 100;
+    const cessAmount = (amountAfterDiscount * (item.cessPercent || 0)) / 100;
+    
+    const totalTaxAmount = igstAmount + cgstAmount + sgstAmount + cessAmount;
+    const finalAmount = amountAfterDiscount + totalTaxAmount;
+    
+    return {
+      ...item,
+      baseAmount: parseFloat(baseAmount.toFixed(2)),
+      discountAmount: parseFloat(discountAmount.toFixed(2)),
+      igstAmount: parseFloat(igstAmount.toFixed(2)),
+      cgstAmount: parseFloat(cgstAmount.toFixed(2)),
+      sgstAmount: parseFloat(sgstAmount.toFixed(2)),
+      cessAmount: parseFloat(cessAmount.toFixed(2)),
+      totalTaxAmount: parseFloat(totalTaxAmount.toFixed(2)),
+      amount: parseFloat(finalAmount.toFixed(2)),
+    };
+  };
+
   const handleItemChange = (index, field, value) => {
     const newItems = [...form.items];
     newItems[index] = { ...newItems[index], [field]: value };
+    
+    // Recalculate amount if quantity, rate, or discount changes
+    if (field === 'quantity' || field === 'rate' || field === 'discountPercent') {
+      newItems[index] = calculateItemAmount(newItems[index]);
+    }
+    
     setForm((prev) => ({ ...prev, items: newItems }));
   };
 
@@ -123,8 +220,19 @@ const BillForm = () => {
           rate: 0,
           quantity: 1,
           discountPercent: 0,
+          amount: 0,
+          // Tax fields
+          igstPercent: 0,
           cgstPercent: 0,
           sgstPercent: 0,
+          cessPercent: 0,
+          igstAmount: 0,
+          cgstAmount: 0,
+          sgstAmount: 0,
+          cessAmount: 0,
+          totalTaxAmount: 0,
+          baseAmount: 0,
+          discountAmount: 0,
         },
       ],
     }));
@@ -150,6 +258,8 @@ const BillForm = () => {
     try {
       const payload = {
         ...form,
+        // If billNo is empty or just whitespace, don't send it (let backend auto-generate)
+        billNo: form.billNo?.trim() || undefined,
         items: calculations.items,
         ...calculations,
       };
@@ -215,6 +325,21 @@ const BillForm = () => {
         onClose={() => setShowItemDialog(false)}
         onSelectItem={handleItemSelect}
       />
+      <BatchSelectionDialog
+        open={showBatchDialog}
+        onClose={() => {
+          setShowBatchDialog(false);
+          setSelectedBatchRowIndex(null);
+          setSelectedItemIdForBatch(null);
+        }}
+        onSelectBatch={handleBatchSelect}
+        itemId={selectedItemIdForBatch}
+        itemName={
+          selectedBatchRowIndex !== null
+            ? form.items[selectedBatchRowIndex]?.product || "Unknown Item"
+            : "Unknown Item"
+        }
+      />
 
       <div className="max-w-full mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
         {/* Header */}
@@ -256,6 +381,7 @@ const BillForm = () => {
               setSelectedItemRowIndex(idx);
               setShowItemDialog(true);
             }}
+            onSelectBatch={handleBatchFieldClick}
             formatCurrency={formatCurrency}
           />
 

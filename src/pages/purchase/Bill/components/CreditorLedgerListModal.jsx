@@ -8,14 +8,14 @@ import { useGroupIds } from "../../../../hooks/useGroupIds.js";
 import Input from "../../../../componets/common/Input.jsx";
 import Select from "../../../../componets/common/Select.jsx";
 
-const LedgerListModal = ({ open, onClose, onSelectLedger }) => {
+const CreditorLedgerListModal = ({ open, onClose, onSelectLedger }) => {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
   const debouncedSearch = useDebounce(search, 300);
   const prevDataRef = useRef([]);
 
-  const { debtorGroupIds } = useGroupIds();
+  const { creditorGroupIds } = useGroupIds();
 
   const { 
     data: ledgerData, 
@@ -25,7 +25,7 @@ const LedgerListModal = ({ open, onClose, onSelectLedger }) => {
     page,
     limit: 10,
     search: debouncedSearch,
-    groupIds: debtorGroupIds,
+    groupIds: creditorGroupIds,
     isActive: true,
   });
 
@@ -61,8 +61,6 @@ const LedgerListModal = ({ open, onClose, onSelectLedger }) => {
 
   const columns = [
     { key: "ledgerName", title: "Ledger Name" },
-    // { key: "id", title: "ID" },
-    // { key: "address", title: "Address" },
     {key : "station", title: "Station"},
     { key: "balance", title: "Balance" },
     {
@@ -86,13 +84,13 @@ const LedgerListModal = ({ open, onClose, onSelectLedger }) => {
       open={open}
       onClose={onClose}
       className="max-w-full md:max-w-[50vw]"
-      title="Select Party (Ledger)"
+      title="Select Supplier (Creditor)"
     >
       <div className="mb-2 flex gap-2 items-center justify-between">
         <div className="flex gap-2 items-center flex-1">
           <Input
             fullWidth={true}
-            placeholder="Search ledger..."
+            placeholder="Search supplier..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -100,7 +98,7 @@ const LedgerListModal = ({ open, onClose, onSelectLedger }) => {
         </div>
       </div>
       <DataTable
-        title="Ledger"
+        title="Supplier"
         columns={columns}
         data={data || []}
         onRowSelect={(row) => {
@@ -113,11 +111,10 @@ const LedgerListModal = ({ open, onClose, onSelectLedger }) => {
         loading={isFetching}
         enableInfiniteScroll={true}
         fullHeight={true}
-        selectedRow={null} // Disable selectedRow to prevent auto-scrolling during infinite scroll
+        selectedRow={null}
       />
-      {/* Remove pagination since we're using infinite scroll */}
     </Modal>
   );
 };
 
-export default LedgerListModal;
+export default CreditorLedgerListModal;

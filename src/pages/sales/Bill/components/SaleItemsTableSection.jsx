@@ -9,6 +9,7 @@ const SaleItemsTableSection = ({
   onAddItem,
   onRemoveItem,
   onSelectItem,
+  onSelectBatch,
   formatCurrency,
 }) => {
   return (
@@ -29,6 +30,9 @@ const SaleItemsTableSection = ({
               </th>
               <th className="px-3 py-3 text-left font-semibold text-gray-700">
                 Exp. Date
+              </th>
+              <th className="px-3 py-3 text-center font-semibold text-gray-700">
+                Stock
               </th>
               <th className="px-3 py-3 text-center font-semibold text-gray-700">
                 Unit-2
@@ -83,10 +87,13 @@ const SaleItemsTableSection = ({
                   <Input
                     type="text"
                     value={item.batch}
+                    onFocus={() => onSelectBatch && onSelectBatch(idx, item.itemId)}
                     onChange={(e) =>
                       onItemChange(idx, "batch", e.target.value)
                     }
-                    className="text-xs"
+                    className={`text-xs cursor-pointer ${item.batchId ? 'bg-blue-50 border-blue-200' : ''}`}
+                    readOnly={!!item.batchId} // Make read-only if batch is selected
+                    placeholder={item.batchId ? "Selected from batch" : "Click to select batch"}
                   />
                 </td>
                 <td className="px-3 py-2">
@@ -96,8 +103,19 @@ const SaleItemsTableSection = ({
                     onChange={(e) =>
                       onItemChange(idx, "expDate", e.target.value)
                     }
-                    className="text-xs"
+                    className={`text-xs ${item.batchId ? 'bg-blue-50 border-blue-200' : ''}`}
+                    readOnly={!!item.batchId} // Make read-only if batch is selected
+                    placeholder={item.batchId ? "From selected batch" : "Enter expiry"}
                   />
+                </td>
+                <td className="px-3 py-2 text-center">
+                  <span className={`px-2 py-1 rounded text-xs font-medium ${
+                    (item.availableStock || 0) > 0
+                      ? "bg-green-100 text-green-800"
+                      : "bg-red-100 text-red-800"
+                  }`}>
+                    {item.availableStock || 0}
+                  </span>
                 </td>
                 <td className="px-3 py-2">
                   <Input
@@ -134,12 +152,26 @@ const SaleItemsTableSection = ({
                   <Input
                     type="number"
                     value={item.quantity}
-                    onChange={(e) =>
-                      onItemChange(idx, "quantity", parseFloat(e.target.value) || 1)
-                    }
-                    className="text-xs text-center"
-                    step="0.01"
+                    onChange={(e) => {
+                      const newQuantity = parseFloat(e.target.value) || 1;
+                      onItemChange(idx, "quantity", newQuantity);
+                    }}
+                    className={`text-xs text-center ${
+                      // Use batch quantity if available, otherwise use total stock
+                      (item.quantity || 0) > (item.batchQuantity || item.availableStock || 0) && 
+                      (item.batchQuantity || item.availableStock || 0) > 0
+                        ? "border-red-500 bg-red-50"
+                        : ""
+                    }`}
+                    step="1"
+                    max={item.batchQuantity || item.availableStock || undefined}
                   />
+                  {(item.quantity || 0) > (item.batchQuantity || item.availableStock || 0) && 
+                   (item.batchQuantity || item.availableStock || 0) > 0 && (
+                    <div className="text-xs text-red-600 mt-1">
+                      {item.batchId ? `Exceeds batch quantity (${item.batchQuantity})!` : "Exceeds stock!"}
+                    </div>
+                  )}
                 </td>
                 <td className="px-3 py-2">
                   <Input

@@ -277,7 +277,7 @@ const StockManagement = () => {
           <Input
             label="Quantity"
             type="number"
-            step="0.01"
+            step="1"
             value={adjustmentData.quantity}
             onChange={(e) =>
               setAdjustmentData({
