@@ -6,25 +6,50 @@ import PosHeader from "./components/PosHeader";
 import PosProductGrid from "./components/PosProductGrid";
 import PosCart from "./components/PosCart";
 import { useGetItemsQuery } from "../../../services/itemApi";
+import { useGetCompaniesQuery } from "../../../services/companyApi";
 import { calculateBillTotals } from "../../../utils/billCalculations";
 
 const POSPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedCompany, setSelectedCompany] = useState("all");
   const [rawCartItems, setRawCartItems] = useState([]);
+  const [expenses, setExpenses] = useState([]);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
 
+  // Fetch companies
+  const { data: companyData } = useGetCompaniesQuery({ limit: 1000, isActive: true });
+  const companies = companyData?.data || [];
+
   // Fetch items
-  const { data: itemsData, isLoading, refetch } = useGetItemsQuery({
+  const queryOptions = {
     limit: 100,
-  });
+    search: searchQuery,
+    filters: {}
+  };
+
+  if (selectedCompany !== "all") {
+    queryOptions.filters.company = selectedCompany;
+  }
+
+  const { data: itemsData, isLoading, refetch } = useGetItemsQuery(queryOptions);
 
   const products = itemsData?.data || [];
 
   // Calculate totals
   const billCalculations = useMemo(() => {
-    return calculateBillTotals(rawCartItems);
-  }, [rawCartItems]);
+    const baseCalc = calculateBillTotals(rawCartItems);
+    
+    // Add expenses to total
+    const expensesTotal = expenses.reduce((sum, exp) => sum + (parseFloat(exp.amount) || 0), 0);
+    
+    return {
+       ...baseCalc,
+       expenses,
+       expensesTotal,
+       totalAmount: baseCalc.totalAmount + expensesTotal
+    };
+  }, [rawCartItems, expenses]);
 
   const addToCart = (product) => {
     setRawCartItems((prev) => {
@@ -96,6 +121,9 @@ const POSPage = () => {
             isLoading={isLoading} 
             searchQuery={searchQuery}
             addToCart={addToCart}
+            companies={companies}
+            selectedCompany={selectedCompany}
+            setSelectedCompany={setSelectedCompany}
           />
         </div>
 
@@ -109,6 +137,8 @@ const POSPage = () => {
              selectedCustomer={selectedCustomer}
              setSelectedCustomer={setSelectedCustomer}
              clearCart={clearCart}
+             expenses={expenses}
+             setExpenses={setExpenses}
            />
         </div>
       </div>

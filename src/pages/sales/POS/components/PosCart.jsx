@@ -5,9 +5,11 @@ import PatientListModal from "../../../masters/other/prescription/PatientListMod
 // Reuse existing hooks
 import { useCreateBillMutation } from "../../../../services/salesBillApi";
 import toast from "react-hot-toast";
+import GlobalLedgerListModal from "../../../../componets/common/GlobalLedgerListModal";
 
-const PosCart = ({ cartItems, billCalculations, updateCartItem, removeFromCart, selectedCustomer, setSelectedCustomer, clearCart }) => {
+const PosCart = ({ cartItems, billCalculations, updateCartItem, removeFromCart, selectedCustomer, setSelectedCustomer, clearCart, expenses, setExpenses }) => {
   const [showPatientModal, setShowPatientModal] = useState(false);
+  const [showLedgerModal, setShowLedgerModal] = useState(false);
   const [createBill, { isLoading }] = useCreateBillMutation();
   
   const handleSave = async () => {
@@ -84,7 +86,13 @@ const PosCart = ({ cartItems, billCalculations, updateCartItem, removeFromCart, 
                    <tr key={item.id} className="hover:bg-blue-50 group">
                        <td className="p-2">
                            <div className="font-medium text-gray-900 line-clamp-1" title={item.productname}>{item.productname}</div>
-                           <div className="text-xs text-gray-400">{item.batch ? `Batch: ${item.batch}` : 'No Batch'}</div>
+                           <div className="text-xs text-gray-400 flex gap-2">
+                               <span>{item.batch ? `Batch: ${item.batch}` : 'No Batch'}</span>
+                               <span className="text-blue-500">
+                                   GST: {(item.igstPercent || (item.cgstPercent||0) + (item.sgstPercent||0))}% 
+                                   (₹{((item.igstAmount||0) + (item.cgstAmount||0) + (item.sgstAmount||0) + (item.cessAmount||0)).toFixed(2)})
+                               </span>
+                           </div>
                        </td>
                        <td className="p-2 text-center">
                            <input 
@@ -142,10 +150,35 @@ const PosCart = ({ cartItems, billCalculations, updateCartItem, removeFromCart, 
                     <span>Subtotal:</span>
                     <span className="font-semibold">₹{billCalculations.subtotal?.toFixed(2) || "0.00"}</span>
                  </div>
-                 <div className="flex justify-between text-gray-600">
-                    <span>Tax:</span>
+                 <div className="flex justify-between text-gray-600 cursor-pointer hover:bg-gray-100 rounded px-1 transition-colors" onClick={() => setShowLedgerModal(true)} title="Click to add expenses">
+                    <span className="text-blue-600 border-b border-dashed border-blue-400">Tax/Charges:</span>
                     <span className="font-semibold">₹{billCalculations.totalTaxAmount?.toFixed(2) || "0.00"}</span> 
                  </div>
+                 
+                 {/* Expenses List */}
+                 {expenses && expenses.map((exp, idx) => (
+                    <div key={idx} className="flex justify-between items-center text-sm gap-2">
+                        <span className="text-gray-500 truncate w-24" title={exp.name}>{exp.name}:</span>
+                        <div className="flex items-center gap-1">
+                           <span className="text-gray-400 text-xs">₹</span>
+                           <input 
+                              type="number" 
+                              className="w-16 text-right border-b border-gray-300 focus:border-blue-500 outline-none p-0 text-gray-700 font-medium bg-transparent"
+                              value={exp.amount}
+                              onChange={(e) => {
+                                  const val = e.target.value;
+                                  setExpenses(prev => prev.map((item, i) => i === idx ? { ...item, amount: val } : item));
+                              }}
+                           />
+                           <button onClick={(e) => {
+                               e.stopPropagation();
+                               setExpenses(prev => prev.filter((_, i) => i !== idx));
+                           }}>
+                              <Trash2 size={12} className="text-red-400 hover:text-red-600"/>
+                           </button>
+                        </div>
+                    </div>
+                 ))}
              </div>
          </div>
          
@@ -183,6 +216,26 @@ const PosCart = ({ cartItems, billCalculations, updateCartItem, removeFromCart, 
              setSelectedCustomer(p);
              setShowPatientModal(false);
          }}
+      />
+      
+      <GlobalLedgerListModal 
+        open={showLedgerModal}
+        onClose={() => setShowLedgerModal(false)}
+        title="Select Expense/Charge"
+        onSelectLedger={(ledger) => {
+            // Check if already added
+            if (expenses.some(e => e.id === ledger.id || e._id === ledger._id)) {
+                toast.error("Expense already added");
+                return;
+            }
+            setExpenses(prev => [...prev, { 
+                ...ledger, 
+                name: ledger.name, // Ensure name is consistent
+                amount: 0, 
+                id: ledger.id || ledger._id 
+            }]);
+            setShowLedgerModal(false);
+        }}
       />
     </div>
   );

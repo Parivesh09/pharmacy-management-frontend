@@ -2,34 +2,18 @@
 import React, { useMemo } from "react";
 import { Package } from "lucide-react";
 
-const PosProductGrid = ({ products, isLoading, searchQuery, addToCart }) => {
-  const [selectedManufacturer, setSelectedManufacturer] = React.useState("All Products");
-
-  // Extract unique manufacturers
-  const manufacturers = useMemo(() => {
-    const mfrs = new Set(products.map((p) => p.manufacturer || "Other").filter(Boolean));
-    return ["All Products", ...Array.from(mfrs).sort()];
-  }, [products]);
-
-  // Filter products
-  const filteredProducts = useMemo(() => {
-    let filtered = products;
-
-    if (selectedManufacturer !== "All Products") {
-      filtered = filtered.filter((p) => (p.manufacturer || "Other") === selectedManufacturer);
-    }
-
-    if (searchQuery) {
-      const q = searchQuery.toLowerCase();
-      filtered = filtered.filter(
-        (p) =>
-          p.productname?.toLowerCase().includes(q) ||
-          p.batch?.toLowerCase().includes(q)
-      );
-    }
-
-    return filtered;
-  }, [products, selectedManufacturer, searchQuery]);
+const PosProductGrid = ({ 
+  products, 
+  isLoading, 
+  searchQuery, 
+  addToCart, 
+  companies = [],
+  selectedCompany,
+  setSelectedCompany 
+}) => {
+  
+  // Products are already filtered by the parent component via API
+  const filteredProducts = products;
 
   if (isLoading) {
     return (
@@ -39,23 +23,25 @@ const PosProductGrid = ({ products, isLoading, searchQuery, addToCart }) => {
     );
   }
 
+  const companyList = [{ id: 'all', companyname: 'All Products' }, ...companies];
+
   return (
     <div className="flex-1 flex overflow-hidden">
       {/* Categories Sidebar */}
       <div className="w-48 border-r border-gray-200 bg-gray-50 overflow-y-auto hidden md:block">
         <div className="flex flex-col gap-1 p-2">
-          {manufacturers.map((mfr) => (
-            <button
-              key={mfr}
-              onClick={() => setSelectedManufacturer(mfr)}
-              className={`text-left px-3 py-2 text-xs font-medium rounded transition-colors ${
-                selectedManufacturer === mfr
-                  ? "bg-blue-600 text-white shadow-md"
-                  : "bg-white text-gray-700 hover:bg-gray-200 border border-gray-200"
-              }`}
-            >
-              {mfr}
-            </button>
+          {companyList.map((comp) => (
+             <button
+               key={comp.id}
+               onClick={() => setSelectedCompany(comp.id)}
+               className={`text-left px-3 py-2 text-xs font-medium rounded transition-colors ${
+                 selectedCompany === comp.id
+                   ? "bg-blue-600 text-white shadow-md"
+                   : "bg-white text-gray-700 hover:bg-gray-200 border border-gray-200"
+               }`}
+             >
+               {comp.companyname}
+             </button>
           ))}
         </div>
       </div>

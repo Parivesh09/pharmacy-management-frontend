@@ -20,26 +20,20 @@ export const processBillItem = (item, billLevelTaxes = {}) => {
   const mrp = parseFloat(item.mrp) || rate;
   const discountPercent = parseFloat(item.discountPercent) || 0;
   
-  // Use item-level taxes if provided, otherwise use bill-level taxes
   const igstPercent = item.igstPercent !== undefined && item.igstPercent !== null ? parseFloat(item.igstPercent) : (billLevelTaxes.igstPercent || 0);
   const cgstPercent = item.cgstPercent !== undefined && item.cgstPercent !== null ? parseFloat(item.cgstPercent) : (billLevelTaxes.cgstPercent || 0);
   const sgstPercent = item.sgstPercent !== undefined && item.sgstPercent !== null ? parseFloat(item.sgstPercent) : (billLevelTaxes.sgstPercent || 0);
   const cessPercent = item.cessPercent !== undefined && item.cessPercent !== null ? parseFloat(item.cessPercent) : (billLevelTaxes.cessPercent || 0);
 
-  // Calculate base amount
   const baseAmount = calculateItemAmount(quantity, rate);
 
-  // Calculate discount
   const discountAmount = calculateDiscountAmount(baseAmount, discountPercent);
   const amountAfterDiscount = baseAmount - discountAmount;
-
-  // Calculate taxes
   const igstAmount = calculateTaxAmount(amountAfterDiscount, igstPercent);
   const cgstAmount = calculateTaxAmount(amountAfterDiscount, cgstPercent);
   const sgstAmount = calculateTaxAmount(amountAfterDiscount, sgstPercent);
   const cessAmount = calculateTaxAmount(amountAfterDiscount, cessPercent);
 
-  // Final amount
   const finalAmount = amountAfterDiscount + igstAmount + cgstAmount + sgstAmount + cessAmount;
 
   return {
@@ -69,45 +63,42 @@ export const calculateBillTotals = (items, billDiscountPercent = 0, taxes = {}) 
     cessPercent: parseFloat(taxes.cessPercent) || 0,
   };
 
-  // Process all items
   const processedItems = items.map(item => processBillItem(item, billLevelTaxes));
 
-  // Calculate subtotal from item amounts (which already include item-level taxes)
-  const subtotalBeforeBillDiscount = processedItems.reduce((sum, item) => sum + (item.amount || 0), 0);
+  const totalItemIgst = processedItems.reduce((sum, item) => sum + (item.igstAmount || 0), 0);
+  const totalItemCgst = processedItems.reduce((sum, item) => sum + (item.cgstAmount || 0), 0);
+  const totalItemSgst = processedItems.reduce((sum, item) => sum + (item.sgstAmount || 0), 0);
+  const totalItemCess = processedItems.reduce((sum, item) => sum + (item.cessAmount || 0), 0);
+  
+  const totalItemTax = totalItemIgst + totalItemCgst + totalItemSgst + totalItemCess;
 
-  // Calculate item-level discounts
-  const itemDiscount = processedItems.reduce((sum, item) => sum + (item.discountAmount || 0), 0);
+  const subtotalTaxable = processedItems.reduce((sum, item) => {
+      const itemTax = (item.igstAmount||0) + (item.cgstAmount||0) + (item.sgstAmount||0) + (item.cessAmount||0);
+      return sum + (item.amount - itemTax);
+  }, 0);
 
-  // Calculate bill-level discount
-  const billDiscountAmount = calculateDiscountAmount(subtotalBeforeBillDiscount, billDiscountPercent);
+  // Bill Discount
+  const billDiscountAmount = calculateDiscountAmount(subtotalTaxable, billDiscountPercent);
+  
 
-  // Amount after all discounts
-  const amountAfterDiscount = subtotalBeforeBillDiscount - billDiscountAmount;
+  const totalTaxAmount = totalItemTax;
 
-  // Calculate bill-level taxes
-  const billIgstAmount = calculateTaxAmount(amountAfterDiscount, billLevelTaxes.igstPercent);
-  const billCgstAmount = calculateTaxAmount(amountAfterDiscount, billLevelTaxes.cgstPercent);
-  const billSgstAmount = calculateTaxAmount(amountAfterDiscount, billLevelTaxes.sgstPercent);
-  const billCessAmount = calculateTaxAmount(amountAfterDiscount, billLevelTaxes.cessPercent);
-
-  // Total amount
-  const totalTaxAmount = billIgstAmount + billCgstAmount + billSgstAmount + billCessAmount;
+  const amountAfterDiscount = subtotalTaxable - billDiscountAmount;
   const totalAmount = amountAfterDiscount + totalTaxAmount;
 
   return {
     items: processedItems,
-    subtotal: parseFloat(subtotalBeforeBillDiscount.toFixed(2)),
-    itemDiscount: parseFloat(itemDiscount.toFixed(2)),
+    subtotal: parseFloat(subtotalTaxable.toFixed(2)),
+    itemDiscount: parseFloat(processedItems.reduce((sum, item) => sum + (item.discountAmount || 0), 0).toFixed(2)),
     billDiscountPercent,
     billDiscountAmount: parseFloat(billDiscountAmount.toFixed(2)),
-    igstPercent: billLevelTaxes.igstPercent,
-    igstAmount: parseFloat(billIgstAmount.toFixed(2)),
-    cgstPercent: billLevelTaxes.cgstPercent,
-    cgstAmount: parseFloat(billCgstAmount.toFixed(2)),
-    sgstPercent: billLevelTaxes.sgstPercent,
-    sgstAmount: parseFloat(billSgstAmount.toFixed(2)),
-    cessPercent: billLevelTaxes.cessPercent,
-    cessAmount: parseFloat(billCessAmount.toFixed(2)),
+    
+    // Return aggregated taxes
+    igstAmount: parseFloat(totalItemIgst.toFixed(2)),
+    cgstAmount: parseFloat(totalItemCgst.toFixed(2)),
+    sgstAmount: parseFloat(totalItemSgst.toFixed(2)),
+    cessAmount: parseFloat(totalItemCess.toFixed(2)),
+    
     totalTaxAmount: parseFloat(totalTaxAmount.toFixed(2)),
     totalAmount: parseFloat(totalAmount.toFixed(2)),
     paidAmount: 0,
