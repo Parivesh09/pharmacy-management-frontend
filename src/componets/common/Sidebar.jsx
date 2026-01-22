@@ -37,6 +37,7 @@ const pathToPermission = {
   "/master/inventory/sacs": "inventory",
   "/master/inventory/manufacturers": "inventory",
   "/sales/orders": "gst_billing",
+  "/sales/pos": "gst_billing",
   "/sales/bill": "gst_billing",
   "/sales/quotation": "gst_billing",
   "/sales/countersale": "gst_billing",

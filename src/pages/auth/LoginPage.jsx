@@ -96,6 +96,9 @@ const LoginPage = () => {
 
       dispatch(setUser({ user, token: response.data.accessToken }));
       localStorage.setItem("token", response.data.accessToken);
+      if (response.data.refreshToken) {
+        localStorage.setItem("refreshToken", response.data.refreshToken);
+      }
       localStorage.setItem("user", JSON.stringify(user));
 
       const primaryCompany = user.userCompanies.find(

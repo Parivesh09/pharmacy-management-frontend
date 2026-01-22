@@ -131,6 +131,7 @@ const ProfitLossReport = React.lazy(() =>
 const StockReport = React.lazy(() =>
   import("../pages/masters/openingBalance/StockReport")
 );
+const POSPage = React.lazy(() => import("../pages/sales/POS/POSPage"));
 
 export const routeConfig = [
   {
@@ -347,6 +348,12 @@ export const routeConfig = [
     module: "gst_billing",
     action: "V",
     element: <BillList />,
+  },
+  {
+    path: "/sales/pos",
+    module: "gst_billing",
+    action: "C",
+    element: <POSPage />,
   },
   {
     path: "/sales/bill/create",

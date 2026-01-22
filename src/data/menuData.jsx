@@ -99,6 +99,7 @@ const adminMenu = [
     title: "Sale",
     icon: TrendingUp,
     children: [
+      { title: "POS", path: "/sales/pos" },
       { title: "Bill", path: "/sales/bill" },
       { title: "Quotation", path: "/sales/quotation" },
       { title: "Counter Sale", path: "/sales/countersale" },

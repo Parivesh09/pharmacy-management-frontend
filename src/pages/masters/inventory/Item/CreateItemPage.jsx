@@ -120,6 +120,9 @@ export default function CreateItemPage({ isEditMode = false }) {
       maxDisc: null,
       contraindications: "",
       relativeContraindications: "",
+      minStock: "",
+      maxStock: "",
+      reorderLevel: "",
     },
   });
 
@@ -391,10 +394,103 @@ export default function CreateItemPage({ isEditMode = false }) {
                   </div>
                 )}
                 {activeTab === "Quantity" && (
-                  <div className="text-m">Quantity (Coming soon)</div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-m">
+                     <div>
+                      <label className="block font-medium mb-1">Min Stock</label>
+                      <Input
+                        className="h-8 text-m"
+                        type="number"
+                        {...register("minStock")}
+                      />
+                    </div>
+                    <div>
+                      <label className="block font-medium mb-1">Max Stock</label>
+                      <Input
+                        className="h-8 text-m"
+                        type="number"
+                        {...register("maxStock")}
+                      />
+                    </div>
+                    <div>
+                      <label className="block font-medium mb-1">Reorder Level</label>
+                      <Input
+                        className="h-8 text-m"
+                        type="number"
+                        {...register("reorderLevel")}
+                      />
+                    </div>
+                  </div>
                 )}
                 {activeTab === "Other Info" && (
-                  <div className="text-m">Other Info (Coming soon)</div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-m">
+                     <div>
+                      <label className="block font-medium mb-1">Narcotic</label>
+                      <Select
+                        noPadding
+                        className="h-8 text-m"
+                        {...register("narcotic")}
+                      >
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                      </Select>
+                    </div>
+                    <div>
+                      <label className="block font-medium mb-1">Schedule H</label>
+                       <Select
+                        noPadding
+                        className="h-8 text-m"
+                        {...register("scheduleH")}
+                      >
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                      </Select>
+                    </div>
+                     <div>
+                      <label className="block font-medium mb-1">Schedule H1</label>
+                       <Select
+                        noPadding
+                        className="h-8 text-m"
+                        {...register("scheduleH1")}
+                      >
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                      </Select>
+                    </div>
+                    <div>
+                      <label className="block font-medium mb-1">Schedule Drug</label>
+                       <Select
+                        noPadding
+                        className="h-8 text-m"
+                        {...register("scheduledrug")}
+                      >
+                       <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                      </Select>
+                    </div>
+                     <div>
+                      <label className="block font-medium mb-1">Prescription</label>
+                       <Select
+                        noPadding
+                        className="h-8 text-m"
+                        {...register("prescription")}
+                      >
+                         <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                      </Select>
+                    </div>
+                     <div>
+                      <label className="block font-medium mb-1">Storage Type</label>
+                       <Select
+                        noPadding
+                        className="h-8 text-m"
+                        {...register("storagetype")}
+                      >
+                        <option value="Normal">Normal</option>
+                        <option value="Cold Storage">Cold Storage</option>
+                         <option value="Refridgerator">Refridgerator</option>
+                      </Select>
+                    </div>
+                  </div>
                 )}
               </div>
             )}
