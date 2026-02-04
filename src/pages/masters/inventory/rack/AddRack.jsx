@@ -90,12 +90,12 @@ export default function AddRack({
           }
         }}
       />
-      <Modal open={isOpen && !isStoreModalOpen} onClose={onClose} title="Create Rack">
-        <form onSubmit={handleSubmit(handleSave)} className="space-y-6">
+      <Modal open={isOpen && !isStoreModalOpen} onClose={onClose} title={initialData ? "EDIT RACK" : "CREATE RACK"}>
+        <form onSubmit={handleSubmit(handleSave)} className="space-y-6 py-4">
           <input type="hidden" {...register("storeid", { required: true })} />
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Store Name *
+            <label className="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">
+              Select Storage Store <span className="text-red-500">*</span>
             </label>
             <SearchableSelect
               options={stores?.data?.map((s) => ({ label: s.storename, value: s.id }))}
@@ -110,40 +110,41 @@ export default function AddRack({
                 }
                 setValue("storeid", opt.value, { shouldValidate: true });
               }}
-              placeholder="Select Store"
+              placeholder="Search or select store..."
+              className="bg-transparent border-gray-200 dark:border-gray-700 font-bold"
             />
             {errors.storeid && (
-              <div className="text-red-600 font-semibold text-sm mt-1">
-                Please select a store.
+              <div className="text-red-600 font-bold text-[10px] uppercase tracking-wider mt-2 flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-red-600"></span>
+                Please select a valid store location
               </div>
             )}
           </div>
           <TextField
-            noHeight={true}
-            label="Rack Name"
+            label="Rack / Shelf Identifier"
             name="rackname"
             register={register}
             errors={errors}
             required
-            noStyle={true}
+            className="bg-transparent border-gray-200 dark:border-gray-700 font-black h-12 text-lg"
           />
           
-          <div className="flex gap-2 mt-6">
-            <Button
-              type="submit"
-              buttonType={"save"}
-              variant="primary"
-              disabled={isLoading}
-            >
-              Save
-            </Button>
+          <div className="flex gap-4 mt-8 pt-4 border-t border-gray-50 dark:border-white/5">
             <Button
               type="button"
-              buttonType={"close"}
-              variant="danger"
+              variant="outline"
               onClick={onClose}
+              className="flex-1"
             >
-              Close
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              variant="primary"
+              disabled={isLoading}
+              className="flex-1 shadow-xl shadow-(--primary-color)/20"
+            >
+              {initialData ? "Update Rack" : "Save Rack"}
             </Button>
           </div>
         </form>

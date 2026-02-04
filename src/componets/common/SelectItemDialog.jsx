@@ -95,127 +95,142 @@ const SelectItemDialog = ({ open, onClose, onSelectItem }) => {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50 p-4">
-      <div className="w-full max-w-6xl max-h-[85vh] flex flex-col bg-white rounded-lg shadow-xl">
+    <div className="fixed inset-0 bg-black/20 backdrop-blur-xl flex items-center justify-center z-50 p-4">
+      <div className="w-full max-w-6xl max-h-[85vh] flex flex-col bg-(--card-bg)/90  rounded-[2.5rem] shadow-2xl border border-white/20 overflow-hidden animate-in fade-in zoom-in duration-300">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-t-lg">
-          <h2 className="text-lg font-bold">Select Item</h2>
+        <div className="flex items-center justify-between p-8 border-b border-gray-100 dark:border-white/5 bg-gradient-to-r from-(--header-bg) to-(--header-bg)/90 text-white relative">
+           <div className="absolute inset-0 opacity-10 pointer-events-none" style={{
+            backgroundImage: `radial-gradient(#ffffff 1px, transparent 1px)`,
+            backgroundSize: '20px 20px'
+          }}></div>
+          <div className="relative z-10 flex items-center gap-4">
+            <div className="p-3 bg-white/10 rounded-2xl backdrop-blur-md">
+               <Search className="text-white" size={24} />
+            </div>
+            <div>
+               <h2 className="text-xl font-black italic tracking-tighter uppercase leading-none">Inventory Search</h2>
+               <p className="text-[10px] font-bold text-white/60 uppercase tracking-widest mt-1">Locate and allocate products for procurement</p>
+            </div>
+          </div>
           <button
             onClick={onClose}
-            className="p-1 hover:bg-blue-800 rounded transition"
+            className="relative z-10 p-2 hover:bg-white/10 rounded-xl transition-colors text-white/50 hover:text-white"
           >
-            <X size={20} />
+            <X size={24} />
           </button>
         </div>
 
         {/* Search and Filter */}
-        <div className="p-4 border-b bg-gray-25 flex gap-4 items-center flex-wrap">
+        <div className="p-6 border-b border-gray-100 dark:border-white/5 bg-(--sidebar-active-bg) flex gap-4 items-center flex-wrap">
           <div className="flex-1 min-w-64 relative">
-            <Search className="absolute left-3 top-3 text-gray-400" size={18} />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
             <input
               type="text"
-              placeholder="Search Item..."
+              placeholder="search.."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-12 pr-4 py-3 bg-white/50 dark:bg-white/5 border border-gray-400 dark:border-white/10 rounded-2xl focus:outline-none focus:ring-2 focus:ring-(--primary-color)/20 font-bold text-sm shadow-sm"
             />
           </div>
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="px-6 py-3 bg-white/50 dark:bg-white/5 border border-gray-400 dark:border-white/10 rounded-2xl focus:outline-none focus:ring-2 focus:ring-(--primary-color)/20 font-black uppercase tracking-widest text-[10px] appearance-none shadow-sm"
           >
-            <option value="name">Sort by Name</option>
-            <option value="stock">Sort by Stock</option>
+            <option value="name">Alpha Sort</option>
+            <option value="stock">Inventory Level</option>
           </select>
           <button
             onClick={handleRefresh}
-            className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center gap-2"
+            className="px-6 py-3 bg-(--sidebar-active-bg) text-(--primary-color) rounded-2xl hover:bg-(--primary-color) hover:text-white transition-all duration-300 flex items-center gap-2 font-black uppercase tracking-widest text-[10px] border border-(--primary-color)/20"
             title="Refresh stock data"
           >
-            <RefreshCw size={16} />
-            Refresh
+            <RefreshCw size={16} className={isLoading ? "animate-spin" : ""} />
+            Sync
           </button>
-          <div className="text-sm text-gray-600 font-medium">
-            Total: {filteredItems.length}
+          <div className="text-[10px] text-gray-400 font-black uppercase tracking-widest ml-auto italic">
+            Entries Matched: {filteredItems.length}
           </div>
         </div>
 
         {/* Table */}
         <div className="flex-1 overflow-y-auto">
           {isLoading ? (
-            <div className="flex items-center justify-center h-32">
-              <div className="loader"></div>
+            <div className="flex items-center justify-center h-64">
+              <div className="w-12 h-12 border-4 border-(--primary-color)/20 border-t-(--primary-color) rounded-full animate-spin"></div>
             </div>
           ) : (
             <table className="w-full text-sm border-collapse">
-              <thead className="sticky top-0 bg-blue-50 border-b border-gray-200">
+              <thead className="sticky top-0 bg-(--bg-main) border-b border-gray-200 dark:border-white/5 z-10 backdrop-blur-md">
                 <tr>
-                  <th className="px-4 py-3 text-left font-semibold text-gray-700 min-w-[250px]">Description</th>
-                  <th className="px-4 py-3 text-left font-semibold text-gray-700 min-w-[100px]">Packing</th>
-                  <th className="px-4 py-3 text-center font-semibold text-gray-700 min-w-[80px]">Stock</th>
-                  <th className="px-4 py-3 text-center font-semibold text-gray-700 min-w-[80px]">Batches</th>
-                  <th className="px-4 py-3 text-center font-semibold text-gray-700 min-w-[80px]">Unit</th>
-                  <th className="px-4 py-3 text-right font-semibold text-gray-700 min-w-[100px]">Sale Rate</th>
-                  <th className="px-4 py-3 text-center font-semibold text-gray-700 min-w-[80px]">Action</th>
+                  <th className="px-6 py-4 text-left font-black uppercase tracking-widest text-gray-400 text-[10px] min-w-[250px]">Product Identification</th>
+                  <th className="px-6 py-4 text-left font-black uppercase tracking-widest text-gray-400 text-[10px] min-w-[100px]">Packing</th>
+                  <th className="px-6 py-4 text-center font-black uppercase tracking-widest text-gray-400 text-[10px] min-w-[80px]">Liquidity</th>
+                  <th className="px-6 py-4 text-center font-black uppercase tracking-widest text-gray-400 text-[10px] min-w-[120px]">Batch Distribution</th>
+                  <th className="px-6 py-4 text-center font-black uppercase tracking-widest text-gray-400 text-[10px] min-w-[80px]">Unit</th>
+                  <th className="px-6 py-4 text-right font-black uppercase tracking-widest text-gray-400 text-[10px] min-w-[100px]">Market Value</th>
+                  <th className="px-6 py-4 text-center font-black uppercase tracking-widest text-gray-400 text-[10px] min-w-[80px]">Commit</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="divide-y divide-gray-50 dark:divide-white/5">
                 {filteredItems.length > 0 ? (
                   filteredItems.map((item, idx) => (
                     <tr
                       key={item.id}
-                      className={`border-b hover:bg-blue-50 cursor-pointer transition ${
-                        idx % 2 === 0 ? "bg-white" : "bg-gray-25"
-                      }`}
+                      className="bg-(--sidebar-active-bg) hover:bg-(--sidebar-active-bg)/80 transition-all duration-300 group cursor-pointer"
+                      onClick={() => handleItemSelect(item)}
                     >
-                      <td className="px-4 py-3 min-w-[250px]">
-                        <div className="font-medium text-gray-900 truncate">{item.productname}</div>
-                        <div className="text-xs text-gray-500 truncate">{item.goods}</div>
+                      <td className="px-6 py-5 min-w-[250px]">
+                        <div className="font-black text-(--text-main) uppercase tracking-tighter text-sm group-hover:text-(--primary-color) transition-colors">{item.productname}</div>
+                        <div className="text-[10px] text-gray-400 font-bold uppercase tracking-tight">{item.goods || 'N/A'}</div>
                       </td>
-                      <td className="px-4 py-3 text-sm text-gray-700">{item.packing || "-"}</td>
-                      <td className="px-4 py-3 text-center">
-                        <span className={`px-2 py-1 rounded text-xs font-medium ${
+                      <td className="px-6 py-5 text-xs font-bold text-gray-500 uppercase">{item.packing || "-"}</td>
+                      <td className="px-6 py-5 text-center">
+                        <span className={`px-3 py-1 rounded-full text-[10px] font-black tracking-widest ${
                           (item.stock || 0) > 0
-                            ? "bg-green-100 text-green-800"
-                            : "bg-red-100 text-red-800"
+                            ? "bg-emerald-500/10 text-emerald-500 shadow-sm shadow-emerald-500/10"
+                            : "bg-red-500/10 text-red-500"
                         }`}>
                           {item.stock || 0}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-center">
-                        <span className="text-xs text-gray-600">
-                          {item.batches?.length || 0} batch{(item.batches?.length || 0) !== 1 ? 'es' : ''}
-                        </span>
+                      <td className="px-6 py-5 text-center">
+                        <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
+                          {item.batches?.length || 0} Segment{(item.batches?.length || 0) !== 1 ? 's' : ''}
+                        </div>
                         {item.batches && item.batches.length > 0 && (
-                          <div className="text-xs text-gray-500 mt-1">
-                            Latest: {item.batches[0]?.batchNumber}
+                          <div className="text-[8px] text-(--primary-color) font-black mt-1 uppercase italic tracking-widest">
+                            Active: {item.batches[0]?.batchNumber}
                           </div>
                         )}
                       </td>
-                      <td className="px-4 py-3 text-center text-sm text-gray-700">{item.Unit1?.unitName || "-"}</td>
-                      <td className="px-4 py-3 text-right font-semibold text-gray-900">
+                      <td className="px-6 py-5 text-center text-xs font-bold text-gray-400 uppercase">{item.Unit1?.unitName || "-"}</td>
+                      <td className="px-6 py-5 text-right font-black italic tracking-tighter text-sm text-(--text-main)">
                         ₹{parseFloat(item.salerate || item.price || 0).toFixed(2)}
                       </td>
-                      <td className="px-4 py-3 text-center">
+                      <td className="px-6 py-5 text-center text-xs font-black">
                         <button
-                          onClick={() => handleItemSelect(item)}
-                          className={`px-3 py-1 rounded text-xs font-medium transition ${
+                          className={`px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-[0.1em] transition-all transform active:scale-95 ${
                             (item.stock || 0) > 0
-                              ? "bg-blue-600 text-white hover:bg-blue-700"
-                              : "bg-gray-400 text-white cursor-not-allowed"
+                              ? "bg-(--primary-color) text-white shadow-lg shadow-(--primary-color)/20 hover:brightness-110"
+                              : "bg-gray-200 dark:bg-white/5 text-gray-400 cursor-not-allowed uppercase"
                           }`}
                           disabled={(item.stock || 0) === 0}
                         >
-                          {(item.stock || 0) > 0 ? "Select" : "Out of Stock"}
+                          {(item.stock || 0) > 0 ? "Select" : "Depleted"}
                         </button>
                       </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="7" className="px-4 py-8 text-center text-gray-500">
-                      No items found
+                    <td colSpan="7" className="px-6 py-20 text-center">
+                       <div className="flex flex-col items-center gap-4 opacity-30">
+                          <div className="w-16 h-16 rounded-full border-2 border-dashed border-gray-400 flex items-center justify-center">
+                             <Search size={32} />
+                          </div>
+                          <p className="text-[10px] font-black uppercase tracking-widest">No matching assets found in repository</p>
+                       </div>
                     </td>
                   </tr>
                 )}

@@ -227,499 +227,499 @@ const CreateLedger = () => {
   ].filter(tab => tab.show);
 
   const renderGeneralTab = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Ledger Name <span className="text-red-500">*</span></label>
-        <Input type="text" placeholder="Enter ledger name" className={errors.ledgerName ? "border-red-500" : ""}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Ledger Name <span className="text-red-500">*</span></label>
+        <Input type="text" placeholder="Enter logical entity name" className={errors.ledgerName ? "border-red-500" : ""}
           {...register("ledgerName", { required: "Ledger name is required", minLength: { value: 2, message: "Min 2 characters" } })} />
-        {errors.ledgerName && <p className="text-red-500 text-xs mt-1">{errors.ledgerName.message}</p>}
+        {errors.ledgerName && <p className="text-red-500 text-[10px] font-bold uppercase mt-1 px-1 tracking-wider">{errors.ledgerName.message}</p>}
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Account Group <span className="text-red-500">*</span></label>
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Account Group <span className="text-red-500">*</span></label>
         <SearchableSelect options={groupOptions} value={selectedGroup?.value}
           onChange={(opt) => { setSelectedGroup(opt); setValue("acgroup", opt?.value || "", { shouldValidate: true }); }}
-          placeholder="Select account group" />
+          placeholder="Categorize entity" />
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Parent Ledger</label>
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Parent Hierarchy</label>
         <SearchableSelect options={parentLedgersData?.map((l) => ({ label: l.ledgerName, value: l.id }))}
-          value={watch("parentLedger")} onChange={(opt) => setValue("parentLedger", opt?.value || "")} placeholder="Select parent ledger" />
+          value={watch("parentLedger")} onChange={(opt) => setValue("parentLedger", opt?.value || "")} placeholder="Optional parent link" />
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Station</label>
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Financial Station</label>
         <SearchableSelect options={stationOptions} value={watch("station")} isLoading={stationsLoading}
-          onChange={(opt) => setValue("station", opt?.value || "")} placeholder="Select station" />
+          onChange={(opt) => setValue("station", opt?.value || "")} placeholder="Geographical locus" />
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Opening Balance</label>
-        <div className="flex">
-          <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">₹</span>
-          <Input type="number" step="0.01" className="flex-1 rounded-none" placeholder="0.00"
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Opening Balance & Liquidity</label>
+        <div className="flex gap-0 relative">
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10 text-gray-400 font-bold text-sm pointer-events-none">₹</div>
+          <Input type="number" step="0.01" className="flex-1 rounded-r-none pl-10" placeholder="0.00"
             readOnly={!defaultLedgerPermissions.canEditOpeningBalance} {...register("openingBalance")} />
-          <Select className="w-20 rounded-l-none" {...register("balanceType")}>
-            <option value="Debit">Dr</option>
-            <option value="Credit">Cr</option>
+          <Select className="w-24 rounded-l-none border-l-0" {...register("balanceType")}>
+            <option value="Debit">DEBIT (DR)</option>
+            <option value="Credit">CREDIT (CR)</option>
           </Select>
         </div>
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Currency</label>
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Settlement Currency</label>
         <Select className="w-full" {...register("currency")}>
-          <option value="INR">INR (₹)</option>
-          <option value="USD">USD ($)</option>
-          <option value="EUR">EUR (€)</option>
-          <option value="GBP">GBP (£)</option>
+          <option value="INR">INDIAN RUPEE (₹)</option>
+          <option value="USD">US DOLLAR ($)</option>
+          <option value="EUR">EURO (€)</option>
+          <option value="GBP">BRITISH POUND (£)</option>
         </Select>
       </div>
-      <div className="md:col-span-2">
-        <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-        <textarea className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          rows="2" placeholder="Enter description" {...register("description")} />
+      <div className="md:col-span-2 space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Categorization & Memo</label>
+        <textarea className="w-full bg-white/50 dark:bg-white/5 border border-gray-400 dark:border-white/20 rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-(--primary-color)/20 focus:border-(--primary-color) text-sm font-bold transition-all no-scrollbar shadow-sm"
+          rows="3" placeholder="Additional entity properties or remarks..." {...register("description")} />
       </div>
-      <div className="flex items-center gap-2">
-        <input type="checkbox" id="isActive" className="h-4 w-4 text-blue-600 rounded" {...register("isActive")} />
-        <label htmlFor="isActive" className="text-sm font-medium text-gray-700">Active</label>
+      <div className="flex items-center gap-3 p-4 rounded-2xl bg-white/50 dark:bg-white/5 border border-gray-200 dark:border-white/5 w-fit">
+        <input type="checkbox" id="isActive" className="w-5 h-5 text-(--primary-color) border-gray-400 rounded-lg focus:ring-(--primary-color)" {...register("isActive")} />
+        <label htmlFor="isActive" className="text-[10px] font-black uppercase tracking-widest text-(--text-main) cursor-pointer">Entity Operational Status (Active)</label>
       </div>
     </div>
   );
 
   const renderAddressTab = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Mail To</label>
-        <Input type="email" placeholder="Enter email address" {...register("mailTo")} />
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Official Correspondent Email</label>
+        <Input type="email" placeholder="correspondence@entity.com" {...register("mailTo")} />
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Contact Person</label>
-        <Input type="text" placeholder="Enter contact person name" {...register("contactPerson")} />
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Primary Nodal Officer</label>
+        <Input type="text" placeholder="Authorized Person Name" {...register("contactPerson")} />
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-        <Input type="email" placeholder="Enter email" {...register("email")} />
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Institutional Email</label>
+        <Input type="email" placeholder="official@entity.com" {...register("email")} />
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Mobile</label>
-        <div className="flex">
-          <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">+91</span>
-          <Input type="text" className="flex-1 rounded-l-none" placeholder="Enter mobile number" {...register("mobile")} />
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Mobile Connectivity</label>
+        <div className="flex gap-0 relative">
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10 text-gray-400 font-bold text-sm pointer-events-none">+91</div>
+          <Input type="text" className="flex-1 pl-12" placeholder="00000 00000" {...register("mobile")} />
         </div>
       </div>
-      <div className="md:col-span-2">
-        <label className="block text-sm font-medium text-gray-700 mb-1">Address</label>
-        <textarea className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          rows="2" placeholder="Enter address" {...register("address")} />
+      <div className="md:col-span-2 space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Geographical Residency (Address)</label>
+        <textarea className="w-full bg-white/50 dark:bg-white/5 border border-gray-400 dark:border-white/20 rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-(--primary-color)/20 focus:border-(--primary-color) text-sm font-bold transition-all no-scrollbar shadow-sm"
+          rows="3" placeholder="Registered office or premise location details..." {...register("address")} />
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Country</label>
-        <Input type="text" placeholder="Enter country" {...register("country")} />
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Sovereign State (Country)</label>
+        <Input type="text" placeholder="e.g. India" {...register("country")} />
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">State</label>
-        <Select className="w-full" {...register("state")}>
-          <option value="">Select State</option>
-          {INDIAN_STATES.map(state => <option key={state} value={state}>{state}</option>)}
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Provincial Jurisdiction (State)</label>
+        <Select className="w-full uppercase" {...register("state")}>
+          <option value="">-- DETERMINE STATE --</option>
+          {INDIAN_STATES.map(state => <option key={state} value={state}>{state.toUpperCase()}</option>)}
         </Select>
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
-        <Input type="text" placeholder="Enter city" {...register("city")} />
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Urban Center (City)</label>
+        <Input type="text" placeholder="City identification" {...register("city")} />
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Pincode</label>
-        <Input type="text" placeholder="Enter pincode" {...register("pincode")} />
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Postal Index Number (PIN)</label>
+        <Input type="text" placeholder="Zip / Pin Code" {...register("pincode")} />
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">UPI ID</label>
-        <Input type="text" placeholder="Enter UPI ID" {...register("upiId")} />
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Digital Payment ID (UPI)</label>
+        <Input type="text" placeholder="entity@upi" {...register("upiId")} />
       </div>
     </div>
   );
 
   const renderGstTab = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Ledger Type</label>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Ledger Classification</label>
         <Select className="w-full" {...register("ledgerType")}>
-          <option value="Unregistered">Unregistered</option>
-          <option value="Registered">Registered</option>
-          <option value="Composition">Composition</option>
-          <option value="Consumer">Consumer</option>
-          <option value="SEZ">SEZ</option>
+          <option value="Unregistered">UNREGISTERED</option>
+          <option value="Registered">REGISTERED</option>
+          <option value="Composition">COMPOSITION</option>
+          <option value="Consumer">CONSUMER</option>
+          <option value="SEZ">SEZ (SPECIAL ECONOMIC ZONE)</option>
         </Select>
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">GST Registration Type</label>
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Statutory Registration Type</label>
         <Select className="w-full" {...register("gstRegistrationType")}>
-          <option value="unregistered">Unregistered</option>
-          <option value="registered">Registered - Regular</option>
-          <option value="composition">Composition</option>
-          <option value="exempted">Exempted</option>
-          <option value="sez">SEZ Developer/Unit</option>
+          <option value="unregistered">UNREGISTERED</option>
+          <option value="registered">REGISTERED - REGULAR</option>
+          <option value="composition">COMPOSITION SCHEME</option>
+          <option value="exempted">EXEMPTED ENTITY</option>
+          <option value="sez">SEZ DEVELOPER/UNIT</option>
         </Select>
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">GST No.</label>
-        <Input type="text" placeholder="Enter GST number (15 digits)" maxLength={15} {...register("gstNo")} />
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Goods & Services Tax Identifier (GSTIN)</label>
+        <Input type="text" placeholder="15-DIGIT ALPHANUMERIC" maxLength={15} {...register("gstNo")} className="uppercase" />
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">PAN No.</label>
-        <Input type="text" placeholder="Enter PAN number" maxLength={10} {...register("panNo")} />
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Permanent Account Number (PAN)</label>
+        <Input type="text" placeholder="ALPHANUMERIC IDENTIFIER" maxLength={10} {...register("panNo")} className="uppercase" />
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">TDS Applicable</label>
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Tax Deducted at Source (TDS) Applicability</label>
         <Select className="w-full" {...register("tdsApplicable")}>
-          <option value="no">No</option>
-          <option value="yes">Yes</option>
+          <option value="no">NOT APPLICABLE</option>
+          <option value="yes">APPLICABLE (YES)</option>
         </Select>
       </div>
       {watchedTdsApplicable === "yes" && (
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">TDS Rate (%)</label>
-          <Input type="number" step="0.01" placeholder="Enter TDS rate" {...register("tdsRate")} />
+        <div className="space-y-2">
+          <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Negotiated TDS Levy Rate (%)</label>
+          <Input type="number" step="0.01" placeholder="Determined percentage" {...register("tdsRate")} />
         </div>
       )}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Tax Applicable</label>
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">General Tax Applicability</label>
         <Select className="w-full" {...register("taxApplicable")}>
-          <option value="no">No</option>
-          <option value="yes">Yes</option>
+          <option value="no">NOT APPLICABLE (NO)</option>
+          <option value="yes">APPLICABLE (YES)</option>
         </Select>
       </div>
     </div>
   );
 
   const renderLicenseTab = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">License No.</label>
-        <Input type="text" placeholder="Enter license number" {...register("licenseNo")} />
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Statutory License Number</label>
+        <Input type="text" placeholder="Reg. Identifier" {...register("licenseNo")} />
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">License Type</label>
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">License Classification</label>
         <Select className="w-full" {...register("licenseType")}>
-          <option value="">Select License Type</option>
-          <option value="drug">Drug License</option>
-          <option value="retail">Retail License</option>
-          <option value="wholesale">Wholesale License</option>
-          <option value="manufacturing">Manufacturing License</option>
-          <option value="import">Import License</option>
-          <option value="other">Other</option>
+          <option value="">-- SELECT CLASSIFICATION --</option>
+          <option value="drug">DRUG LICENSE</option>
+          <option value="retail">RETAIL LICENSE</option>
+          <option value="wholesale">WHOLESALE LICENSE</option>
+          <option value="manufacturing">MANUFACTURING LICENSE</option>
+          <option value="import">IMPORT LICENSE</option>
+          <option value="other">OTHER STATUTORY LICENSE</option>
         </Select>
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Expiry Date</label>
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Regulatory Expiration Date</label>
         <Input type="date" {...register("expiryDate")} />
       </div>
     </div>
   );
 
   const renderBankTab = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Bank Name</label>
-        <Input type="text" placeholder="Enter bank name" {...register("bankName")} />
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Financial Institution Name</label>
+        <Input type="text" placeholder="e.g. State Bank of India" {...register("bankName")} />
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Account No. <span className="text-red-500">*</span></label>
-        <Input type="text" placeholder="Enter account number" {...register("accountNo", { required: showBankDetails ? "Account number is required" : false })} />
-        {errors.accountNo && <p className="text-red-500 text-xs mt-1">{errors.accountNo.message}</p>}
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Account Identifier <span className="text-red-500">*</span></label>
+        <Input type="text" placeholder="Bank Account Number" {...register("accountNo", { required: showBankDetails ? "Account number is required" : false })} />
+        {errors.accountNo && <p className="text-red-500 text-[10px] font-bold uppercase mt-1 px-1 tracking-wider">{errors.accountNo.message}</p>}
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">IFSC Code</label>
-        <Input type="text" placeholder="Enter IFSC code" maxLength={11} {...register("ifscCode")} />
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">IFSC Code (Swift Alternate)</label>
+        <Input type="text" placeholder="11-CHARACTER CODE" maxLength={11} {...register("ifscCode")} className="uppercase text-sm" />
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Branch</label>
-        <Input type="text" placeholder="Enter branch name" {...register("branch")} />
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Branch Nomenclature</label>
+        <Input type="text" placeholder="Location Name" {...register("branch")} />
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">RTGS No.</label>
-        <Input type="text" placeholder="Enter RTGS number" {...register("rtgsNo")} />
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">RTGS Identifier</label>
+        <Input type="text" placeholder="Settlement Number" {...register("rtgsNo")} />
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">MICR No.</label>
-        <Input type="text" placeholder="Enter MICR number" {...register("micrNo")} />
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">MICR Identification</label>
+        <Input type="text" placeholder="Magnetic Ink Character Recognition" {...register("micrNo")} />
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Phone No. (Office)</label>
-        <div className="flex">
-          <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">+91</span>
-          <Input type="text" className="flex-1 rounded-l-none" placeholder="Enter phone number" {...register("phoneNo")} />
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Institutional Telephony</label>
+        <div className="flex gap-0 relative">
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10 text-gray-400 font-bold text-sm pointer-events-none">+91</div>
+          <Input type="text" className="flex-1 pl-12" placeholder="Phone Number" {...register("phoneNo")} />
         </div>
       </div>
     </div>
   );
 
   const renderCashTab = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Cash Type</label>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Liquid Asset Category</label>
         <Select className="w-full" {...register("cashType")}>
-          <option value="">Select Cash Type</option>
-          <option value="petty">Petty Cash</option>
-          <option value="main">Main Cash</option>
-          <option value="counter">Counter Cash</option>
-          <option value="safe">Safe Cash</option>
+          <option value="">-- SELECT ASSET TYPE --</option>
+          <option value="petty">PETTY CASH RESERVES</option>
+          <option value="main">MAIN TREASURY CASH</option>
+          <option value="counter">FRONT-DESK / COUNTER CASH</option>
+          <option value="safe">VAULT / SAFE DEPOSIT</option>
         </Select>
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Cash Location</label>
-        <Input type="text" placeholder="Enter cash location" {...register("cashLocation")} />
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Physical Asset Location</label>
+        <Input type="text" placeholder="Premise or Safe Identification" {...register("cashLocation")} />
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Cashier Name</label>
-        <Input type="text" placeholder="Enter cashier name" {...register("cashierName")} />
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Designated Custodian</label>
+        <Input type="text" placeholder="Cashier / Manager Name" {...register("cashierName")} />
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Max Limit</label>
-        <div className="flex">
-          <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">₹</span>
-          <Input type="number" step="0.01" className="flex-1 rounded-l-none" placeholder="0.00" {...register("maxLimit")} />
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Maximum Retention Limit</label>
+        <div className="flex gap-0 relative">
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10 text-gray-400 font-bold text-sm pointer-events-none">₹</div>
+          <Input type="number" step="0.01" className="flex-1 pl-10" placeholder="0.00" {...register("maxLimit")} />
         </div>
       </div>
     </div>
   );
 
   const renderPartyTab = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Party Type</label>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">External Party Category</label>
         <Select className="w-full" {...register("partyType")}>
-          <option value="">Select Type</option>
-          <option value="customer">Customer</option>
-          <option value="supplier">Supplier</option>
-          <option value="distributor">Distributor</option>
-          <option value="wholesaler">Wholesaler</option>
-          <option value="retailer">Retailer</option>
-          <option value="branch">Branch</option>
-          <option value="ecommerce">E-commerce</option>
-          <option value="fieldstaff">Field Staff</option>
-          <option value="hospital">Hospital</option>
-          <option value="clinic">Clinic</option>
+          <option value="">-- SELECT PARTY TYPE --</option>
+          <option value="customer">RETAIL CUSTOMER</option>
+          <option value="supplier">SUPPLY-CHAIN VENDOR</option>
+          <option value="distributor">REGIONAL DISTRIBUTOR</option>
+          <option value="wholesaler">WHOLE-SALE OPERATOR</option>
+          <option value="retailer">RETAILER PARTNER</option>
+          <option value="branch">INTERNAL BRANCH ENTITY</option>
+          <option value="ecommerce">E-COMMERCE CHANNEL</option>
+          <option value="fieldstaff">FIELD REPRESENTATIVE</option>
+          <option value="hospital">HEALTHCARE INSTITUTION</option>
+          <option value="clinic">MEDICAL CLINIC</option>
         </Select>
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Credit Limit</label>
-        <div className="flex">
-          <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">₹</span>
-          <Input type="number" step="0.01" className="flex-1 rounded-l-none" placeholder="0.00" {...register("creditLimit")} />
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Approved Credit Allocation</label>
+        <div className="flex gap-0 relative">
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10 text-gray-400 font-bold text-sm pointer-events-none">₹</div>
+          <Input type="number" step="0.01" className="flex-1 pl-10" placeholder="0.00" {...register("creditLimit")} />
         </div>
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Credit Days</label>
-        <Input type="number" placeholder="Enter credit days" {...register("creditDays")} />
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Permissible Credit Tenure (Days)</label>
+        <Input type="number" placeholder="Days until settlement" {...register("creditDays")} />
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Payment Terms</label>
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Contractual Settlement Terms</label>
         <Select className="w-full" {...register("paymentTerms")}>
-          <option value="">Select Payment Terms</option>
-          <option value="immediate">Immediate</option>
-          <option value="7days">7 Days</option>
-          <option value="15days">15 Days</option>
-          <option value="30days">30 Days</option>
-          <option value="45days">45 Days</option>
-          <option value="60days">60 Days</option>
-          <option value="90days">90 Days</option>
-          <option value="custom">Custom</option>
+          <option value="">-- DEFINE PAYMENT CYCLE --</option>
+          <option value="immediate">IMMEDIATE SETTLEMENT</option>
+          <option value="7days">NET 7 DAYS</option>
+          <option value="15days">NET 15 DAYS</option>
+          <option value="30days">MONTHLY (30 DAYS)</option>
+          <option value="45days">QUARTER-MID (45 DAYS)</option>
+          <option value="60days">BIMONTHLY (60 DAYS)</option>
+          <option value="90days">QUARTERLY (90 DAYS)</option>
+          <option value="custom">BESPOKE CUSTOM TERMS</option>
         </Select>
       </div>
     </div>
   );
 
   const renderAssetTab = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Asset Type</label>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Fixed Asset Category</label>
         <Select className="w-full" {...register("assetType")}>
-          <option value="">Select Asset Type</option>
-          <option value="land">Land</option>
-          <option value="building">Building</option>
-          <option value="machinery">Plant & Machinery</option>
-          <option value="furniture">Furniture & Fixtures</option>
-          <option value="vehicle">Vehicles</option>
-          <option value="computer">Computer & Equipment</option>
-          <option value="intangible">Intangible Assets</option>
-          <option value="other">Other</option>
+          <option value="">-- SELECT ASSET CATEGORY --</option>
+          <option value="land">REAL ESTATE / LAND</option>
+          <option value="building">COMMERCIAL BUILDING</option>
+          <option value="machinery">PLANT & HEAVY MACHINERY</option>
+          <option value="furniture">FURNITURE & OFFICE FIXTURES</option>
+          <option value="vehicle">LOGISTICS / VEHICLES</option>
+          <option value="computer">IT HARDWARE & EQUIPMENT</option>
+          <option value="intangible">INTANGIBLE INTELLECTUAL ASSETS</option>
+          <option value="other">MISCELLANEOUS FIXED ASSET</option>
         </Select>
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Purchase Date</label>
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Capital Acquisition Date</label>
         <Input type="date" {...register("purchaseDate")} />
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Depreciation Rate (%)</label>
-        <Input type="number" step="0.01" placeholder="Enter depreciation rate" {...register("depreciationRate")} />
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Depreciation Allowance (%)</label>
+        <Input type="number" step="0.01" placeholder="Annual rate" {...register("depreciationRate")} />
       </div>
     </div>
   );
 
   const renderInvestmentTab = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Investment Type</label>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Investment Instrument</label>
         <Select className="w-full" {...register("investmentType")}>
-          <option value="">Select Investment Type</option>
-          <option value="fd">Fixed Deposit</option>
-          <option value="rd">Recurring Deposit</option>
-          <option value="shares">Shares</option>
-          <option value="bonds">Bonds</option>
-          <option value="mutual_fund">Mutual Fund</option>
-          <option value="nsc">NSC</option>
-          <option value="ppf">PPF</option>
-          <option value="other">Other</option>
+          <option value="">-- SELECT INSTRUMENT --</option>
+          <option value="fd">FIXED DEPOSIT (FD)</option>
+          <option value="rd">RECURRING DEPOSIT (RD)</option>
+          <option value="shares">EQUITY SHARES</option>
+          <option value="bonds">DEBT BONDS</option>
+          <option value="mutual_fund">MUTUAL FUND UNITS</option>
+          <option value="nsc">NATIONAL SAVINGS CERTIFICATE</option>
+          <option value="ppf">PUBLIC PROVIDENT FUND</option>
+          <option value="other">OTHER FINANCIAL INVESTMENT</option>
         </Select>
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Investment Date</label>
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Initial Allocation Date</label>
         <Input type="date" {...register("investmentDate")} />
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Maturity Date</label>
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Terms Expiration (Maturity)</label>
         <Input type="date" {...register("maturityDate")} />
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Interest Rate (%)</label>
-        <Input type="number" step="0.01" placeholder="Enter interest rate" {...register("interestRate")} />
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Yield / Interest Rate (%)</label>
+        <Input type="number" step="0.01" placeholder="Return Percentage" {...register("interestRate")} />
       </div>
     </div>
   );
 
   const renderLoanTab = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Loan Type</label>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Liability / Loan Category</label>
         <Select className="w-full" {...register("loanType")}>
-          <option value="">Select Loan Type</option>
-          <option value="term">Term Loan</option>
-          <option value="working_capital">Working Capital</option>
-          <option value="overdraft">Overdraft</option>
-          <option value="vehicle">Vehicle Loan</option>
-          <option value="property">Property Loan</option>
-          <option value="personal">Personal Loan</option>
-          <option value="other">Other</option>
+          <option value="">-- SELECT LIABILITY TYPE --</option>
+          <option value="term">LONG-TERM LOAN</option>
+          <option value="working_capital">WORKING CAPITAL CREDIT</option>
+          <option value="overdraft">BANK OVERDRAFT (OD)</option>
+          <option value="vehicle">VEHICLE FINANCING</option>
+          <option value="property">MORTGAGE / PROPERTY LOAN</option>
+          <option value="personal">PERSONAL BORROWING</option>
+          <option value="other">OTHER FINANCIAL LIABILITY</option>
         </Select>
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Lender Name</label>
-        <Input type="text" placeholder="Enter lender name" {...register("lenderName")} />
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Lending Agency / Individual</label>
+        <Input type="text" placeholder="Lender Identification" {...register("lenderName")} />
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Loan Amount</label>
-        <div className="flex">
-          <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">₹</span>
-          <Input type="number" step="0.01" className="flex-1 rounded-l-none" placeholder="0.00" {...register("loanAmount")} />
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Principal Loan Amount</label>
+        <div className="flex gap-0 relative">
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10 text-gray-400 font-bold text-sm pointer-events-none">₹</div>
+          <Input type="number" step="0.01" className="flex-1 pl-10" placeholder="0.00" {...register("loanAmount")} />
         </div>
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Interest Rate (%)</label>
-        <Input type="number" step="0.01" placeholder="Enter interest rate" {...register("interestRate")} />
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Interest Obligation Rate (%)</label>
+        <Input type="number" step="0.01" placeholder="Interest %" {...register("interestRate")} />
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Loan Start Date</label>
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Disbursement Date</label>
         <Input type="date" {...register("loanStartDate")} />
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Loan End Date</label>
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Maturity / Closure Date</label>
         <Input type="date" {...register("loanEndDate")} />
       </div>
     </div>
   );
 
   const renderExpenseTab = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Expense Category</label>
-        <Select className="w-full" {...register("expenseCategory")}>
-          <option value="">Select Category</option>
-          <option value="direct">Direct Expense</option>
-          <option value="indirect">Indirect Expense</option>
-          <option value="administrative">Administrative</option>
-          <option value="selling">Selling & Distribution</option>
-          <option value="financial">Financial</option>
-          <option value="other">Other</option>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Operational Expense Category</label>
+        <Select className="w-full uppercase" {...register("expenseCategory")}>
+          <option value="">-- CATEGORIZE EXPENDITURE --</option>
+          <option value="direct">DIRECT OPERATIONAL EXPENSE</option>
+          <option value="indirect">INDIRECT ADMINISTRATIVE EXPENSE</option>
+          <option value="administrative">CORE ADMINISTRATIVE COST</option>
+          <option value="selling">SELLING & DISTRIBUTION LEVY</option>
+          <option value="financial">FINANCIAL / BANKING CHARGES</option>
+          <option value="other">MISCELLANEOUS EXPENDITURE</option>
         </Select>
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Expense Type</label>
-        <Select className="w-full" {...register("expenseType")}>
-          <option value="">Select Type</option>
-          <option value="salary">Salary & Wages</option>
-          <option value="rent">Rent</option>
-          <option value="utilities">Utilities</option>
-          <option value="travel">Travel</option>
-          <option value="maintenance">Maintenance</option>
-          <option value="insurance">Insurance</option>
-          <option value="depreciation">Depreciation</option>
-          <option value="interest">Interest</option>
-          <option value="other">Other</option>
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Specific Expenditure Type</label>
+        <Select className="w-full uppercase" {...register("expenseType")}>
+          <option value="">-- DEFINE COST TYPE --</option>
+          <option value="salary">SALARY & STAFF REMUNERATION</option>
+          <option value="rent">PREMISE RENT / LEASE</option>
+          <option value="utilities">CORE UTILITIES (POWER/WATER)</option>
+          <option value="travel">LOGISTICS & CORPORATE TRAVEL</option>
+          <option value="maintenance">REPAIRS & MAINTENANCE</option>
+          <option value="insurance">RISK INSURANCE PREMIUM</option>
+          <option value="depreciation">ASSET DEPRECIATION</option>
+          <option value="interest">BORROWING INTEREST</option>
+          <option value="other">OTHER SPECIFIC COST</option>
         </Select>
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Budget Amount</label>
-        <div className="flex">
-          <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">₹</span>
-          <Input type="number" step="0.01" className="flex-1 rounded-l-none" placeholder="0.00" {...register("budgetAmount")} />
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Authorized Budgetary Allocation</label>
+        <div className="flex gap-0 relative">
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10 text-gray-400 font-bold text-sm pointer-events-none">₹</div>
+          <Input type="number" step="0.01" className="flex-1 pl-10" placeholder="0.00" {...register("budgetAmount")} />
         </div>
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Expense Frequency</label>
-        <Select className="w-full" {...register("expenseFrequency")}>
-          <option value="">Select Frequency</option>
-          <option value="daily">Daily</option>
-          <option value="weekly">Weekly</option>
-          <option value="monthly">Monthly</option>
-          <option value="quarterly">Quarterly</option>
-          <option value="yearly">Yearly</option>
-          <option value="one_time">One Time</option>
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Recurrence Interval (Frequency)</label>
+        <Select className="w-full uppercase" {...register("expenseFrequency")}>
+          <option value="">-- SELECT RECURRENCE --</option>
+          <option value="daily">DIURNAL (DAILY)</option>
+          <option value="weekly">SEPTENARY (WEEKLY)</option>
+          <option value="monthly">MENSAL (MONTHLY)</option>
+          <option value="quarterly">TRIMESTRIAL (QUARTERLY)</option>
+          <option value="yearly">ANNUAL (YEARLY)</option>
+          <option value="one_time">AD-HOC (ONE TIME)</option>
         </Select>
       </div>
     </div>
   );
 
   const renderIncomeTab = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Income Category</label>
-        <Select className="w-full" {...register("incomeCategory")}>
-          <option value="">Select Category</option>
-          <option value="direct">Direct Income</option>
-          <option value="indirect">Indirect Income</option>
-          <option value="operating">Operating Income</option>
-          <option value="non_operating">Non-Operating Income</option>
-          <option value="other">Other</option>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Revenue Inflow Category</label>
+        <Select className="w-full uppercase" {...register("incomeCategory")}>
+          <option value="">-- CATEGORIZE REVENUE --</option>
+          <option value="direct">DIRECT OPERATIONAL REVENUE</option>
+          <option value="indirect">INDIRECT / ACCRUED INCOME</option>
+          <option value="operating">CORE OPERATING REVENUE</option>
+          <option value="non_operating">NON-OPERATING INFLOW</option>
+          <option value="other">MISCELLANEOUS REVENUE</option>
         </Select>
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Income Type</label>
-        <Select className="w-full" {...register("incomeType")}>
-          <option value="">Select Type</option>
-          <option value="sales">Sales</option>
-          <option value="service">Service Income</option>
-          <option value="commission">Commission</option>
-          <option value="interest">Interest Income</option>
-          <option value="dividend">Dividend</option>
-          <option value="rent">Rent Income</option>
-          <option value="discount">Discount Received</option>
-          <option value="other">Other</option>
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Specific Income Classification</label>
+        <Select className="w-full uppercase" {...register("incomeType")}>
+          <option value="">-- DEFINE INFLOW SOURCE --</option>
+          <option value="sales">PRIMARY GOODS SALES</option>
+          <option value="service">CORE SERVICE CHARGES</option>
+          <option value="commission">BROKERAGE / COMMISSION</option>
+          <option value="interest">INVESTMENT INTEREST</option>
+          <option value="dividend">EQUITY DIVIDENDS</option>
+          <option value="rent">REAL ESTATE RENTAL INCOME</option>
+          <option value="discount">TRADE DISCOUNTS ACCRUED</option>
+          <option value="other">OTHER SPECIFIC SOURCE</option>
         </Select>
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Expected Amount</label>
-        <div className="flex">
-          <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">₹</span>
-          <Input type="number" step="0.01" className="flex-1 rounded-l-none" placeholder="0.00" {...register("expectedAmount")} />
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Anticipated Inflow Projection</label>
+        <div className="flex gap-0 relative">
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10 text-gray-400 font-bold text-sm pointer-events-none">₹</div>
+          <Input type="number" step="0.01" className="flex-1 pl-10" placeholder="0.00" {...register("expectedAmount")} />
         </div>
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Income Frequency</label>
-        <Select className="w-full" {...register("incomeFrequency")}>
-          <option value="">Select Frequency</option>
-          <option value="daily">Daily</option>
-          <option value="weekly">Weekly</option>
-          <option value="monthly">Monthly</option>
-          <option value="quarterly">Quarterly</option>
-          <option value="yearly">Yearly</option>
-          <option value="one_time">One Time</option>
+      <div className="space-y-2">
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">Expected Inflow Frequency</label>
+        <Select className="w-full uppercase" {...register("incomeFrequency")}>
+          <option value="">-- SELECT RECURRENCE --</option>
+          <option value="daily">DIURNAL (DAILY)</option>
+          <option value="weekly">SEPTENARY (WEEKLY)</option>
+          <option value="monthly">MENSAL (MONTHLY)</option>
+          <option value="quarterly">TRIMESTRIAL (QUARTERLY)</option>
+          <option value="yearly">ANNUAL (YEARLY)</option>
+          <option value="one_time">AD-HOC (ONE TIME)</option>
         </Select>
       </div>
     </div>
@@ -744,52 +744,75 @@ const CreateLedger = () => {
   };
 
   return (
-    <div className="flex w-full justify-start items-start min-h-[calc(100vh-100px)] bg-gray-100 p-2">
-      <div className="bg-white rounded-lg shadow-md p-6 w-full max-w-full">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-3">
-            <h1 className="text-xl font-bold">{isEditMode ? "Edit Ledger" : "Create Ledger"}</h1>
-            {isEditMode && defaultLedgerPermissions.isDefaultLedger && <DefaultLedgerIndicator ledger={ledgerData} />}
+    <div className="flex flex-col min-h-screen bg-(--bg-main) p-4 tracking-tight">
+      <div className="bg-(--card-bg) rounded-3xl shadow-2xl p-8 max-w-6xl mx-auto w-full border border-gray-100 dark:border-white/5 transition-all duration-500">
+        <div className="flex items-center justify-between sticky top-0 z-10 bg-(--card-bg) border-b border-gray-200 dark:border-white/5 pb-4 mb-8">
+          <div className="flex items-center gap-4">
+             <div className="p-3 bg-(--primary-color)/10 rounded-2xl">
+                <div className="w-8 h-8 flex items-center justify-center font-black text-(--primary-color) text-xl italic uppercase">
+                  {isEditMode ? "E" : "C"}
+                </div>
+             </div>
+             <div>
+                <h1 className="text-3xl font-black italic tracking-tighter text-(--text-main) leading-none uppercase">
+                  {isEditMode ? "EDIT LEDGER" : "CREATE LEDGER"}
+                </h1>
+                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Configure financial entity details</p>
+             </div>
           </div>
-          <Button type="button" variant="secondary" onClick={handleBack}>← Back</Button>
+          <Button type="button" variant="secondary" onClick={handleBack} className="rounded-xl font-black uppercase tracking-widest text-[10px]">
+            &#8592; Back to List
+          </Button>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           {/* Tab Navigation */}
-          <div className="border-b border-gray-200 mb-4">
-            <nav className="flex flex-wrap gap-1 -mb-px">
-              {tabs.map((tab) => (
-                <button key={tab.id} type="button"
-                  className={`px-4 py-2 text-sm font-medium rounded-t-lg transition-colors ${
-                    activeTab === tab.id
-                      ? "bg-blue-50 text-blue-600 border-b-2 border-blue-600"
-                      : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
-                  }`}
-                  onClick={() => setActiveTab(tab.id)}>
-                  {tab.label}
-                </button>
-              ))}
-            </nav>
+          <div className="flex flex-wrap gap-2 mb-8 bg-(--sidebar-active-bg)/30 p-2 rounded-2xl border border-gray-200 dark:border-white/5">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                type="button"
+                className={`px-4 py-2 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all duration-300 relative ${
+                  activeTab === tab.id
+                    ? "bg-(--primary-color) text-white shadow-lg shadow-(--primary-color)/20 scale-105 z-10"
+                    : "text-gray-400 hover:text-(--text-main) hover:bg-white/50 dark:hover:bg-white/5"
+                }`}
+                onClick={() => setActiveTab(tab.id)}
+              >
+                {tab.label}
+              </button>
+            ))}
           </div>
 
           {/* Tab Content */}
-          <div className="min-h-[300px] p-4 border border-gray-200 rounded-lg bg-gray-50">
+          <div className="min-h-[400px] p-8 rounded-3xl bg-(--sidebar-active-bg)/20 border border-gray-200 dark:border-white/5 overflow-hidden transition-all duration-300">
             {renderTabContent()}
           </div>
 
           {/* Action Buttons */}
-          <div className="flex justify-between items-center mt-6 pt-4 border-t border-gray-200">
-            <div className="flex gap-3">
+          <div className="flex justify-between items-center mt-8 pt-8 border-t border-gray-200 dark:border-white/5">
+            <div className="flex gap-4">
               {selectedGroup && !isCashInHand && (
-                <Button type="button" variant="success" onClick={() => showToast("GST verification feature coming soon", "info")}>
-                  GST Verification
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                   className="rounded-2xl font-black uppercase tracking-widest text-[10px] h-12 border-emerald-500/20 text-emerald-500 hover:bg-emerald-500 hover:text-white"
+                  onClick={() => showToast("GST verification feature coming soon", "info")}
+                >
+                  Verify GST Network
                 </Button>
               )}
             </div>
-            <div className="flex gap-3">
-              <Button type="button" variant="secondary" onClick={handleClear} disabled={isLoading}>F9 Clear</Button>
-              <Button type="submit" loading={isLoading} disabled={isLoading || isReadOnly()}>F10 Save</Button>
-              <Button type="button" variant="secondary" onClick={handleBack} disabled={isLoading}>Esc Close</Button>
+            <div className="flex gap-4">
+              <Button type="button" variant="secondary" onClick={handleClear} disabled={isLoading} className="h-12 px-8 rounded-2xl font-black uppercase tracking-widest text-[10px]">
+                F9 Reset
+              </Button>
+              <Button type="submit" loading={isLoading} disabled={isLoading || isReadOnly()} className="h-12 px-12 rounded-2xl font-black uppercase tracking-widest text-[10px] shadow-xl shadow-(--primary-color)/20">
+                F10 Commit Record
+              </Button>
+              <Button type="button" variant="danger" onClick={handleBack} disabled={isLoading} className="h-12 px-8 rounded-2xl font-black uppercase tracking-widest text-[10px]">
+                Esc Close
+              </Button>
             </div>
           </div>
         </form>

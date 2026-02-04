@@ -8,6 +8,7 @@ import Input from "../../componets/common/Input";
 import Button from "../../componets/common/Button";
 import { validateEmail, validatePhone } from "../../utils/inputValidation";
 import { showToast } from "../../componets/common/Toast";
+import Logo from "../../componets/common/Logo";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -143,26 +144,31 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center p-4">
-      <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
-        <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-            <span className="text-white font-bold text-xl">ASR</span>
+    <div className="min-h-screen bg-(--bg-main) flex items-center justify-center p-4">
+      <div className="bg-(--card-bg) p-8 rounded-2xl shadow-2xl w-full max-w-md border border-gray-100 dark:border-gray-700 animate-fade-in">
+        <div className="text-center mb-10">
+          <div className="mx-auto mb-4 flex justify-center">
+            <Logo
+              className="w-16 h-16 rounded-2xl shadow-xl shadow-(--primary-color)/20" 
+              bgClass="!bg-(--primary-color)"
+              textColor="text-white"
+              textClassName="text-2xl" 
+            />
           </div>
-          <h2 className="text-2xl font-bold text-gray-900">ASR Pharmacy</h2>
-          <p className="text-gray-600 mt-2">Sign in to your account</p>
+          <h2 className="text-3xl font-bold text-(--text-main) tracking-tight">ASR Pharmacy</h2>
+          <p className="text-(--text-main) opacity-60 mt-2 text-sm">Sign in to your account</p>
         </div>
 
-        <form className="space-y-4" onSubmit={handleLogin}>
+        <form className="space-y-6" onSubmit={handleLogin}>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-xs font-bold text-(--text-main) opacity-80 mb-2 uppercase tracking-wider">
               Login
             </label>
             {renderLoginInput()}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-xs font-bold text-(--text-main) opacity-80 mb-2 uppercase tracking-wider">
               Password
             </label>
             <div className="relative">
@@ -170,54 +176,40 @@ const LoginPage = () => {
                 type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password (default: password)"
+                placeholder="Enter your password"
+                className="pr-12"
               />
-              <Button
-                type="icon"
+              <button
+                type="button"
                 onClick={() => setShowPassword((prev) => !prev)}
-                className="absolute cursor-pointer right-2 top-1/2 -translate-y-1/2 p-1 text-blue-600 bg-blue-50 rounded focus:outline-none"
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 text-gray-400 hover:text-(--primary-color) transition-colors"
                 tabIndex={-1}
-                aria-label={showPassword ? "Hide password" : "Show password"}
               >
-                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-              </Button>
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
             </div>
           </div>
 
-          {error && <div className="text-red-500 text-sm">{error}</div>}
+          {error && <div className="text-red-500 text-sm bg-red-50 dark:bg-red-900/10 p-3 rounded-lg border border-red-100 dark:border-red-900/20">{error}</div>}
 
           <Button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-4 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 font-medium disabled:opacity-60"
+            className="w-full h-12 bg-(--primary-color) text-white rounded-xl hover:bg-(--primary-dark) transition-all duration-300 font-bold shadow-lg shadow-(--primary-color)/30 disabled:opacity-60"
             loading={isLoading}
           >
-            Login
+            Sign In
           </Button>
         </form>
-        {/* 
-        <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-          <p className="text-xs text-blue-700 text-center">
-            <strong>Demo Application:</strong> You can login with username, email, or phone number.
-            Different roles display different menu items and permissions.
-          </p>
-          <div className="mt-2 text-xs text-blue-600">
-            <p><strong>Demo Credentials:</strong></p>
-            <p>• Username: admin, user, manager</p>
-            <p>• Email: admin@example.com, user@example.com</p>
-            <p>• Phone: +1234567890</p>
-            <p>• Password: password</p>
-          </div>
-        </div> */}
 
-        <div className="mt-4 text-center">
-          <p className="text-sm text-gray-600">
+        <div className="mt-8 text-center">
+          <p className="text-sm text-(--text-main) opacity-60">
             Don't have an account?{" "}
             <button
               onClick={() => navigate("/signup")}
-              className="text-blue-600 hover:text-blue-700 cursor-pointer font-medium underline"
+              className="text-(--primary-color) hover:text-(--primary-dark) cursor-pointer font-bold underline-offset-4 hover:underline transition-all"
             >
-              Sign up here
+              Start for free
             </button>
           </p>
         </div>

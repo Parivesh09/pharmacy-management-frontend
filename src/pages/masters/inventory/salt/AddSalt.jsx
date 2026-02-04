@@ -200,61 +200,77 @@ export default function SaltForm({
   };
 
   return (
-    <div className="flex flex-col overflow-auto no-scrollbar">
+    <div className="flex flex-col min-h-screen bg-(--bg-main) p-4 tracking-tight">
       <form
         onSubmit={handleSubmit(handleSave)}
         className="flex-1 flex flex-col relative"
       >
-        <div className="bg-white rounded shadow p-4 transition-all duration-500">
-          <div className="flex items-center justify-between sticky top-0 z-10">
-            <h1 className="text-xl font-bold">
-              {isEditMode ? "Edit Salt" : "Add Salt"}
+        <div className="bg-(--card-bg) rounded-3xl shadow-2xl p-8 max-w-6xl mx-auto w-full border border-gray-100 dark:border-white/5 transition-all duration-500">
+          <div className="flex items-center justify-between sticky top-0 z-10 bg-(--card-bg) border-b border-gray-50 dark:border-white/5 pb-4 mb-8">
+            <h1 className="text-3xl font-black italic tracking-tighter text-(--text-main)">
+              {isEditMode ? "EDIT SALT COMPOSITION" : "ADD SALT COMPOSITION"}
             </h1>
             <Button type="button" variant="secondary" onClick={handleBack}>
-              &#8592; Back
+              &#8592; Back to List
             </Button>
           </div>
-          <div className="mb-5">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Salt Name <span className="text-red-500">*</span>
-            </label>
-            <Input
-              type="text"
-              {...register("saltname", { required: "Salt Name is required" })}
-              className="h-8 text-xs w-full"
-            />
-            {errors.saltname && (
-              <p className="text-red-500 text-xs mt-1">
-                {errors.saltname.message}
-              </p>
-            )}
-            <label className="block text-sm font-medium text-gray-700 mb-2 mt-4">
-              Contraindications
-            </label>
-            <Input
-              type="text"
-              {...register("contraindications")}
-              className="h-8 text-xs w-full"
-            />
-            <label className="block text-sm font-medium text-gray-700 mb-2 mt-4">
-              Relative Contraindications
-            </label>
-            <Input
-              type="text"
-              {...register("relativeContraindications")}
-              className="h-8 text-xs w-full"
-            />
-          </div>
-          <div className="w-fit">
-            <label className="flex items-center justify-center gap-2 text-sm font-medium text-gray-700">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div className="md:col-span-2">
+              <label className="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">
+                Composition Name <span className="text-red-500">*</span>
+              </label>
               <Input
-                width="w-4"
+                type="text"
+                {...register("saltname", { required: "Salt Name is required" })}
+                className="h-12 text-lg font-bold w-full bg-transparent border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-(--primary-color)"
+                placeholder="Enter salt/composition name..."
+              />
+              {errors.saltname && (
+                <p className="text-red-500 text-xs font-bold mt-1 uppercase tracking-wider">
+                  {errors.saltname.message}
+                </p>
+              )}
+            </div>
+            <div>
+              <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
+                Contraindications
+              </label>
+              <Input
+                type="text"
+                {...register("contraindications")}
+                className="h-10 text-sm font-medium w-full bg-transparent border-gray-200 dark:border-gray-700"
+                placeholder="e.g. Chronic Kidney Disease"
+              />
+            </div>
+            <div>
+              <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
+                Relative Contraindications
+              </label>
+              <Input
+                type="text"
+                {...register("relativeContraindications")}
+                className="h-10 text-sm font-medium w-full bg-transparent border-gray-200 dark:border-gray-700"
+                placeholder="e.g. Pregnancy, Lactation"
+              />
+            </div>
+          </div>
+          <div className="mb-8">
+            <label className="flex items-center gap-3 p-4 rounded-2xl bg-(--sidebar-active-bg) border border-(--primary-color)/10 cursor-pointer group transition-all w-fit pr-8">
+              <Input
+                width="w-5"
                 type="checkbox"
                 checked={showMoreOptions}
                 onChange={(e) => setShowMoreOptions(e.target.checked)}
-                className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                className="w-5 h-5 text-(--primary-color) border-gray-300 rounded-lg focus:ring-(--primary-color)"
               />
-              <span className="font-semibold text-sm min-w-fit">More info</span>
+              <div className="flex flex-col">
+                <span className="font-bold text-sm text-(--text-main) tracking-tight">
+                  Detailed Information
+                </span>
+                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                  Configure classification, narcotics and legal status
+                </span>
+              </div>
             </label>
           </div>
           {showMoreOptions && (
@@ -268,31 +284,31 @@ export default function SaltForm({
             addVariant={addVariant}
           />
 
-          {error && <div className="text-red-500 mb-4">{error}</div>}
-          <div className="flex gap-2 mt-6 justify-end">
-            <Button
-              type="submit"
-              variant="primary"
-              disabled={isLoading || isEditing}
-              buttonType={"save"}
-            >
-              Save
-            </Button>
+          {error && <div className="text-red-500 font-bold text-xs uppercase tracking-widest mb-4 animate-fade-in">❌ {error}</div>}
+          <div className="flex gap-4 mt-12 justify-end border-t border-gray-50 dark:border-white/5 pt-8">
             <Button
               type="button"
-              variant="secondary"
+              variant="outline"
               onClick={handleClear}
-              buttonType={"clear"}
+              className="px-8"
             >
-              Clear
+              Reset Form
             </Button>
             <Button
               type="button"
               variant="danger"
               onClick={handleClose}
-              buttonType={"close"}
+              className="px-8"
             >
               Close
+            </Button>
+            <Button
+              type="submit"
+              variant="primary"
+              disabled={isLoading || isEditing}
+              className="px-12 shadow-xl shadow-(--primary-color)/20"
+            >
+              {isEditMode ? "Update Composition" : "Save Composition"}
             </Button>
           </div>
         </div>

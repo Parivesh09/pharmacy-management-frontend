@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 
 const base = "px-2 py-1 rounded font-medium transition focus:outline-none";
 const variants = {
-  primary: "bg-blue-600 text-white hover:bg-blue-700 disabled:bg-blue-400 cursor-not-allowed",
+  primary: "bg-(--primary-color) text-white hover:bg-(--primary-dark) disabled:opacity-50 cursor-not-allowed",
   secondary: "bg-gray-100 text-gray-800 hover:bg-gray-200 disabled:bg-gray-300 cursor-not-allowed",
   danger: "bg-red-600 text-white hover:bg-red-700 disabled:bg-red-400 cursor-not-allowed",
   outline: "border border-gray-300 text-gray-700 hover:bg-gray-100 disabled:bg-gray-100 cursor-not-allowed",

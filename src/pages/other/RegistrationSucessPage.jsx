@@ -101,54 +101,57 @@ const RegistrationSuccessPage = () => {
       ]}
     >
       {/* Custom registration details section */}
-      <div className="bg-blue-50 rounded-lg p-6 mb-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-          <User className="mr-2 text-blue-500" size={20} />
-          Registration Details
+      <div className="bg-(--sidebar-active-bg)/30 border border-(--primary-color)/5 rounded-3xl p-8 mb-8 animate-fade-in shadow-xl">
+        <h3 className="text-xl font-black italic tracking-tighter text-(--text-main) mb-6 flex items-center gap-3">
+          <User className="text-(--primary-color)" size={24} />
+          REGISTRATION PROFILE
         </h3>
-        <div className="space-y-3">
-          <div className="flex justify-between items-center">
-            <span className="text-gray-600">Name:</span>
-            <span className="font-medium">{userInfo.firstName} {userInfo.lastName}</span>
+        <div className="space-y-4">
+          <div className="flex justify-between items-center py-2 border-b border-gray-50 dark:border-white/5">
+            <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Owner Name</span>
+            <span className="font-bold text-(--text-main)">{userInfo.firstName} {userInfo.lastName}</span>
           </div>
-          <div className="flex justify-between items-center">
-            <span className="text-gray-600">Email:</span>
-            <span className="font-medium">{userInfo.email}</span>
+          <div className="flex justify-between items-center py-2 border-b border-gray-50 dark:border-white/5">
+            <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Account Email</span>
+            <span className="font-bold text-(--text-main)">{userInfo.email}</span>
           </div>
-          <div className="flex justify-between items-center">
-            <span className="text-gray-600">Phone:</span>
-            <span className="font-medium">{userInfo.phone}</span>
+          <div className="flex justify-between items-center py-2 border-b border-gray-50 dark:border-white/5">
+            <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Phone Number</span>
+            <span className="font-bold text-(--text-main)">+91 {userInfo.phone}</span>
           </div>
           {registrationId && (
-            <div className="flex justify-between items-center">
-              <span className="text-gray-600">Registration ID:</span>
-              <span className="font-medium font-mono text-sm">{registrationId}</span>
+            <div className="flex justify-between items-center py-2 border-b border-gray-50 dark:border-white/5">
+              <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">System Trace ID</span>
+              <span className="font-bold font-mono text-sm text-(--primary-color)">{registrationId}</span>
             </div>
           )}
-          <div className="flex justify-between items-center">
-            <span className="text-gray-600">Status:</span>
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-              Pending Email Verification
+          <div className="flex justify-between items-center py-2">
+            <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Account Status</span>
+            <span className="inline-flex items-center px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-orange-500/10 text-orange-600 border border-orange-500/20">
+              Awaiting Verification
             </span>
           </div>
         </div>
       </div>
 
       {/* Email verification status */}
-      <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
-        <div className="flex items-start">
-          <Mail className="flex-shrink-0 h-5 w-5 text-amber-400 mt-0.5" />
-          <div className="ml-3">
-            <h4 className="text-sm font-medium text-amber-800">
-              Verification Email Sent
+      <div className="bg-(--primary-color)/5 border border-(--primary-color)/10 rounded-3xl p-6 mb-8 shadow-inner">
+        <div className="flex items-start gap-4">
+          <div className="p-3 bg-(--primary-color)/10 rounded-2xl">
+            <Mail className="h-6 w-6 text-(--primary-color)" />
+          </div>
+          <div>
+            <h4 className="text-sm font-black uppercase tracking-widest text-(--text-main) mb-2">
+              Verification Action Required
             </h4>
-            <p className="mt-1 text-sm text-amber-700">
-              We've sent a verification email to <strong>{userInfo.email}</strong>. 
-              Please check your inbox and click the verification link to activate your account.
+            <p className="text-sm text-(--text-main)/60 leading-relaxed">
+              We've dispatched a secure activation link to <strong className="text-(--text-main)">{userInfo.email}</strong>. 
+              Please authenticate your identity by clicking the link to unlock your dashboard.
             </p>
             {resendSuccess && (
-              <p className="mt-2 text-sm text-green-700 font-medium">
-                ✓ Verification email resent successfully!
+              <p className="mt-3 text-xs text-emerald-500 font-bold uppercase tracking-widest flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
+                Instructions resent successfully
               </p>
             )}
           </div>
@@ -156,24 +159,24 @@ const RegistrationSuccessPage = () => {
       </div>
 
       {/* Important notes */}
-      <div className="bg-gray-50 rounded-lg p-4">
-        <h4 className="text-sm font-medium text-gray-800 mb-2">Important Notes:</h4>
-        <ul className="text-sm text-gray-600 space-y-1">
-          <li className="flex items-start">
-            <span className="w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 mr-2 flex-shrink-0"></span>
-            The verification link will expire in 24 hours
+      <div className="bg-(--sidebar-active-bg)/30 rounded-3xl p-8 border border-gray-100 dark:border-white/5 shadow-lg">
+        <h4 className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-6 border-b border-gray-50 dark:border-white/5 pb-3">Safety & Process Guidelines</h4>
+        <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <li className="flex items-center gap-3 group">
+            <div className="w-1.5 h-1.5 bg-(--primary-color) rounded-full shadow-[0_0_8px_var(--primary-color)] transition-all group-hover:scale-150"></div>
+            <span className="text-xs font-bold text-(--text-main)/70 uppercase tracking-tight">Token validity: 24 Hours</span>
           </li>
-          <li className="flex items-start">
-            <span className="w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 mr-2 flex-shrink-0"></span>
-            Check your spam/junk folder if you don't see the email
+          <li className="flex items-center gap-3 group">
+            <div className="w-1.5 h-1.5 bg-(--primary-color) rounded-full shadow-[0_0_8px_var(--primary-color)] transition-all group-hover:scale-150"></div>
+            <span className="text-xs font-bold text-(--text-main)/70 uppercase tracking-tight">Monitor Inbox & Junk folders</span>
           </li>
-          <li className="flex items-start">
-            <span className="w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 mr-2 flex-shrink-0"></span>
-            You can resend the verification email if needed
+          <li className="flex items-center gap-3 group">
+            <div className="w-1.5 h-1.5 bg-(--primary-color) rounded-full shadow-[0_0_8px_var(--primary-color)] transition-all group-hover:scale-150"></div>
+            <span className="text-xs font-bold text-(--text-main)/70 uppercase tracking-tight">Manual resend supported</span>
           </li>
-          <li className="flex items-start">
-            <span className="w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 mr-2 flex-shrink-0"></span>
-            Your account will be fully activated after email verification
+          <li className="flex items-center gap-3 group">
+            <div className="w-1.5 h-1.5 bg-(--primary-color) rounded-full shadow-[0_0_8px_var(--primary-color)] transition-all group-hover:scale-150"></div>
+            <span className="text-xs font-bold text-(--text-main)/70 uppercase tracking-tight">Full access post activation</span>
           </li>
         </ul>
       </div>

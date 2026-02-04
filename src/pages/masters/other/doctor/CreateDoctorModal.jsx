@@ -48,123 +48,135 @@ const CreateDoctorModal = ({ open, onClose, onSave }) => {
     <Modal
       open={open}
       onClose={onClose}
-      title="Create Doctor"
+      title="CREATE DOCTOR PROFILE"
       className="max-w-4xl"
     >
-      <div className="flex flex-col md:flex-row gap-4">
+      <div className="flex flex-col md:flex-row gap-6 py-4">
         
-        <div className="flex-1 border border-gray-300 rounded p-3">
-          <div className="font-bold mb-2">Doctor List</div>
+        <div className="flex-1 bg-(--sidebar-active-bg)/30 border border-(--primary-color)/5 rounded-3xl p-6 space-y-4">
+          <div className="text-[10px] font-black uppercase tracking-widest text-(--primary-color) border-b border-gray-50 dark:border-white/5 pb-3 mb-2">Professional Identity</div>
           <Input
-            label="Mobile No."
+            label="Mobile Number"
             name="mobileNo"
             prefix="+91"
             startIcon={<PhoneIcon className="w-4" />}
             value={form.mobileNo}
             onChange={handleChange}
+            className="bg-transparent border-gray-200 dark:border-gray-700 font-bold"
           />
-          <Input label="ID" name="id" value={form.id} onChange={handleChange} />
+          <div className="grid grid-cols-2 gap-4">
+            <Input label="Internal ID" name="id" value={form.id} onChange={handleChange} className="bg-transparent border-gray-200 dark:border-gray-700" />
+            <Input
+              label="Medical Registration No"
+              name="regNo"
+              value={form.regNo}
+              onChange={handleChange}
+              className="bg-transparent border-gray-200 dark:border-gray-700 font-mono text-xs uppercase"
+            />
+          </div>
           <Input
-            label="Registration No"
-            name="regNo"
-            value={form.regNo}
-            onChange={handleChange}
-            className="mb-2"
-          />
-          <Input
-            label="Name"
+            label="Full Practitioner Name"
             name="name"
             value={form.name}
             onChange={handleChange}
             required
-            className="mb-2"
+            className="bg-transparent border-gray-200 dark:border-gray-700 font-black h-12 text-lg"
           />
           <Input
-            label="Hospital Name"
+            label="Associated Hospital / Clinic"
             name="hospital"
             value={form.hospital}
             onChange={handleChange}
-            className="mb-2"
+            className="bg-transparent border-gray-200 dark:border-gray-700 font-bold"
           />
           <Select
-            label="Specialization"
+            label="Medical Specialization"
             name="specialization"
             value={form.specialization}
             options={specializationOptions}
             onChange={(e) =>
               handleSelectChange("specialization", e.target.value)
             }
-            className="mb-2 bg-yellow-200"
+            className="bg-transparent border-gray-200 dark:border-gray-700 font-bold"
           />
-          <Input
-            label="Commission %"
-            name="commission"
-            value={form.commission}
-            onChange={handleChange}
-            className="mb-2"
-          />
-          <Input
-            label="Location Code"
-            name="locationCode"
-            value={form.locationCode}
-            onChange={handleChange}
-            className="mb-2"
-          />
+          <div className="grid grid-cols-2 gap-4">
+            <Input
+              label="Standard Commission (%)"
+              name="commission"
+              value={form.commission}
+              onChange={handleChange}
+              className="bg-transparent border-gray-200 dark:border-gray-700 font-black text-(--primary-color)"
+            />
+            <Input
+              label="Area Location Code"
+              name="locationCode"
+              value={form.locationCode}
+              onChange={handleChange}
+              className="bg-transparent border-gray-200 dark:border-gray-700"
+            />
+          </div>
         </div>
         
-        <div className="flex-1">
-          <div className="flex-1 border border-gray-300 rounded p-3">
-            <div className="font-bold mb-2">Contact Details</div>
+        <div className="flex-1 flex flex-col justify-between">
+          <div className="bg-(--sidebar-active-bg)/30 border border-(--primary-color)/5 rounded-3xl p-6 space-y-4">
+            <div className="text-[10px] font-black uppercase tracking-widest text-(--primary-color) border-b border-gray-50 dark:border-white/5 pb-3 mb-2">Practice Locations</div>
             <Input
-              label="Address"
+              label="Clinic / Office Address"
               name="address"
               value={form.address}
               onChange={handleChange}
-              className="mb-2"
+              className="bg-transparent border-gray-200 dark:border-gray-700"
             />
+            <div className="grid grid-cols-2 gap-4">
+              <Input
+                label="Postal PIN"
+                name="pin"
+                value={form.pin}
+                onChange={handleChange}
+                className="bg-transparent border-gray-200 dark:border-gray-700 font-bold"
+              />
+              <Input
+                label="Landline Phone"
+                name="phone"
+                startIcon={<PhoneIcon className="w-4" />}
+                value={form.phone}
+                onChange={handleChange}
+                className="bg-transparent border-gray-200 dark:border-gray-700"
+              />
+            </div>
             <Input
-              label="Pin No"
-              name="pin"
-              value={form.pin}
-              onChange={handleChange}
-              className="w-1/2"
-            />
-            <Input
-              label="Phone No"
-              name="phone"
-              startIcon={<PhoneIcon className="w-4" />}
-              value={form.phone}
-              onChange={handleChange}
-              className="w-1/2"
-            />
-            <Input
-              label="Email ID"
+              label="Official Email Contact"
               name="email"
               value={form.email}
               onChange={handleChange}
-              className="mb-2"
+              className="bg-transparent border-gray-200 dark:border-gray-700"
             />
             <Input
-              label="WhatsApp No."
+              label="WhatsApp Notification Number"
               name="whatsapp"
               prefix="+91"
               value={form.whatsapp}
               onChange={handleChange}
-              className="mb-2"
+              className="bg-transparent border-gray-200 dark:border-gray-700 font-bold"
             />
           </div>
 
-          <div className="flex justify-end gap-2 mt-4">
-            <Button buttonType="save" onClick={handleSave} type="button">
-              Save
-            </Button>
-            <Button
-              buttonType="close"
-              onClick={onClose}
-              type="button"
-              variant="secondary"
+          <div className="flex gap-4 mt-8 pt-6 border-t border-gray-50 dark:border-white/5 justify-end">
+            <Button 
+               onClick={onClose} 
+               type="button" 
+               variant="outline"
+               className="flex-1"
             >
-              Close
+              Cancel
+            </Button>
+            <Button 
+               onClick={handleSave} 
+               type="button" 
+               variant="primary"
+               className="flex-1 shadow-xl shadow-(--primary-color)/20 font-black uppercase tracking-widest"
+            >
+              Save Profile
             </Button>
           </div>
         </div>

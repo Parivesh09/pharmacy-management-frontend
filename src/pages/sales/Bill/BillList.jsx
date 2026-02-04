@@ -45,21 +45,21 @@ const BillList = () => {
 
   const getStatusColor = (status) => {
     const colors = {
-      "Paid": "bg-green-100 text-green-800",
-      "Pending": "bg-yellow-100 text-yellow-800",
-      "Draft": "bg-gray-100 text-gray-800",
-      "Cancelled": "bg-red-100 text-red-800",
+      "Paid": "bg-emerald-500/10 text-emerald-600 border border-emerald-500/20",
+      "Pending": "bg-orange-500/10 text-orange-600 border border-orange-500/20",
+      "Draft": "bg-gray-500/10 text-gray-600 border border-gray-500/20",
+      "Cancelled": "bg-red-500/10 text-red-600 border border-red-500/20",
     };
-    return colors[status] || "bg-blue-100 text-blue-800";
+    return colors[status] || "bg-blue-500/10 text-blue-600 border border-blue-500/20";
   };
 
   const getPaymentStatusColor = (status) => {
     const colors = {
-      "Paid": "bg-green-100 text-green-800",
-      "Partial": "bg-orange-100 text-orange-800",
-      "Unpaid": "bg-red-100 text-red-800",
+      "Paid": "bg-emerald-500/10 text-emerald-600 border border-emerald-500/20",
+      "Partial": "bg-orange-500/10 text-orange-600 border border-orange-500/20",
+      "Unpaid": "bg-red-500/10 text-red-600 border border-red-500/20",
     };
-    return colors[status] || "bg-blue-100 text-blue-800";
+    return colors[status] || "bg-blue-500/10 text-blue-600 border border-blue-500/20";
   };
 
   const columns = [
@@ -75,7 +75,7 @@ const BillList = () => {
       key: "status",
       title: "Status",
       render: (value) => (
-        <span className={`px-2 py-1 rounded text-xs font-semibold ${getStatusColor(value)}`}>
+        <span className={`px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-widest ${getStatusColor(value)}`}>
           {value}
         </span>
       ),
@@ -84,7 +84,7 @@ const BillList = () => {
       key: "paymentStatus",
       title: "Payment",
       render: (value) => (
-        <span className={`px-2 py-1 rounded text-xs font-semibold ${getPaymentStatusColor(value)}`}>
+        <span className={`px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-widest ${getPaymentStatusColor(value)}`}>
           {value}
         </span>
       ),

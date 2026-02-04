@@ -6,6 +6,7 @@ import { useState, useRef, useEffect, use } from "react";
 import Button from "./Button";
 import Card from "./Card";
 import IconButton from "./IconButton";
+import Logo from "./Logo";
 import { useLogoutMutation } from "../../services/authApi";
 
 export default function DefaultHeader({ title, onMenuClick }) {
@@ -58,35 +59,27 @@ export default function DefaultHeader({ title, onMenuClick }) {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white p-4 border-b border-l border-gray-200 flex items-center justify-between w-full min-h-[56px]">
+    <header className="sticky top-0 z-50 bg-(--header-bg) p-4 border-b border-l border-white/10 flex items-center justify-between w-full min-h-[56px] text-white">
       <div className="flex items-center gap-2 md:gap-3 min-w-0">
         <button
-          className="rounded-md hover:bg-gray-100 flex-shrink-0 cursor-pointer"
+          className="rounded-md hover:bg-white/10 flex-shrink-0 cursor-pointer p-1"
           onClick={onMenuClick}
           aria-label="Toggle sidebar"
         >
-          <Menu className="w-6 h-6 text-blue-600" />
+          <Menu className="w-6 h-6 text-white" />
         </button>
-        <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
-          <span className="text-white font-bold text-sm">ASR</span>
-        </div>
-        <div className="font-bold text-base md:text-lg text-blue-700 truncate max-w-[120px] sm:max-w-[200px] md:max-w-[300px] lg:max-w-none">
+        <Logo />
+        <div className="font-bold text-base md:text-lg text-white truncate max-w-[120px] sm:max-w-[200px] md:max-w-[300px] lg:max-w-none">
           <span className="truncate block">{currentCompany?.companyName}</span>
         </div>
-        {/* <div className="ml-2 text-xs text-gray-500 hidden lg:block truncate max-w-[180px]">
-          Books From 01.04.2024 to 31.03.2026
-        </div>
-        <div className="ml-2 text-xs text-gray-400 hidden xl:block">
-          v 4.1.80.b
-        </div> */}
       </div>
 
       <div className="flex-1 flex justify-center items-center min-w-0"></div>
 
       <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
-        <div className="flex items-center gap-1 md:gap-2 text-xs md:text-sm text-gray-700 bg-blue-50 px-2 py-1 rounded truncate max-w-[120px] md:max-w-none">
+        <div className="flex items-center gap-1 md:gap-2 text-xs md:text-sm text-white/90 bg-white/10 px-2 py-1 rounded truncate max-w-[120px] md:max-w-none border border-white/20">
           <span className="hidden sm:inline">Financial Year:</span>
-          <span className="font-semibold text-blue-700 truncate">
+          <span className="font-semibold text-white truncate">
              {currentCompany?.financialYearFrom} - {currentCompany?.financialYearTo}
           </span>
         </div>
@@ -95,55 +88,49 @@ export default function DefaultHeader({ title, onMenuClick }) {
           <IconButton
             icon={Settings}
             onClick={() => setSettingsOpen((prev) => !prev)}
-            variant="default"
+            variant="ghost"
             size="sm"
             title="Settings"
-            className="bg-gray-300 border-2 border-white shadow hover:text-blue-600 hover:border-blue-600"
+            className="text-white hover:bg-white/10"
           />
           {settingsOpen && (
             <div className="absolute right-0 mt-3 w-44 bg-white rounded-xl shadow-2xl z-50 border border-gray-100 p-2 animate-fade-in flex flex-col gap-2">
               <button
-                className="flex items-center gap-2 px-3 py-2 rounded hover:bg-blue-50 transition text-gray-700"
-                tabIndex={0}
+                className="flex items-center gap-2 px-3 py-2 rounded hover:bg-teal-50 transition text-gray-700"
+                onClick={() => navigate('/settings/theme')}
               >
-                <HelpCircle className="w-5 h-5 text-blue-500" /> Help
+                <Palette className="w-5 h-5 text-teal-500" /> Theme
               </button>
               <button
-                className="flex items-center gap-2 px-3 py-2 rounded hover:bg-blue-50 transition text-gray-700"
-                tabIndex={0}
+                className="flex items-center gap-2 px-3 py-2 rounded hover:bg-teal-50 transition text-gray-700"
               >
-                <Settings className="w-5 h-5 text-blue-500" /> Settings
-              </button>
-              <button
-                className="flex items-center gap-2 px-3 py-2 rounded hover:bg-blue-50 transition text-gray-700"
-                tabIndex={0}
-              >
-                <Bell className="w-5 h-5 text-blue-500" /> Notifications
+                <HelpCircle className="w-5 h-5 text-teal-500" /> Help
               </button>
             </div>
           )}
         </div>
 
         <IconButton
+          icon={Settings}
+          variant="ghost"
+          size="sm"
+          title="Theme Settings"
+          className="text-white hover:bg-white/10 hidden md:inline-flex"
+          onClick={() => navigate('/settings/theme')}
+        />
+        <IconButton
           icon={HelpCircle}
           variant="ghost"
           size="sm"
           title="Help"
-          className="text-gray-500 hover:text-blue-600 hidden md:inline"
-        />
-        <IconButton
-          icon={Settings}
-          variant="ghost"
-          size="sm"
-          title="Settings"
-          className="text-gray-500 hover:text-blue-600 hidden md:inline"
+          className="text-white hover:bg-white/10 hidden md:inline-flex"
         />
         <IconButton
           icon={Bell}
           variant="ghost"
           size="sm"
           title="Notifications"
-          className="text-gray-500 hover:text-blue-600 hidden md:inline"
+          className="text-white hover:bg-white/10 hidden md:inline-flex"
         />
 
         <div className="relative" ref={cardRef}>

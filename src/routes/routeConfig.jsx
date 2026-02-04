@@ -132,6 +132,7 @@ const StockReport = React.lazy(() =>
   import("../pages/masters/openingBalance/StockReport")
 );
 const POSPage = React.lazy(() => import("../pages/sales/POS/POSPage"));
+const ThemeSettings = React.lazy(() => import("../pages/other/ThemeSettings"));
 
 export const routeConfig = [
   {
@@ -139,6 +140,12 @@ export const routeConfig = [
     module: "dashboard",
     action: "V",
     element: <Dashboard />,
+  },
+  {
+    path: "/settings/theme",
+    module: "settings",
+    action: "V",
+    element: <ThemeSettings />,
   },
   {
     path: "/master/account/ledger",

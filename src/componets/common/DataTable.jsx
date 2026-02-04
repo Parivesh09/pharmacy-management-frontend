@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from "react";
-import { Edit, Trash2, Eye, Plus } from "lucide-react";
+import { Edit, Trash2, Eye, Plus, Package } from "lucide-react";
 import Button from "./Button";
 import IconButton from "./IconButton";
 import Loader from "./Loader";
@@ -92,15 +92,19 @@ const DataTable = ({
 
   if (!Array.isArray(data) || data.length === 0) {
     return (
-      <div className="text-center py-12 bg-white rounded-lg shadow-sm border border-gray-200 flex flex-col items-center">
-        <div className="text-gray-400 mb-4">No {title} available.</div>
+      <div className="text-center py-20 bg-(--card-bg) rounded-3xl shadow-2xl border border-gray-100 dark:border-white/5 flex flex-col items-center animate-fade-in">
+        <div className="w-20 h-20 bg-(--sidebar-active-bg)/30 rounded-full flex items-center justify-center mb-6">
+           <Package className="w-10 h-10 text-gray-300" />
+        </div>
+        <div className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-6 px-1 italic">No operational records identified.</div>
         {handleAddItem && (
           <Button
             key="add"
             onClick={handleAddItem}
+            className="rounded-[1rem] px-8 py-3 shadow-xl shadow-(--primary-color)/20 font-black uppercase tracking-widest text-[10px]"
             startIcon={<Plus className="w-4 h-4" />}
           >
-            Add your first {title}
+            Initialize First Record
           </Button>
         )}
       </div>
@@ -108,7 +112,7 @@ const DataTable = ({
   }
 
   return (
-    <div className="bg-white border border-gray-200 shadow-sm rounded-lg overflow-hidden">
+    <div className="bg-(--card-bg) border border-gray-100 dark:border-white/5 shadow-2xl rounded-[2rem] overflow-hidden transition-all duration-500">
       <div
         ref={tableContainerRef}
         className="no-scrollbar"
@@ -118,44 +122,44 @@ const DataTable = ({
         }}
       >
         <table
-          className="min-w-full divide-y divide-gray-200 text-xs sm:text-sm"
+          className="min-w-full divide-y divide-gray-100 dark:divide-white/5 text-xs sm:text-sm"
           style={{ tableLayout: "fixed", width: "100%" }}
         >
-          <thead className="bg-blue-400 sticky top-0 z-10">
+          <thead className="bg-(--sidebar-active-bg)/50 backdrop-blur-md sticky top-0 z-20">
             <tr>
               {columns.map((column, idx) => (
                 <th
                   key={idx}
-                  className={`px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider ${
+                  className={`px-6 py-5 text-left text-[10px] font-black text-gray-400 uppercase tracking-widest ${
                     idx === 0 ? "w-3/4" : "w-1/4"
-                  } bg-blue-400 sticky top-0 z-10`}
+                  } sticky top-0 z-10 border-b border-gray-100 dark:border-white/5`}
                 >
                   {column.title}
                 </th>
               ))}
               {(onView || onEdit || onDelete) && (
-                <th className="px-4 py-3 text-center text-xs font-medium text-white uppercase tracking-wider bg-blue-400 sticky top-0 z-10 w-24">
-                  Actions
+                <th className="px-6 py-5 text-center text-[10px] font-black text-gray-400 uppercase tracking-widest sticky top-0 z-10 w-32 border-b border-gray-100 dark:border-white/5">
+                  Access Points
                 </th>
               )}
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="divide-y divide-gray-50 dark:divide-white/5">
             {data.map((row, index) => (
               <tr
                 key={row.id || index}
                 ref={(el) => (rowRefs.current[index] = el)}
-                className={`hover:bg-blue-50 cursor-pointer transition-colors ${
-                  selectedRow?.id === row.id ? "bg-blue-100" : ""
+                className={`group/row hover:bg-(--sidebar-active-bg)/30 cursor-pointer transition-all duration-300 ${
+                  selectedRow?.id === row.id ? "bg-(--sidebar-active-bg) shadow-inner" : ""
                 }`}
                 onClick={() => onRowSelect && onRowSelect(row)}
               >
                 {columns.map((column, idx) => (
                   <td
                     key={idx}
-                    className={`px-4 py-3 whitespace-nowrap text-sm text-gray-900 ${
+                    className={`px-6 py-4 whitespace-nowrap text-xs font-bold text-(--text-main) ${
                       idx === 0 ? "w-3/4" : "w-1/4"
-                    }`}
+                    } transition-all group-hover/row:translate-x-1`}
                   >
                     {column.render
                       ? column.render(getNestedValue(row, column.key), row)
@@ -164,8 +168,8 @@ const DataTable = ({
                 ))}
 
                 {(onView || onEdit || onDelete) && (
-                  <td className="px-4 py-3 whitespace-nowrap text-center text-sm font-medium w-24">
-                    <div className="flex justify-center gap-2">
+                  <td className="px-6 py-4 whitespace-nowrap text-center text-sm font-medium w-32">
+                    <div className="flex justify-center gap-1 opacity-40 group-hover/row:opacity-100 transition-all scale-95 group-hover/row:scale-100">
                       {onView && (
                         <IconButton
                           icon={Eye}
@@ -173,10 +177,7 @@ const DataTable = ({
                             e.stopPropagation();
                             onView(row);
                           }}
-                          variant="outline"
-                          size="sm"
-                          title="View"
-                          className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 hover:border-blue-300"
+                          className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500 hover:text-white transition-all border-none"
                         />
                       )}
                       {onEdit && (
@@ -187,10 +188,7 @@ const DataTable = ({
                             e.stopPropagation();
                             onEdit(row);
                           }}
-                          variant="outline"
-                          size="sm"
-                          title="Edit"
-                          className="text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50 hover:border-indigo-300"
+                          className="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-500 hover:bg-indigo-500 hover:text-white transition-all border-none"
                         />
                       )}
                       {onDelete && (
@@ -201,10 +199,7 @@ const DataTable = ({
                             e.stopPropagation();
                             onDelete(row);
                           }}
-                          variant="outline"
-                          size="sm"
-                          title="Delete"
-                          className="text-red-600 hover:text-red-700 hover:bg-red-50 hover:border-red-300"
+                          className="w-8 h-8 rounded-lg bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all border-none"
                         />
                       )}
                     </div>
@@ -216,15 +211,15 @@ const DataTable = ({
         </table>
 
         {onLoadMore && (
-          <div ref={loadMoreRef} className="py-4 flex justify-center min-h-[60px]">
+          <div ref={loadMoreRef} className="py-8 flex justify-center min-h-[100px] bg-gradient-to-t from-(--card-bg) to-transparent">
             {isLoadingMore && hasMore && (
-              <div className="flex items-center gap-2">
+              <div className="flex flex-col items-center gap-3 animate-pulse">
                 <Loader />
-                <span className="text-gray-500 text-sm">Loading more...</span>
+                <span className="text-gray-400 text-[10px] font-black uppercase tracking-widest">Synchronizing Metadata...</span>
               </div>
             )}
             {!isLoadingMore && !hasMore && data.length > 0 && (
-              <span className="text-gray-400 text-sm">No more data</span>
+              <span className="text-gray-300 text-[10px] font-black uppercase tracking-widest italic opacity-50">Operational End of Stack</span>
             )}
           </div>
         )}

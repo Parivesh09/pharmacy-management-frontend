@@ -6,6 +6,13 @@ const initialState = {
   isAuthenticated: false,
   userCompanies: [],
   currentCompany: null,
+  theme: {
+    primaryColor: '#008080',
+    headerBg: '#00505b',
+    sidebarBg: '#ffffff',
+    sidebarText: '#374151',
+    mode: 'light' // or 'dark'
+  },
   loading: false,
   error: null
 };
@@ -59,6 +66,9 @@ const userSlice = createSlice({
     },
     clearError: (state) => {
       state.error = null;
+    },
+    setTheme: (state, action) => {
+      state.theme = { ...state.theme, ...action.payload };
     }
   }
 });
@@ -72,7 +82,8 @@ export const {
   updateUserCompanies,
   setCurrentCompany,
   logout,
-  clearError
+  clearError,
+  setTheme
 } = userSlice.actions;
 
 export default userSlice.reducer; 

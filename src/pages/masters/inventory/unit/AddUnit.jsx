@@ -61,53 +61,43 @@ export default function CreateUnitForm({
   };
 
   return (
-    <Modal open={isOpen} onClose={onClose} title="Create Unit">
-      <form onSubmit={handleSubmit(handleSave)} className="space-y-6">
+    <Modal open={isOpen} onClose={onClose} title={initialData ? "EDIT MEASUREMENT UNIT" : "CREATE MEASUREMENT UNIT"}>
+      <form onSubmit={handleSubmit(handleSave)} className="space-y-6 py-4">
         <TextField
           name="unitName"
-          label="Unit Name"
+          label="Unit Display Name (e.g. TAB, BOX)"
           type="text"
           register={register}
-          errors={error}
+          errors={errors}
           required
-          noHeight={true}
-          noStyle={true}
+          className="bg-transparent border-gray-200 dark:border-gray-700 font-bold h-12 uppercase"
         />
         <TextField
           name="uqc"
-          label="UQC"
+          label="GST UQC Code"
           type="text"
           register={register}
-          errors={error}
+          errors={errors}
           required
-          noHeight={true}
-          noStyle={true}
+          className="bg-transparent border-gray-200 dark:border-gray-700 font-medium h-12 uppercase"
         />
         
-        <div className="flex gap-2 mt-6">
+        <div className="flex gap-4 mt-8 pt-4 border-t border-gray-50 dark:border-white/5">
           <Button
-            buttonType={"save"}
+            type="button"
+            variant="outline"
+            onClick={onClose}
+            className="flex-1"
+          >
+            Cancel
+          </Button>
+          <Button
             type="submit"
             variant="primary"
             disabled={isLoading}
+            className="flex-1 shadow-xl shadow-(--primary-color)/20"
           >
-            Save
-          </Button>
-          <Button
-            buttonType={"clear"}
-            type="button"
-            variant="secondary"
-            onClick={handleClear}
-          >
-            Clear
-          </Button>
-          <Button
-            buttonType={"close"}
-            type="button"
-            variant="danger"
-            onClick={onClose}
-          >
-            Close
+            {initialData ? "Update Unit" : "Save Unit"}
           </Button>
         </div>
       </form>

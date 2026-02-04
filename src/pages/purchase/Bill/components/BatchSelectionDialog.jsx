@@ -88,16 +88,30 @@ const BatchSelectionDialog = ({ open, onClose, onSelectBatch, itemId, itemName }
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-xl max-w-6xl w-full mx-4 max-h-[90vh] flex flex-col">
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="bg-(--card-bg) rounded-[2.5rem] shadow-2xl max-w-6xl w-full max-h-[90vh] flex flex-col border border-white/10 overflow-hidden animate-in fade-in zoom-in duration-300">
         {/* Header */}
-        <div className="flex justify-between items-center p-4 border-b border-gray-200 bg-blue-50">
-          <h2 className="text-lg font-bold text-gray-800">
-            {showCreateForm ? "Create New Batch" : `Batch Selection - ${itemName}`}
-          </h2>
+        <div className="flex justify-between items-center p-8 border-b border-gray-50 dark:border-white/5 bg-gradient-to-r from-(--header-bg) to-(--header-bg)/90 text-white relative">
+           <div className="absolute inset-0 opacity-10 pointer-events-none" style={{
+            backgroundImage: `radial-gradient(#ffffff 1px, transparent 1px)`,
+            backgroundSize: '20px 20px'
+          }}></div>
+          <div className="relative z-10 flex items-center gap-4">
+             <div className="p-3 bg-white/10 rounded-2xl backdrop-blur-md">
+                <Info className="text-white" size={24} />
+             </div>
+             <div>
+                <h2 className="text-xl font-black italic tracking-tighter uppercase leading-none">
+                  {showCreateForm ? "Initialize Record" : "Batch Repository"}
+                </h2>
+                <p className="text-[10px] font-bold text-white/60 uppercase tracking-widest mt-1">
+                  {showCreateForm ? `New Entry for ${itemName}` : `Available Stock for ${itemName}`}
+                </p>
+             </div>
+          </div>
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-700"
+            className="relative z-10 p-2 hover:bg-white/10 rounded-xl transition-colors text-white/50 hover:text-white"
           >
             <X size={24} />
           </button>
@@ -238,23 +252,23 @@ const BatchSelectionDialog = ({ open, onClose, onSelectBatch, itemId, itemName }
         ) : (
           <>
             {/* Search and Add Button */}
-            <div className="p-4 border-b border-gray-200 bg-gray-50">
+            <div className="p-6 border-b border-gray-50 dark:border-white/5 bg-(--sidebar-active-bg)/30">
               <div className="flex gap-4 items-center">
                 <div className="relative flex-1">
-                  <Search className="absolute left-3 top-3 text-gray-400" size={18} />
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
                   <input
                     type="text"
-                    placeholder="Search batch number..."
+                    placeholder="SCAN_OR_FILTER_BATCH_IDENTIFIER"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full pl-12 pr-4 py-3 bg-white dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:outline-none focus:ring-2 focus:ring-(--primary-color)/20 font-bold text-sm tracking-tight"
                   />
                 </div>
                 <button
                   onClick={() => setShowCreateForm(true)}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold flex items-center gap-2"
+                  className="px-8 py-3 bg-(--primary-color) text-white rounded-2xl hover:brightness-110 font-black uppercase tracking-widest text-[10px] shadow-xl shadow-(--primary-color)/20 flex items-center gap-3 transition-all active:scale-95"
                 >
-                  <Plus size={18} /> Add New Batch
+                  <Plus size={18} /> New Batch Entry
                 </button>
               </div>
             </div>
@@ -281,83 +295,79 @@ const BatchSelectionDialog = ({ open, onClose, onSelectBatch, itemId, itemName }
                 </div>
               ) : (
                 <table className="w-full text-sm">
-                  <thead className="bg-blue-100 border-b border-gray-200 sticky top-0">
+                  <thead className="bg-(--sidebar-active-bg)/50 border-b border-gray-50 dark:border-white/5 sticky top-0 z-10 backdrop-blur-md">
                     <tr>
-                      <th className="px-4 py-3 text-left font-semibold text-gray-700">Batch</th>
-                      <th className="px-4 py-3 text-center font-semibold text-gray-700">Closing Qty.</th>
-                      <th className="px-4 py-3 text-center font-semibold text-gray-700">Unit 1st</th>
-                      <th className="px-4 py-3 text-right font-semibold text-gray-700">₹ M.R.P</th>
-                      <th className="px-4 py-3 text-right font-semibold text-gray-700">₹ Billing M.R.P</th>
-                      <th className="px-4 py-3 text-center font-semibold text-gray-700">Mfg. Date</th>
-                      <th className="px-4 py-3 text-center font-semibold text-gray-700">Exp. Date</th>
-                      <th className="px-4 py-3 text-center font-semibold text-gray-700">Status</th>
-                      <th className="px-4 py-3 text-center font-semibold text-gray-700">Action</th>
+                      <th className="px-6 py-4 text-left font-black uppercase tracking-widest text-gray-400 text-[10px]">Identifier</th>
+                      <th className="px-6 py-4 text-center font-black uppercase tracking-widest text-gray-400 text-[10px]">Liquidity</th>
+                      <th className="px-6 py-4 text-center font-black uppercase tracking-widest text-gray-400 text-[10px]">Unit</th>
+                      <th className="px-6 py-4 text-right font-black uppercase tracking-widest text-gray-400 text-[10px]">₹ M.R.P</th>
+                      <th className="px-6 py-4 text-right font-black uppercase tracking-widest text-gray-400 text-[10px]">₹ Billing</th>
+                      <th className="px-6 py-4 text-center font-black uppercase tracking-widest text-gray-400 text-[10px]">Mfg. Date</th>
+                      <th className="px-6 py-4 text-center font-black uppercase tracking-widest text-gray-400 text-[10px]">Expiry</th>
+                      <th className="px-6 py-4 text-center font-black uppercase tracking-widest text-gray-400 text-[10px]">Status</th>
+                      <th className="px-6 py-4 text-center font-black uppercase tracking-widest text-gray-400 text-[10px]">Ops</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody className="divide-y divide-gray-50 dark:divide-white/5">
                     {filteredBatches.map((batch, index) => (
                       <tr
                         key={batch.id}
-                        className={`border-b hover:bg-blue-50 cursor-pointer transition ${
-                          index % 2 === 0 ? "bg-white" : "bg-gray-25"
-                        }`}
+                        className="hover:bg-(--sidebar-active-bg)/30 cursor-pointer transition-all duration-300 group"
                         onClick={() => handleSelectBatch(batch)}
                       >
-                        <td className="px-4 py-3">
-                          <div className="font-semibold text-blue-600">
+                        <td className="px-6 py-4">
+                          <div className="font-black text-(--primary-color) uppercase tracking-tighter text-sm">
                             {batch.batchNumber}
                           </div>
                         </td>
-                        <td className="px-4 py-3 text-center">
-                          <span className={`font-semibold ${
-                            parseFloat(batch.quantity || 0) > 0 ? 'text-green-600' : 'text-red-600'
+                        <td className="px-6 py-4 text-center">
+                          <span className={`px-3 py-1 rounded-full text-[10px] font-black tracking-widest ${
+                            parseFloat(batch.quantity || 0) > 0 ? 'bg-emerald-500/10 text-emerald-500' : 'bg-red-500/10 text-red-500'
                           }`}>
                             {parseFloat(batch.quantity || 0).toFixed(1)}
                           </span>
                         </td>
-                        <td className="px-4 py-3 text-center">
+                        <td className="px-6 py-4 text-center text-xs font-bold text-gray-500 uppercase">
                           {batch.unit1st || 'PCS'}
                         </td>
-                        <td className="px-4 py-3 text-right font-semibold">
+                        <td className="px-6 py-4 text-right font-black italic tracking-tighter text-sm">
                           {batch.mrp ? `₹${parseFloat(batch.mrp).toFixed(2)}` : '-'}
                         </td>
-                        <td className="px-4 py-3 text-right font-semibold">
+                        <td className="px-6 py-4 text-right font-black italic tracking-tighter text-sm text-(--primary-color)">
                           {batch.billingMrp ? `₹${parseFloat(batch.billingMrp).toFixed(2)}` : '0'}
                         </td>
-                        <td className="px-4 py-3 text-center">
+                        <td className="px-6 py-4 text-center text-[10px] font-bold text-gray-400">
                           {formatDate(batch.mfgDate)}
                         </td>
-                        <td className="px-4 py-3 text-center">
-                          <span className={batch.expiryDate && new Date(batch.expiryDate) < new Date() ? 'text-red-600 font-semibold' : ''}>
+                        <td className="px-6 py-4 text-center">
+                          <span className={`${batch.expiryDate && new Date(batch.expiryDate) < new Date() ? 'text-red-500 font-black' : 'font-bold text-xs text-(--text-main)'}`}>
                             {formatDate(batch.expiryDate)}
                           </span>
                         </td>
-                        <td className="px-4 py-3 text-center">
-                          <span className={`font-semibold ${getStatusColor(batch.status)}`}>
+                        <td className="px-6 py-4 text-center">
+                          <span className={`text-[9px] font-black uppercase tracking-[0.2em] ${getStatusColor(batch.status)}`}>
                             {batch.status?.toUpperCase() || 'ACTIVE'}
                           </span>
                         </td>
-                        <td className="px-4 py-3 text-center">
-                          <div className="flex justify-center gap-1">
+                        <td className="px-6 py-4 text-center">
+                          <div className="flex justify-center gap-2">
                             <button
                               onClick={(e) => {
                                 e.stopPropagation();
-                                // Handle edit action
                               }}
-                              className="p-1 text-blue-600 hover:bg-blue-100 rounded"
-                              title="Edit"
+                              className="p-2 text-(--primary-color) hover:bg-(--primary-color)/10 rounded-xl transition-all opacity-0 group-hover:opacity-100"
+                              title="Edit Record"
                             >
-                              <Edit size={16} />
+                              <Edit size={14} />
                             </button>
                             <button
                               onClick={(e) => {
                                 e.stopPropagation();
-                                // Handle info action
                               }}
-                              className="p-1 text-gray-600 hover:bg-gray-100 rounded"
-                              title="Info"
+                              className="p-2 text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 rounded-xl transition-all opacity-0 group-hover:opacity-100"
+                              title="Information"
                             >
-                              <Info size={16} />
+                              <Info size={14} />
                             </button>
                           </div>
                         </td>

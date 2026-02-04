@@ -4,12 +4,12 @@ import { Search } from "lucide-react";
 
 const PosHeader = ({ searchQuery, setSearchQuery }) => {
   return (
-    <div className="p-4 border-b border-gray-200 bg-white flex gap-4 items-center">
+    <div className="p-4 border-b border-gray-200 dark:border-white/10 bg-(--card-bg) flex gap-4 items-center">
       {/* Store Selector - Placeholder for now */}
       <div className="flex items-center gap-2">
-        <label className="text-sm font-medium text-gray-700">Store:</label>
-        <select className="border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:border-blue-500">
-          <option>Main Store</option>
+        <label className="text-sm font-medium text-(--text-main) opacity-80">Store:</label>
+        <select className="bg-transparent border border-gray-300 dark:border-gray-600 text-(--text-main) rounded px-2 py-1 text-sm focus:outline-none focus:border-(--primary-color)">
+          <option className="bg-(--card-bg)">Main Store</option>
         </select>
       </div>
 
@@ -19,7 +19,7 @@ const PosHeader = ({ searchQuery, setSearchQuery }) => {
         <input
           type="text"
           placeholder="Search items..."
-          className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+          className="w-full pl-10 pr-4 py-2 bg-transparent border border-gray-300 dark:border-gray-600 text-(--text-main) rounded-lg focus:outline-none focus:ring-2 focus:ring-(--primary-color) focus:border-transparent transition-all placeholder-gray-400"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />

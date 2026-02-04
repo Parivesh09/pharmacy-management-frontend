@@ -101,35 +101,33 @@ const ConfirmationModal = ({
       title={title}
       className={getSizeClass()}
     >
-      <div className="space-y-4">
-        
-        <div className="flex justify-center">
-          <div className={`w-16 h-16 rounded-full flex items-center justify-center ${colors.iconBg}`}>
-            <Icon className={`w-8 h-8 ${colors.iconColor}`} />
+      <div className="space-y-6">
+        <div className="flex justify-center pt-4">
+          <div className={`w-24 h-24 rounded-3xl flex items-center justify-center ${colors.iconBg} shadow-2xl rotate-3 transform transition-transform hover:rotate-0`}>
+            <Icon className={`w-12 h-12 ${colors.iconColor}`} />
           </div>
         </div>
 
-        
-        <div className="text-center space-y-2">
+        <div className="text-center space-y-3 px-4">
           {children ? (
-
             children
           ) : (
-
-            <p className="text-gray-600">
+            <p className="text-sm font-bold text-(--text-main) leading-relaxed">
               {message}
             </p>
           )}
+          <div className="text-[10px] font-black uppercase tracking-widest text-gray-400 opacity-50 italic pt-2">
+            Verification required to proceed.
+          </div>
         </div>
 
-        
-        <div className="flex justify-end space-x-3 pt-4">
+        <div className="flex justify-center gap-4 pt-4">
           {showCancel && (
             <Button
               variant="outline"
               onClick={onClose}
               disabled={isDeleting}
-              className="px-4 py-2"
+              className="px-8 py-3 rounded-2xl font-black uppercase tracking-widest text-[10px] border-gray-200 dark:border-white/10"
             >
               {cancelText}
             </Button>
@@ -137,10 +135,10 @@ const ConfirmationModal = ({
           <Button
             onClick={onConfirm}
             disabled={isDeleting}
-            className={`px-4 py-2 ${colors.buttonBg} ${colors.buttonBorder}`}
-            startIcon={type === "danger" ? <Trash2 className="w-4 h-4" /> : undefined}
+            className={`px-8 py-3 rounded-2xl font-black uppercase tracking-widest text-[10px] shadow-xl transition-all border-none ${colors.buttonBg} text-white`}
+            startIcon={type === "danger" ? <Trash2 className="w-3.5 h-3.5" /> : undefined}
           >
-            {isDeleting ? 'Processing...' : confirmText}
+            {isDeleting ? 'EXECUTING...' : confirmText.toUpperCase()}
           </Button>
         </div>
       </div>

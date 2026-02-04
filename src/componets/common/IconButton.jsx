@@ -15,14 +15,14 @@ const IconButton = ({
   
   const variantClasses = {
     default: 'bg-white border border-gray-200 hover:bg-gray-50 hover:border-gray-300 hover:shadow-md focus:ring-gray-500',
-    primary: 'bg-blue-600 border border-blue-600 hover:bg-blue-700 hover:border-blue-700 hover:shadow-lg focus:ring-blue-500 text-white',
+    primary: 'bg-(--primary-color) border border-(--primary-color) hover:bg-(--primary-dark) hover:border-(--primary-dark) hover:shadow-lg focus:ring-(--primary-color) text-white',
     secondary: 'bg-gray-600 border border-gray-600 hover:bg-gray-700 hover:border-gray-700 hover:shadow-lg focus:ring-gray-500 text-white',
     success: 'bg-green-600 border border-green-600 hover:bg-green-700 hover:border-green-700 hover:shadow-lg focus:ring-green-500 text-white',
     danger: 'bg-red-600 border border-red-600 hover:bg-red-700 hover:border-red-700 hover:shadow-lg focus:ring-red-500 text-white',
     warning: 'bg-yellow-600 border border-yellow-600 hover:bg-yellow-700 hover:border-yellow-700 hover:shadow-lg focus:ring-yellow-500 text-white',
     info: 'bg-blue-500 border border-blue-500 hover:bg-blue-600 hover:border-blue-600 hover:shadow-lg focus:ring-blue-500 text-white',
     ghost: 'bg-transparent border border-transparent hover:bg-gray-100 hover:border-gray-200 hover:shadow-sm focus:ring-gray-500',
-    outline: 'bg-transparent border border-gray-300 hover:bg-gray-50 hover:border-gray-400 hover:shadow-md focus:ring-gray-500',
+    outline: 'bg-transparent border border-gray-300 hover:bg-gray-100 hover:border-gray-400 hover:shadow-md focus:ring-gray-500',
   };
 
   const sizeClasses = {

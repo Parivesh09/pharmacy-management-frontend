@@ -212,37 +212,37 @@ export default function CreateItemPage({ isEditMode = false }) {
         onSubmit={handleSubmit(handleSave)}
         className="flex-1 flex flex-col relative"
       >
-        <div className="flex flex-col lg:flex-row gap-4 p-1">
+        <div className="flex flex-col lg:flex-row gap-6 p-2">
           
           <div
             className={`
-          bg-white rounded shadow p-4 transition-all duration-500
+          bg-(--card-bg) rounded-3xl shadow-2xl p-8 transition-all duration-500 border border-gray-100 dark:border-white/5
           ${showAdvance ? "lg:w-3/5" : "lg:w-full"} w-full
         `}
           >
             
-            <div className="flex items-center justify-between sticky top-0 z-10 bg-white">
-              <h1 className="text-xl font-bold">{isEditMode ? "Edit Item" : "Create Item"}</h1>
+            <div className="flex items-center justify-between sticky top-0 z-10 bg-(--card-bg) pb-4 border-b border-gray-50 dark:border-white/5 mb-6">
+              <h1 className="text-3xl font-black italic tracking-tighter text-(--text-main)">{isEditMode ? "EDIT ITEM" : "CREATE ITEM"}</h1>
               <Button type="button" variant="secondary" onClick={handleBack}>
-                &#8592; Back
+                &#8592; Back to List
               </Button>
             </div>
 
             
-            <div className="flex mb-2 pb-2 border-b justify-between items-center">
-              <div className="flex items-center gap-4">
-                <span className="font-semibold text-base border-b-2 border-black pb-1">
-                  Basic Info
+            <div className="flex mb-6 pb-2 border-b border-gray-100 dark:border-white/5 justify-between items-center">
+              <div className="flex items-center gap-6">
+                <span className="font-bold text-sm uppercase tracking-widest text-(--primary-color) border-b-2 border-(--primary-color) pb-1">
+                  Basic Information
                 </span>
-                <div className="flex items-center">
+                <div className="flex items-center group cursor-pointer">
                   <Input
                     type="checkbox"
                     {...register("advance")}
                     onChange={(e) => setShowAdvance(e.target.checked)}
-                    className="mr-1"
+                    className="mr-2 w-4 h-4 rounded border-gray-300 text-(--primary-color) focus:ring-(--primary-color)"
                   />
-                  <span className="font-semibold text-sm min-w-fit">
-                    Advance Info
+                  <span className="font-bold text-xs uppercase tracking-widest text-(--text-main) opacity-50 group-hover:opacity-100 transition-opacity">
+                    Show Advance Details
                   </span>
                 </div>
               </div>
@@ -251,26 +251,26 @@ export default function CreateItemPage({ isEditMode = false }) {
             
             <div className="space-y-4 text-m">
               
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-6">
                 <div className="flex-1">
-                  <label className="block font-medium mb-1">Product *</label>
+                  <label className="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">Product Name <span className="text-red-500">*</span></label>
                   <Input
-                    className="h-8 w-full text-m"
+                    className="h-10 w-full text-base font-bold bg-transparent border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-(--primary-color)"
                     {...register("productname", {
                       required: "Product Name is required",
                     })}
                   />
                   {errors.productname && (
-                    <span className="text-m text-red-500">
+                    <span className="text-xs font-bold text-red-500 mt-1 block">
                       {errors.productname.message}
                     </span>
                   )}
                 </div>
-                <div className="sm:w-40 w-full">
-                  <label className="block font-medium mb-1">Goods</label>
+                <div className="sm:w-48 w-full">
+                  <label className="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">Item Group</label>
                   <Select
                     noPadding
-                    className="h-8 w-full text-m"
+                    className="h-10 w-full text-sm font-bold bg-transparent border-gray-200 dark:border-gray-700"
                     {...register("goods")}
                   >
                     <option value="Goods">Goods</option>
@@ -299,31 +299,31 @@ export default function CreateItemPage({ isEditMode = false }) {
             </div>
 
             
-            <div className="bg-white h-10 py-2 flex items-center gap-2 justify-end z-10 sticky bottom-0 text-m">
-              <Button type="button" variant="secondary" onClick={handleBack}>
-                F4 Switch Tab
+            <div className="bg-(--card-bg) py-6 flex items-center gap-3 justify-end z-10 sticky bottom-0 border-t border-gray-50 dark:border-white/5 mt-8">
+              <Button type="button" variant="secondary" onClick={handleBack} className="px-6">
+                F4 - Quick Tab
               </Button>
               <Button
                 type="submit"
-                buttonType={"save"}
                 variant="primary"
                 disabled={isLoading}
+                className="px-8 shadow-lg shadow-(--primary-color)/20"
               >
-                {isEditMode ? "Update" : "Save"}
+                {isEditMode ? "Update Product" : "Save Product"}
               </Button>
               <Button
                 type="button"
-                buttonType={"clear"}
-                variant="secondary"
+                variant="outline"
                 onClick={handleClear}
+                className="px-6"
               >
-                Clear
+                Reset
               </Button>
               <Button
                 type="button"
-                buttonType={"close"}
                 variant="danger"
                 onClick={handleClose}
+                className="px-6"
               >
                 Close
               </Button>
@@ -339,20 +339,23 @@ export default function CreateItemPage({ isEditMode = false }) {
         `}
           >
             {showAdvance && (
-              <div className="w-full bg-white rounded border border-gray-300 p-2">
-                <div className="flex gap-2 border-b mb-2">
+              <div className="w-full bg-(--card-bg) rounded-3xl border border-gray-100 dark:border-white/5 p-6 shadow-2xl">
+                <div className="flex gap-6 border-b border-gray-50 dark:border-white/5 mb-6">
                   {ADVANCE_TABS.map((tab) => (
                     <button
                       key={tab}
                       type="button"
-                      className={`px-3 py-1 text-m font-medium border-b-2 ${
+                      className={`pb-3 text-xs font-bold uppercase tracking-widest transition-all duration-300 relative ${
                         activeTab === tab
-                          ? "border-blue-600 text-blue-700"
-                          : "border-transparent text-gray-500"
+                          ? "text-(--primary-color)"
+                          : "text-gray-400 hover:text-(--text-main)"
                       }`}
                       onClick={() => setActiveTab(tab)}
                     >
                       {tab}
+                      {activeTab === tab && (
+                        <div className="absolute bottom-0 left-0 w-full h-0.5 bg-(--primary-color) animate-slide-in-left"></div>
+                      )}
                     </button>
                   ))}
                 </div>

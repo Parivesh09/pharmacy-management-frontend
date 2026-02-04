@@ -23,12 +23,12 @@ const TextField = ({
   };
 
   return (
-    <div>
-      <label className="block font-medium mb-1">
+    <div className="space-y-2">
+      <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">
         {label} {required && <span className="text-red-500">*</span>}
       </label>
       <Input
-        className={`${noHeight ? "" : "h-8"} ${noStyle ? "" : "w-full text-xs"} ${className}`}
+        className={`${noHeight ? "" : "h-11"} ${noStyle ? "" : "w-full"} ${className}`}
         type={type}
         step={step}
         min={min}
@@ -43,11 +43,11 @@ const TextField = ({
 };
 
 const SelectField = ({ label, name, options, register, noHeight }) => (
-  <div>
-    {label && <label className="block font-medium mb-1">{label}</label>}
+  <div className="space-y-2">
+    {label && <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">{label}</label>}
     <Select
       noPadding
-      className={`${noHeight ? "" : "h-8"} w-full text-xs`}
+      className={`${noHeight ? "" : "h-11"} w-full`}
       {...register(name)}
     >
       {options.map((opt, i) => (

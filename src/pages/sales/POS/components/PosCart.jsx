@@ -41,12 +41,12 @@ const PosCart = ({ cartItems, billCalculations, updateCartItem, removeFromCart, 
   };
 
   return (
-    <div className="flex flex-col h-full bg-white shadow-xl border-l border-gray-200">
+    <div className="flex flex-col h-full bg-(--card-bg) shadow-2xl border-l border-gray-200 dark:border-white/10">
       {/* Customer Header */}
-      <div className="p-4 border-b border-gray-200 bg-gray-50">
+      <div className="p-4 border-b border-gray-200 dark:border-white/10 bg-(--bg-main)">
         <div className="flex justify-between items-center mb-2">
-            <span className="text-sm text-gray-500">Bill #: <span className="font-mono text-black font-bold">AUTO</span></span>
-            <span className="text-sm text-gray-500">{new Date().toLocaleDateString()}</span>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Bill #: <span className="font-mono text-(--text-main) font-black">AUTO</span></span>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-gray-500">{new Date().toLocaleDateString()}</span>
         </div>
         
         <div className="flex gap-2">
@@ -56,12 +56,12 @@ const PosCart = ({ cartItems, billCalculations, updateCartItem, removeFromCart, 
                readOnly
                placeholder="Customer (Default: Cash Patient)"
                value={selectedCustomer ? selectedCustomer.name : "Cash Patient"}
-               className="w-full pl-9 pr-2 py-2 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none"
+                className="w-full pl-9 pr-2 py-2 text-sm bg-transparent border border-gray-300 dark:border-gray-600 text-(--text-main) rounded focus:ring-2 focus:ring-(--primary-color) outline-none transition-all placeholder-gray-400"
              />
            </div>
            <button 
              onClick={() => setShowPatientModal(true)}
-             className="bg-blue-600 text-white p-2 rounded hover:bg-blue-700 transition"
+             className="bg-(--primary-color) text-white p-2 rounded hover:bg-(--primary-dark) transition shadow-lg shadow-(--primary-color)/20"
              title="Select Patient"
            >
              <UserPlus size={18}/>
@@ -70,9 +70,9 @@ const PosCart = ({ cartItems, billCalculations, updateCartItem, removeFromCart, 
       </div>
       
       {/* Cart Items List */}
-      <div className="flex-1 overflow-y-auto no-scrollbar">
+      <div className="flex-1 overflow-y-auto no-scrollbar bg-(--card-bg)">
          <table className="w-full text-left text-sm">
-            <thead className="bg-[#5f6caf] text-white sticky top-0 z-10">
+            <thead className="bg-(--primary-color) text-white sticky top-0 z-10 shadow-sm">
                 <tr>
                     <th className="p-2 font-medium w-1/2">Product</th>
                     <th className="p-2 font-medium text-center w-16">Qty</th>
@@ -83,13 +83,13 @@ const PosCart = ({ cartItems, billCalculations, updateCartItem, removeFromCart, 
             </thead>
             <tbody className="divide-y divide-gray-100">
                {cartItems.map((item) => (
-                   <tr key={item.id} className="hover:bg-blue-50 group">
-                       <td className="p-2">
-                           <div className="font-medium text-gray-900 line-clamp-1" title={item.productname}>{item.productname}</div>
-                           <div className="text-xs text-gray-400 flex gap-2">
-                               <span>{item.batch ? `Batch: ${item.batch}` : 'No Batch'}</span>
-                               <span className="text-blue-500">
-                                   GST: {(item.igstPercent || (item.cgstPercent||0) + (item.sgstPercent||0))}% 
+                    <tr key={item.id} className="hover:bg-(--sidebar-active-bg) group transition-colors">
+                        <td className="p-2 border-b border-gray-50 dark:border-white/5">
+                            <div className="font-bold text-(--text-main) line-clamp-1 truncate" title={item.productname}>{item.productname}</div>
+                            <div className="text-[10px] text-gray-400 flex gap-2 font-medium">
+                                <span>{item.batch ? `Batch: ${item.batch}` : 'No Batch'}</span>
+                                <span className="text-(--primary-color) font-bold">
+                                    GST: {(item.igstPercent || (item.cgstPercent||0) + (item.sgstPercent||0))}% 
                                    (₹{((item.igstAmount||0) + (item.cgstAmount||0) + (item.sgstAmount||0) + (item.cessAmount||0)).toFixed(2)})
                                </span>
                            </div>
@@ -98,18 +98,18 @@ const PosCart = ({ cartItems, billCalculations, updateCartItem, removeFromCart, 
                            <input 
                              type="number"
                              min="1"
-                             className="w-12 text-center border border-gray-300 rounded py-1 focus:border-blue-500 outline-none"
+                             className="w-12 text-center bg-transparent border border-gray-300 dark:border-gray-600 text-(--text-main) rounded py-1 focus:border-(--primary-color) outline-none text-xs font-bold"
                              value={item.quantity}
                              onClick={(e) => e.target.select()}
                              onChange={(e) => updateCartItem(item.id, "quantity", e.target.value)}
                            />
                        </td>
-                       <td className="p-2 text-right">
-                           <div className="font-mono">{parseFloat(item.rate).toFixed(2)}</div>
-                       </td>
-                       <td className="p-2 text-right font-bold text-gray-900">
-                           {parseFloat(item.amount).toFixed(2)}
-                       </td>
+                        <td className="p-2 text-right border-b border-gray-50 dark:border-white/5 text-(--text-main)">
+                            <div className="font-mono text-xs opacity-70 font-medium">{parseFloat(item.rate).toFixed(2)}</div>
+                        </td>
+                        <td className="p-2 text-right font-black text-(--text-main) border-b border-gray-50 dark:border-white/5">
+                            {parseFloat(item.amount).toFixed(2)}
+                        </td>
                        <td className="p-2 text-center">
                            <button 
                              onClick={() => removeFromCart(item.id)}
@@ -138,22 +138,22 @@ const PosCart = ({ cartItems, billCalculations, updateCartItem, removeFromCart, 
              <div className="p-2 space-y-1">
                  <div className="flex justify-between text-gray-600">
                     <span>Total Items:</span>
-                    <span className="font-semibold">{cartItems.length}</span>
-                 </div>
-                 <div className="flex justify-between text-gray-600">
-                    <span>Total Qty:</span>
-                    <span className="font-semibold">{cartItems.reduce((acc, item) => acc + (item.quantity || 0), 0)}</span>
-                 </div>
-             </div>
-             <div className="p-2 space-y-1 bg-white">
-                 <div className="flex justify-between text-gray-600">
-                    <span>Subtotal:</span>
-                    <span className="font-semibold">₹{billCalculations.subtotal?.toFixed(2) || "0.00"}</span>
-                 </div>
-                 <div className="flex justify-between text-gray-600 cursor-pointer hover:bg-gray-100 rounded px-1 transition-colors" onClick={() => setShowLedgerModal(true)} title="Click to add expenses">
-                    <span className="text-blue-600 border-b border-dashed border-blue-400">Tax/Charges:</span>
-                    <span className="font-semibold">₹{billCalculations.totalTaxAmount?.toFixed(2) || "0.00"}</span> 
-                 </div>
+                     <span className="font-black text-(--text-main)">{cartItems.length}</span>
+                  </div>
+                  <div className="flex justify-between text-gray-600 font-medium">
+                     <span>Total Qty:</span>
+                     <span className="font-black text-(--text-main)">{cartItems.reduce((acc, item) => acc + (item.quantity || 0), 0)}</span>
+                  </div>
+              </div>
+              <div className="p-2 space-y-1 bg-(--card-bg)">
+                  <div className="flex justify-between text-gray-600 font-medium">
+                     <span>Subtotal:</span>
+                     <span className="font-black text-(--text-main)">₹{billCalculations.subtotal?.toFixed(2) || "0.00"}</span>
+                  </div>
+                  <div className="flex justify-between text-gray-600 cursor-pointer hover:bg-(--sidebar-active-bg) rounded px-1 transition-colors" onClick={() => setShowLedgerModal(true)} title="Click to add expenses">
+                     <span className="text-(--primary-color) border-b border-dashed border-(--primary-color)/50 font-bold uppercase text-[10px] tracking-wider">Tax/Charges:</span>
+                     <span className="font-black text-(--text-main)">₹{billCalculations.totalTaxAmount?.toFixed(2) || "0.00"}</span> 
+                  </div>
                  
                  {/* Expenses List */}
                  {expenses && expenses.map((exp, idx) => (
@@ -162,8 +162,7 @@ const PosCart = ({ cartItems, billCalculations, updateCartItem, removeFromCart, 
                         <div className="flex items-center gap-1">
                            <span className="text-gray-400 text-xs">₹</span>
                            <input 
-                              type="number" 
-                              className="w-16 text-right border-b border-gray-300 focus:border-blue-500 outline-none p-0 text-gray-700 font-medium bg-transparent"
+                              type="number"                               className="w-16 text-right border-b border-gray-300 dark:border-white/10 focus:border-(--primary-color) outline-none p-0 text-(--text-main) font-bold bg-transparent"
                               value={exp.amount}
                               onChange={(e) => {
                                   const val = e.target.value;
@@ -181,14 +180,13 @@ const PosCart = ({ cartItems, billCalculations, updateCartItem, removeFromCart, 
                  ))}
              </div>
          </div>
-         
-         <div className="flex items-center justify-between p-4 bg-gradient-to-r from-gray-800 to-gray-900 text-white">
-            <span className="text-lg font-medium">Total Amount</span>
-            <span className="text-2xl font-bold">₹{billCalculations.totalAmount?.toFixed(2) || "0.00"}</span>
-         </div>
-         
-         {/* Action Buttons */}
-         <div className="grid grid-cols-3 gap-1 p-2 bg-white">
+                  <div className="flex items-center justify-between p-4 bg-(--header-bg) text-white shadow-xl relative z-20">
+            <span className="text-sm font-bold uppercase tracking-widest opacity-80">Total Amount</span>
+            <span className="text-3xl font-black italic tracking-tighter">₹{billCalculations.totalAmount?.toFixed(2) || "0.00"}</span>
+          </div>
+          
+          {/* Action Buttons */}
+          <div className="grid grid-cols-3 gap-1 p-2 bg-(--card-bg)">
             <button className="flex flex-col items-center justify-center p-2 rounded hover:bg-gray-100 text-gray-600 transition outline-none border border-gray-200">
                 <Calculator size={20} className="mb-1"/>
                 <span className="text-xs">Calc</span>

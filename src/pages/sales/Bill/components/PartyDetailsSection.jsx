@@ -10,9 +10,9 @@ const PartyDetailsSection = ({
   return (
     <>
       {/* Patient & Doctor Section */}
-      <div className="grid grid-cols-4 gap-4 pb-6 border-b border-gray-200">
+      <div className="grid grid-cols-4 gap-4 pb-6 border-b border-gray-200 dark:border-white/10">
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
+          <label className="block text-sm font-bold text-(--text-main) opacity-80 mb-2">
             Patient Mob./ID
           </label>
           <Input
@@ -20,12 +20,12 @@ const PartyDetailsSection = ({
             value={form.patientId}
             onClick={onShowPatientDialog}
             readOnly
-            placeholder="Click to select patient"
-            className="bg-gray-50 cursor-pointer"
+            placeholder="Search Patient..."
+            className="bg-transparent cursor-pointer"
           />
         </div>
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
+          <label className="block text-sm font-bold text-(--text-main) opacity-80 mb-2">
             Patient Name
           </label>
           <Input
@@ -33,12 +33,12 @@ const PartyDetailsSection = ({
             value={form.patientName}
             onClick={onShowPatientDialog}
             readOnly
-            placeholder="Click to select patient"
-            className="bg-gray-50 cursor-pointer"
+            placeholder="Patient Name"
+            className="bg-transparent cursor-pointer font-bold"
           />
         </div>
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
+          <label className="block text-sm font-bold text-(--text-main) opacity-80 mb-2">
             Doctor Mob./ID
           </label>
           <Input
@@ -47,11 +47,11 @@ const PartyDetailsSection = ({
             placeholder="Doctor ID"
             onFocus={onShowDoctorDialog}
             readOnly
-            className="bg-gray-50 cursor-pointer"
+            className="bg-transparent cursor-pointer"
           />
         </div>
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
+          <label className="block text-sm font-bold text-(--text-main) opacity-80 mb-2">
             Doctor Name
           </label>
           <Input
@@ -59,13 +59,14 @@ const PartyDetailsSection = ({
             value={form.doctorName}
             placeholder="Doctor Name"
             onChange={(e) => setForm({ ...form, doctorName: e.target.value })}
+            className="bg-transparent"
           />
         </div>
       </div>
 
       {/* Address Section */}
-      <div className="pb-6 border-b border-gray-200">
-        <label className="block text-sm font-semibold text-gray-700 mb-2">
+      <div className="pb-6 border-b border-gray-200 dark:border-white/10">
+        <label className="block text-sm font-bold text-(--text-main) opacity-80 mb-2">
           Address
         </label>
         <Input
@@ -73,6 +74,7 @@ const PartyDetailsSection = ({
           value={form.address}
           placeholder="Address"
           onChange={(e) => setForm({ ...form, address: e.target.value })}
+          className="bg-transparent"
         />
       </div>
     </>

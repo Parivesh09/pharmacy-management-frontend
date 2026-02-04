@@ -18,6 +18,7 @@ import CompanyList from "./pages/other/CompanyList";
 import CreateCompanyPage from "./pages/other/CreateCompanyPage";
 import UpdateComapanyPage from "./pages/other/UpdateCompanyPage";
 import { useGetUserCompaniesQuery } from "./services/userCompanyApi";
+import { applyTheme } from "./utils/themeManager";
 
 function App() {
   const navigate = useNavigate();
@@ -25,6 +26,11 @@ function App() {
   const [restoring, setRestoring] = useState(true);
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
   const user = useSelector((state) => state.user.user);
+  const theme = useSelector((state) => state.user.theme);
+
+  useEffect(() => {
+    applyTheme(theme);
+  }, [theme]);
 
   const userId = user?.id;
   const { data: userCompanies } = useGetUserCompaniesQuery(userId);

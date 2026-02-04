@@ -18,17 +18,22 @@ const Modal = ({ open, onClose, title, children, className = "max-w-lg" }) => {
 
   if (!open) return null;
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm" onClick={onClose}>
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/20 backdrop-blur-xl animate-fade-in p-4" onClick={onClose}>
       <div
-        className={`bg-white max-h-[90vh] overflow-y-auto no-scrollbar rounded-xl shadow-xl p-6 w-full relative ${className}`}
+        className={`bg-(--card-bg) max-h-[90vh] overflow-y-auto no-scrollbar rounded-[2rem] shadow-2xl border border-white/10 p-8 w-full relative transition-all duration-500 scale-100 animate-zoom-in ${className}`}
         tabIndex={-1}
         ref={ref}
         onClick={e => e.stopPropagation()}
       >
-        {title && <h2 className="text-xl font-bold mb-4">{title}</h2>}
+        {title && (
+          <div className="mb-6 px-1">
+            <h2 className="text-2xl font-black italic tracking-tighter text-(--text-main) uppercase leading-none">{title}</h2>
+            <div className="w-12 h-1 bg-(--primary-color) mt-3 rounded-full"></div>
+          </div>
+        )}
         {children}
         <button
-          className="absolute top-2 right-2 text-blue-400 hover:text-blue-700 text-xl font-bold cursor-pointer"
+          className="absolute top-6 right-6 w-10 h-10 rounded-full bg-(--sidebar-active-bg)/30 flex items-center justify-center text-(--text-main) hover:bg-red-500 hover:text-white transition-all font-black text-xl cursor-pointer border-none shadow-sm"
           onClick={onClose}
           aria-label="Close"
         >

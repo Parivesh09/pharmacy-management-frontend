@@ -281,7 +281,7 @@ const BillForm = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-25 p-4">
+    <div className="min-h-screen bg-(--bg-main) p-4 tracking-tight">
       <PatientListModal
         open={showPatientDialog}
         onClose={() => setShowPatientDialog(false)}
@@ -341,24 +341,25 @@ const BillForm = () => {
         }
       />
 
-      <div className="max-w-full mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
+      <div className="max-w-full mx-auto bg-(--card-bg) rounded-3xl shadow-2xl overflow-hidden border border-gray-100 dark:border-white/5">
         {/* Header */}
-        <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-6 flex justify-between items-center">
-          <div>
-            <h1 className="text-3xl font-bold">Sale Bill</h1>
-            <p className="text-blue-100 text-sm mt-1">
-              {isEdit ? "Edit Bill" : "Create New Bill"}
+        <div className="bg-(--primary-color) text-white p-8 flex justify-between items-center relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full -mr-20 -mt-20"></div>
+          <div className="relative z-10">
+            <h1 className="text-4xl font-black italic tracking-tighter">SALE BILL</h1>
+            <p className="text-white/70 text-sm font-bold uppercase tracking-widest mt-1">
+              {isEdit ? "Update Transaction" : "New Transaction"}
             </p>
           </div>
-          <div className="text-right">
-            <div className="text-sm text-blue-100">Balance</div>
-            <div className="text-4xl font-bold">
+          <div className="text-right relative z-10">
+            <div className="text-xs font-bold uppercase tracking-widest text-white/60">Outstanding Balance</div>
+            <div className="text-5xl font-black tracking-tighter">
               ₹{formatCurrency(calculations.dueAmount)}
             </div>
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-6">
+        <form onSubmit={handleSubmit} className="p-8 space-y-8">
           <SaleBillHeaderSection
             form={form}
             setForm={setForm}
@@ -398,35 +399,35 @@ const BillForm = () => {
           />
 
           {/* Notes Section */}
-          <div className="pb-6 border-b border-gray-200">
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Notes
+          <div className="pb-6 border-b border-gray-200 dark:border-white/10">
+            <label className="block text-sm font-bold text-(--text-main) opacity-80 mb-2">
+              Remarks / Notes
             </label>
             <textarea
               value={form.notes}
               onChange={(e) => setForm({ ...form, notes: e.target.value })}
-              placeholder="Additional notes..."
+              placeholder="Add internal notes for this bill..."
               rows="3"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-3 bg-transparent border border-gray-200 dark:border-gray-700 text-(--text-main) rounded-2xl focus:outline-none focus:ring-2 focus:ring-(--primary-color) focus:border-transparent transition-all placeholder-gray-400"
             />
           </div>
 
           {/* Action Buttons */}
-          <div className="flex gap-3 justify-end">
+          <div className="flex gap-4 justify-end">
             <Button
               type="button"
               onClick={() => navigate("/sales/bill")}
-              variant="outline"
-              className="flex items-center gap-2"
+              variant="secondary"
+              className="px-8"
             >
-              <X size={18} /> Cancel
+              Cancel
             </Button>
             <Button
               type="submit"
               disabled={isLoading}
-              className="bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-2 disabled:opacity-50"
+              className="px-12 bg-(--primary-color) hover:bg-(--primary-dark) text-white shadow-xl shadow-(--primary-color)/20"
             >
-              <Save size={18} /> {isLoading ? "Saving..." : isEdit ? "Update Bill" : "Create Bill"}
+              {isLoading ? "Saving..." : isEdit ? "Update Bill" : "Create Bill"}
             </Button>
           </div>
         </form>

@@ -3,21 +3,21 @@ import Input from "../../../../componets/common/Input";
 
 const SaleBillHeaderSection = ({ form, setForm, onShowLedgerDialog }) => {
   return (
-    <div className="grid grid-cols-4 gap-4 pb-6 border-b border-gray-200">
+    <div className="grid grid-cols-4 gap-4 pb-6 border-b border-gray-200 dark:border-white/10">
       <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-2">
-          Bill No. <span className="text-gray-500 text-xs">(Optional)</span>
+        <label className="block text-sm font-bold text-(--text-main) opacity-80 mb-2">
+          Bill No. <span className="opacity-50 text-xs">(Optional)</span>
         </label>
         <Input
           type="text"
           value={form.billNo}
           onChange={(e) => setForm({ ...form, billNo: e.target.value })}
           placeholder="Auto-generated if empty"
-          className="placeholder:text-gray-400"
+          className="placeholder:text-gray-400 bg-transparent"
         />
       </div>
       <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-2">
+        <label className="block text-sm font-bold text-(--text-main) opacity-80 mb-2">
           Date
         </label>
         <Input
@@ -25,10 +25,11 @@ const SaleBillHeaderSection = ({ form, setForm, onShowLedgerDialog }) => {
           value={form.date}
           onChange={(e) => setForm({ ...form, date: e.target.value })}
           required
+          className="bg-transparent"
         />
       </div>
       <div className="col-span-2">
-        <label className="block text-sm font-semibold text-gray-700 mb-2">
+        <label className="block text-sm font-bold text-(--text-main) opacity-80 mb-2">
           Party Name
         </label>
         <Input
@@ -37,7 +38,7 @@ const SaleBillHeaderSection = ({ form, setForm, onShowLedgerDialog }) => {
           onClick={onShowLedgerDialog}
           readOnly
           placeholder="Click to select party"
-          className="bg-gray-50 cursor-pointer"
+          className="bg-transparent cursor-pointer font-bold text-(--primary-color)"
         />
       </div>
     </div>

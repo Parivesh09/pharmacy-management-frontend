@@ -10,8 +10,8 @@ const Select = forwardRef(
       onChange={onChange}
       ref={ref}
       className={`${className} w-full ${
-        noPadding ? "" : "p-2"
-      } border border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-xs`.trim()}
+        noPadding ? "" : "py-3 px-4"
+      } bg-white/50 dark:bg-white/5 border border-gray-400 dark:border-white/20 rounded-[1rem] focus:outline-none focus:ring-2 focus:ring-(--primary-color)/20 focus:border-(--primary-color) text-sm text-(--text-main) transition-all font-bold appearance-none shadow-sm`.trim()}
       {...props}
     >
       {options

@@ -138,43 +138,49 @@ export default function CompanyForm({
   };
 
   return (
-    <div className="flex justify-center items-start min-h-[calc(100vh-100px)] bg-gray-100 py-2">
-      <div className="bg-white rounded-lg shadow-md p-6 max-w-4xl w-full">
-        <div className="flex items-center justify-between">
-          <h1 className="text-xl font-bold">
-            {isEditMode ? "Edit Company" : "Create Company"}
+    <div className="flex justify-center items-start min-h-[calc(100vh-100px)] bg-(--bg-main) py-6 tracking-tight">
+      <div className="bg-(--card-bg) rounded-3xl shadow-2xl p-8 max-w-4xl w-full border border-gray-100 dark:border-white/5">
+        <div className="flex items-center justify-between mb-8 border-b border-gray-50 dark:border-white/5 pb-4">
+          <h1 className="text-3xl font-black italic tracking-tighter text-(--text-main)">
+            {isEditMode ? "EDIT COMPANY" : "CREATE COMPANY"}
           </h1>
           <Button type="button" variant="secondary" onClick={handleBack}>
-            &#8592; Back
+            &#8592; Back to List
           </Button>
         </div>
         <form onSubmit={handleSave}>
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Company Name <span className="text-red-500">*</span>
+          <div className="mb-6">
+            <label className="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">
+              Manufacturer Name <span className="text-red-500">*</span>
             </label>
             <Input
               type="text"
               name="companyname"
               value={formData.companyname}
               onChange={handleChange}
-              placeholder="Enter company name"
+              placeholder="Enter manufacturer name"
               required
+              className="bg-transparent border-gray-200 dark:border-gray-700 font-bold h-12 text-lg focus:ring-2 focus:ring-(--primary-color)"
             />
           </div>
-          <div className="mb-2 w-fit">
-            <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
+          <div className="mb-6 w-full">
+            <label className="flex items-center gap-3 p-4 rounded-2xl bg-(--sidebar-active-bg) border border-(--primary-color)/10 cursor-pointer group transition-all hover:bg-(--sidebar-active-bg)/80">
               <Input
-                width="w-4"
+                width="w-5"
                 type="checkbox"
                 name="isMoreOptions"
                 checked={formData.isMoreOptions}
                 onChange={handleChange}
-                className="h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                className="h-5 w-5 text-(--primary-color) border-gray-300 rounded-lg focus:ring-(--primary-color)"
               />
-              <span className="font-semibold text-sm min-w-fit">
-                More Option
-              </span>
+              <div className="flex flex-col">
+                <span className="font-bold text-sm text-(--text-main) tracking-tight">
+                  Advanced Configuration
+                </span>
+                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                  Configure expiry, storage and reporting preferences
+                </span>
+              </div>
             </label>
           </div>
           <div
@@ -185,171 +191,183 @@ export default function CompanyForm({
             }`}
           >
             {formData.isMoreOptions && (
-              <>
-                <hr className="my-4" />
-                <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Print Remark
-                  </label>
-                  <Input
-                    type="text"
-                    name="printremark"
-                    value={formData.printremark}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-4">
-                  <div>
-                    <label className="block text-xs font-medium text-gray-700 mb-1">
-                      Status
+                <div className="mb-6 p-6 rounded-3xl border border-gray-100 dark:border-white/5 space-y-6">
+                  <div className="col-span-full">
+                    <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
+                      Print Remark (Default)
                     </label>
-                    <Select
-                      name="status"
-                      value={formData.status}
+                    <Input
+                      type="text"
+                      name="printremark"
+                      value={formData.printremark}
                       onChange={handleChange}
+                      className="bg-transparent border-gray-200 dark:border-gray-700 font-medium"
+                    />
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+                    <div>
+                      <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
+                        Operational Status
+                      </label>
+                      <Select
+                        name="status"
+                        value={formData.status}
+                        onChange={handleChange}
+                        className="bg-transparent border-gray-200 dark:border-gray-700 font-bold"
+                      >
+                        <option value="Continue">Continue</option>
+                        <option value="Discontinued">Discontinued</option>
+                      </Select>
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
+                        Reorder Preference
+                      </label>
+                      <Input
+                        type="number"
+                        name="recorderprefrence"
+                        value={formData.recorderprefrence}
+                        onChange={handleChange}
+                        className="bg-transparent border-gray-200 dark:border-gray-700 font-bold"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
+                        Storage Rm No.
+                      </label>
+                      <Input
+                        type="number"
+                        name="storeroom"
+                        value={formData.storeroom}
+                        onChange={handleChange}
+                        className="bg-transparent border-gray-200 dark:border-gray-700 font-bold"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
+                        Prohibition
+                      </label>
+                      <Select
+                        name="prohibited"
+                        value={formData.prohibited}
+                        onChange={handleChange}
+                        className="bg-transparent border-gray-200 dark:border-gray-700 font-bold"
+                      >
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                      </Select>
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
+                        Invoice Index
+                      </label>
+                      <Input
+                        type="number"
+                        name="invoiceprintindex"
+                        value={formData.invoiceprintindex}
+                        onChange={handleChange}
+                        className="bg-transparent border-gray-200 dark:border-gray-700 font-bold"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
+                        Expiry Recv (Days)
+                      </label>
+                      <Input
+                        type="number"
+                        name="expiredays"
+                        value={formData.expiredays}
+                        onChange={handleChange}
+                        className="bg-transparent border-gray-200 dark:border-gray-700 font-bold"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
+                        Dump Period (Days)
+                      </label>
+                      <Input
+                        type="number"
+                        name="dumpdays"
+                        value={formData.dumpdays}
+                        onChange={handleChange}
+                        className="bg-transparent border-gray-200 dark:border-gray-700 font-bold"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
+                        Reorder Formula
+                      </label>
+                      <Input
+                        type="number"
+                        name="recorderformula"
+                        value={formData.recorderformula}
+                        onChange={handleChange}
+                        className="bg-transparent border-gray-200 dark:border-gray-700 font-bold"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
+                        Min. Margin (%)
+                      </label>
+                      <Input
+                        type="number"
+                        name="minimummargin"
+                        value={formData.minimummargin}
+                        onChange={handleChange}
+                        className="bg-transparent border-gray-200 dark:border-gray-700 font-bold"
+                      />
+                    </div>
+                  </div>
+                  <div className="pt-4">
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      className="flex items-center gap-2 px-6"
+                      onClick={() => setDetailsModalOpen(true)}
                     >
-                      <option value="Continue">Continue</option>
-                      <option value="Discontinued">Discontinued</option>
-                    </Select>
-                  </div>
-                  <div>
-                    <label className="block text-xs font-medium text-gray-700 mb-1">
-                      Reorder Preferences
-                    </label>
-                    <Input
-                      type="number"
-                      name="recorderprefrence"
-                      value={formData.recorderprefrence}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-medium text-gray-700 mb-1">
-                      Store Room No.
-                    </label>
-                    <Input
-                      type="number"
-                      name="storeroom"
-                      value={formData.storeroom}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-medium text-gray-700 mb-1">
-                      Prohibit
-                    </label>
-                    <Select
-                      name="prohibited"
-                      value={formData.prohibited}
-                      onChange={handleChange}
-                    >
-                      <option value="No">No</option>
-                      <option value="Yes">Yes</option>
-                    </Select>
-                  </div>
-                  <div>
-                    <label className="block text-xs font-medium text-gray-700 mb-1">
-                      Invoice Printing Index
-                    </label>
-                    <Input
-                      type="number"
-                      name="invoiceprintindex"
-                      value={formData.invoiceprintindex}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-medium text-gray-700 mb-1">
-                      Expiry Receive Upto
-                    </label>
-                    <Input
-                      type="number"
-                      name="expiredays"
-                      value={formData.expiredays}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-medium text-gray-700 mb-1">
-                      Dump Days
-                    </label>
-                    <Input
-                      type="number"
-                      name="dumpdays"
-                      value={formData.dumpdays}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-medium text-gray-700 mb-1">
-                      Reorder Formula
-                    </label>
-                    <Input
-                      type="number"
-                      name="recorderformula"
-                      value={formData.recorderformula}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-medium text-gray-700 mb-1">
-                      Minimum Margin
-                    </label>
-                    <Input
-                      type="number"
-                      name="minimummargin"
-                      value={formData.minimummargin}
-                      onChange={handleChange}
+                      + Configure Communication
+                    </Button>
+                    <EmailWebsiteModal
+                      open={detailsModalOpen}
+                      onClose={() => setDetailsModalOpen(false)}
+                      onSave={setEmailWebsite}
+                      initialData={emailWebsite}
                     />
                   </div>
                 </div>
-                <div className="mb-4">
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    onClick={() => setDetailsModalOpen(true)}
-                  >
-                    + Add Details
-                  </Button>
-                  <EmailWebsiteModal
-                    open={detailsModalOpen}
-                    onClose={() => setDetailsModalOpen(false)}
-                    onSave={setEmailWebsite}
-                    initialData={emailWebsite}
-                  />
-                </div>
-              </>
-            )}
+              )
+            }
           </div>
 
-          {error && <div className="text-red-500 mb-2">{error}</div>}
-          {success && <div className="text-green-500 mb-2">{success}</div>}
-          <div className="flex gap-2 mt-2 justify-end">
-            <Button
-              type="submit"
-              variant="primary"
-              buttonType={"save"}
-              disabled={isCreating || isEditing}
-            >
-              Save
-            </Button>
+          {error && <div className="text-red-500 font-bold text-xs uppercase tracking-widest mb-4 animate-fade-in">❌ {error}</div>}
+          {success && <div className="text-green-500 font-bold text-xs uppercase tracking-widest mb-4 animate-fade-in">✅ {success}</div>}
+          
+          <div className="flex gap-4 mt-8 justify-end border-t border-gray-50 dark:border-white/5 pt-6">
             <Button
               type="button"
-              variant="secondary"
-              buttonType={"clear"}
+              variant="outline"
               disabled={isCreating || isEditing}
               onClick={handleClear}
+              className="px-8"
             >
-              Clear
+              Reset
             </Button>
             <Button
               type="button"
               variant="danger"
-              buttonType={"close"}
               disabled={isCreating || isEditing}
               onClick={handleBack}
+              className="px-8"
             >
               Close
+            </Button>
+            <Button
+              type="submit"
+              variant="primary"
+              disabled={isCreating || isEditing}
+              className="px-12 shadow-xl shadow-(--primary-color)/20"
+            >
+              {isEditMode ? "Update Manufacturer" : "Save Manufacturer"}
             </Button>
           </div>
         </form>

@@ -105,11 +105,11 @@ const POSPage = () => {
   }
 
   return (
-    <div className="h-[calc(100vh-4rem)] flex flex-col bg-gray-50 overflow-hidden">
+    <div className="h-[calc(100vh-4rem)] flex flex-col bg-(--bg-main) overflow-hidden tracking-tight">
       
       <div className="flex flex-1 overflow-hidden">
         {/* Left Side - Product Grid */}
-        <div className="w-2/3 flex flex-col border-r border-gray-200 bg-white">
+        <div className="w-2/3 flex flex-col border-r border-gray-200 dark:border-white/10 bg-(--card-bg)">
           <PosHeader 
             searchQuery={searchQuery} 
             setSearchQuery={setSearchQuery} 
@@ -128,7 +128,7 @@ const POSPage = () => {
         </div>
 
         {/* Right Side - Cart/Bill */}
-        <div className="w-1/3 flex flex-col bg-gray-50">
+        <div className="w-1/3 flex flex-col bg-(--bg-main)">
            <PosCart 
              cartItems={billCalculations.items} 
              billCalculations={billCalculations}

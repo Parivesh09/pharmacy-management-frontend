@@ -11,6 +11,7 @@ import RenderStep1 from "./components/SignupStep1";
 import RenderStep2 from "./components/SignupStep2";
 import { showToast } from "../../componets/common/Toast";
 import { validatePassword, validatePhone } from "../../utils/inputValidation";
+import Logo from "../../componets/common/Logo";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -190,8 +191,8 @@ const SignUpPage = () => {
               step < currentStep
                 ? "bg-green-500 text-white"
                 : step === currentStep
-                ? "bg-blue-500 text-white"
-                : "bg-gray-200 text-gray-600"
+                ? "bg-(--primary-color) text-white shadow-md scale-110 transition-transform"
+                : "bg-gray-200 text-gray-600 dark:bg-gray-700"
             }`}
           >
             {step < currentStep ? "✓" : step}
@@ -199,7 +200,7 @@ const SignUpPage = () => {
           {step < 2 && (
             <div
               className={`w-16 h-1 mx-2 ${
-                step < currentStep ? "bg-green-500" : "bg-gray-200"
+                step < currentStep ? "bg-green-500" : "bg-gray-200 dark:bg-gray-700"
               }`}
             />
           )}
@@ -247,26 +248,33 @@ const SignUpPage = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center p-4">
-      <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-4xl">
-        <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-            <span className="text-white font-bold text-xl">ASR</span>
+    <div className="min-h-screen bg-(--bg-main) flex items-center justify-center p-4">
+      <div className="bg-(--card-bg) p-8 rounded-2xl shadow-2xl w-full max-w-4xl border border-gray-100 dark:border-gray-700 animate-fade-in">
+        <div className="text-center mb-10">
+          <div className="mx-auto mb-4 flex justify-center">
+            <Logo 
+              className="w-16 h-16 rounded-2xl shadow-xl shadow-(--primary-color)/20" 
+              bgClass="!bg-(--primary-color)"
+              textColor="text-white"
+              textClassName="text-2xl" 
+            />
           </div>
-          <h2 className="text-3xl font-bold text-gray-900">Create Your Account</h2>
-          <p className="text-gray-600 mt-2">
+          <h2 className="text-3xl font-bold text-(--text-main) tracking-tight">Create Your Account</h2>
+          <p className="text-(--text-main) opacity-60 mt-2">
             Join ASR Pharma and manage your business efficiently
           </p>
         </div>
 
         {RenderStepIndicator()}
-        {RenderStepContent()}
+        <div className="bg-white/50 dark:bg-black/5 p-6 rounded-2xl border border-gray-100 dark:border-white/5">
+          {RenderStepContent()}
+        </div>
         {renderNavigation()}
 
-        <div className="mt-8 p-4 bg-blue-50 rounded-lg">
-          <p className="text-xs text-blue-700 text-center">
+        <div className="mt-8 p-4 bg-(--sidebar-active-bg) rounded-xl border border-(--primary-color)/10">
+          <p className="text-xs text-(--text-main) opacity-70 text-center">
             Already have an account?{" "}
-            <Link to="/login" className="underline">
+            <Link to="/login" className="text-(--primary-color) font-bold hover:underline">
               Sign in
             </Link>
           </p>

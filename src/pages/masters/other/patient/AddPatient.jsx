@@ -104,109 +104,153 @@ export default function AddPatient({ isEditMode = false }) {
   };
 
   return (
-    <div className="flex justify-center items-start min-h-[calc(100vh-100px)] bg-gray-100 py-2">
-      <div className="bg-white rounded-lg shadow-md p-6 max-w-4xl w-full">
-        <div className="flex items-center justify-between">
-          <h1 className="text-xl font-bold">{isEditMode ? "Edit Patient" : "Create Patient"}</h1>
+    <div className="flex flex-col min-h-screen bg-(--bg-main) p-4 tracking-tight">
+      <div className="bg-(--card-bg) rounded-3xl shadow-2xl p-8 max-w-5xl mx-auto w-full border border-gray-100 dark:border-white/5 transition-all duration-500">
+        <div className="flex items-center justify-between sticky top-0 z-10 bg-(--card-bg) border-b border-gray-50 dark:border-white/5 pb-4 mb-8">
+          <h1 className="text-3xl font-black italic tracking-tighter text-(--text-main)">
+            {isEditMode ? "EDIT PATIENT RECORD" : "CREATE PATIENT RECORD"}
+          </h1>
           <Button type="button" variant="secondary" onClick={handleBack}>
-            &#8592; Back
+            &#8592; Back to List
           </Button>
         </div>
         <form onSubmit={handleSubmit(handleSave)}>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Mobile No. <span className="text-red-500">*</span>
+              <label className="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">
+                Mobile Number <span className="text-red-500">*</span>
               </label>
               <div className="flex gap-2 items-center">
-                <span className="bg-gray-100 border border-gray-300 rounded px-2 py-1">+91</span>
+                <span className="bg-(--sidebar-active-bg) border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2 text-xs font-bold text-gray-500">+91</span>
                 <Input
                   type="text"
                   {...register("phone", { required: "Mobile No. is required" })}
                   placeholder="Enter mobile number"
+                  className="bg-transparent border-gray-200 dark:border-gray-700 font-bold"
                 />
-                <span className="ml-2">ID</span>
+                <span className="text-[10px] font-black uppercase text-gray-400 ml-2">UID</span>
                 <Input
                   type="text"
-                  className="w-20"
+                  className="w-24 bg-(--sidebar-active-bg)/30 border-gray-200 dark:border-gray-700 font-mono"
                   {...register("code")}
                   placeholder="ID"
                   disabled
                 />
               </div>
-              {errors.phone && <span className="text-xs text-red-500">{errors.phone.message}</span>}
+              {errors.phone && <span className="text-[10px] font-bold text-red-500 uppercase tracking-wider mt-1 block">{errors.phone.message}</span>}
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Address</label>
-              <Input type="text" {...register("address")} placeholder="Enter address" />
+              <label className="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">Primary Residence Address</label>
+              <Input 
+                type="text" 
+                {...register("address")} 
+                placeholder="Enter current address..." 
+                className="bg-transparent border-gray-200 dark:border-gray-700"
+              />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
-              <Input type="text" {...register("name", { required: "Name is required" })} placeholder="Enter name" />
-              {errors.name && <span className="text-xs text-red-500">{errors.name.message}</span>}
+              <label className="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">Full Legal Name <span className="text-red-500">*</span></label>
+              <Input 
+                type="text" 
+                {...register("name", { required: "Name is required" })} 
+                placeholder="Enter patient's full name" 
+                className="bg-transparent border-gray-200 dark:border-gray-700 font-black h-12 text-lg"
+              />
+              {errors.name && <span className="text-[10px] font-bold text-red-500 uppercase tracking-wider mt-1 block">{errors.name.message}</span>}
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-4">
               <div className="flex-1">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Pin No.</label>
-                <Input type="text" {...register("pin")} placeholder="Pin No." />
+                <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Pincode</label>
+                <Input 
+                  type="text" 
+                  {...register("pin")} 
+                  placeholder="Postal Code" 
+                  className="bg-transparent border-gray-200 dark:border-gray-700 font-bold"
+                />
               </div>
-              <div className="flex-1">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Phone No.</label>
-                <div className="flex gap-1 items-center">
-                  <span className="bg-gray-100 border border-gray-300 rounded px-2 py-1">+91</span>
-                  <Input type="text" {...register("phone2")} placeholder="Phone No." />
+              <div className="flex-2">
+                <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Secondary Phone</label>
+                <div className="flex gap-2 items-center">
+                  <span className="bg-(--sidebar-active-bg) border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2 text-xs font-bold text-gray-500">+91</span>
+                  <Input 
+                    type="text" 
+                    {...register("phone2")} 
+                    placeholder="Alternate No." 
+                    className="bg-transparent border-gray-200 dark:border-gray-700"
+                  />
                 </div>
               </div>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-4">
               <div className="flex-1">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+                <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Gender Identification</label>
                 <Select
                   {...register("gender")}
                   options={GENDER_OPTIONS}
                   defaultValue="Male"
+                  className="bg-transparent border-gray-200 dark:border-gray-700 font-bold"
                 />
               </div>
               <div className="flex-1">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Age</label>
-                <Input type="number" {...register("age", { required: "Age is required" })} placeholder="Age" />
-                {errors.age && <span className="text-xs text-red-500">{errors.age.message}</span>}
+                <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Age (Years) <span className="text-red-500">*</span></label>
+                <Input 
+                  type="number" 
+                  {...register("age", { required: "Age is required" })} 
+                  placeholder="00" 
+                  className="bg-transparent border-gray-200 dark:border-gray-700 font-black h-12 text-lg"
+                />
+                {errors.age && <span className="text-[10px] font-bold text-red-500 uppercase tracking-wider mt-1 block">{errors.age.message}</span>}
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Ledger <span className="text-red-500">*</span></label>
-              
+              <label className="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">Account Ledger Type <span className="text-red-500">*</span></label>
               <Select
                 {...register("ledger", { required: "Ledger is required" })}
                 options={[
                   { label: "Cash Account", value: "cash" },
-                  { label: "Other Account", value: "other" },
+                  { label: "Credit / Insurance", value: "other" },
                 ]}
                 defaultValue="cash"
+                className="bg-transparent border-gray-200 dark:border-gray-700 font-black"
               />
-              {errors.ledger && <span className="text-xs text-red-500">{errors.ledger.message}</span>}
+              {errors.ledger && <span className="text-[10px] font-bold text-red-500 uppercase tracking-wider mt-1 block">{errors.ledger.message}</span>}
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Email ID</label>
-              <Input type="email" {...register("email")} placeholder="Email ID" />
+              <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Contact Email Address</label>
+              <Input 
+                type="email" 
+                {...register("email")} 
+                placeholder="patient@example.com" 
+                className="bg-transparent border-gray-200 dark:border-gray-700"
+              />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">WhatsApp No.</label>
-              <div className="flex gap-1 items-center">
-                <span className="bg-gray-100 border border-gray-300 rounded px-2 py-1">+91</span>
-                <Input type="text" {...register("whatsapp")} placeholder="WhatsApp No." />
+              <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">WhatsApp for Notifications</label>
+              <div className="flex gap-2 items-center">
+                <span className="bg-(--sidebar-active-bg) border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2 text-xs font-bold text-gray-500">+91</span>
+                <Input 
+                  type="text" 
+                  {...register("whatsapp")} 
+                  placeholder="WhatsApp Number" 
+                  className="bg-transparent border-gray-200 dark:border-gray-700"
+                />
               </div>
             </div>
-            <div className="flex items-center gap-2 mt-2">
-              <Input
-                width="w-4"
-                type="checkbox"
-                className="h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 cursor-pointer"
-                checked={showMoreOptions}
-                onChange={() => setShowMoreOptions((v) => !v)}
-              />
-              <span className="font-semibold text-sm min-w-fit">More Option</span>
+            <div className="flex items-center gap-4 mt-6">
+              <label className="flex items-center gap-3 p-3 rounded-2xl bg-(--sidebar-active-bg) border border-(--primary-color)/10 cursor-pointer group transition-all w-fit pr-8">
+                <Input
+                  width="w-5"
+                  type="checkbox"
+                  className="w-5 h-5 text-(--primary-color) border-gray-300 rounded-lg focus:ring-(--primary-color)"
+                  checked={showMoreOptions}
+                  onChange={() => setShowMoreOptions((v) => !v)}
+                />
+                <div className="flex flex-col">
+                  <span className="font-bold text-sm text-(--text-main) tracking-tight">Advanced Profile</span>
+                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Medical history & Discount</span>
+                </div>
+              </label>
             </div>
           </div>
 
@@ -217,66 +261,72 @@ export default function AddPatient({ isEditMode = false }) {
             }`}
           >
             {showMoreOptions && (
-              <>
-                <hr className="my-4" />
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div className="p-8 rounded-3xl bg-(--sidebar-active-bg)/30 border border-(--primary-color)/5 mb-8 animate-fade-in space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
-                    <Input type="date" {...register("dob")} placeholder="DD-MM-YYYY" />
+                    <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Date of Birth</label>
+                    <Input type="date" {...register("dob")} className="bg-transparent border-gray-200 dark:border-gray-700 font-bold" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Patient Type</label>
-                    <Select {...register("patientType")} options={PATIENT_TYPE_OPTIONS} defaultValue="Regular" />
+                    <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Customer Segment</label>
+                    <Select {...register("patientType")} options={PATIENT_TYPE_OPTIONS} defaultValue="Regular" className="bg-transparent border-gray-200 dark:border-gray-700 font-bold" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Disease</label>
-                    <Select {...register("disease")} options={DISEASE_OPTIONS} defaultValue="" />
+                    <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Medical Condition</label>
+                    <Select {...register("disease")} options={DISEASE_OPTIONS} defaultValue="" className="bg-transparent border-gray-200 dark:border-gray-700" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Government Id</label>
-                    <Input type="text" {...register("govId")} placeholder="Government Id" />
+                    <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Government Issued Identification</label>
+                    <Input type="text" {...register("govId")} placeholder="Aadhar / PAN / Driving License" className="bg-transparent border-gray-200 dark:border-gray-700" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Bill Discount</label>
+                    <label className="block text-[10px] font-black uppercase tracking-widest text-(--primary-color) mb-2">Default Billing Discount</label>
                     <div className="flex items-center">
-                      <span className="bg-gray-100 border border-gray-300 rounded px-2 py-1">₹</span>
-                      <Input type="number" step="0.01" {...register("billDiscount")} placeholder="0.00" />
+                      <span className="bg-(--primary-color)/10 border border-(--primary-color)/20 text-(--primary-color) rounded-lg px-3 py-2 text-xs font-black">₹</span>
+                      <Input 
+                        type="number" 
+                        step="0.01" 
+                        {...register("billDiscount")} 
+                        placeholder="0.00" 
+                        className="bg-transparent border-gray-200 dark:border-gray-700 font-black text-lg ml-2"
+                      />
                     </div>
                   </div>
                 </div>
-              </>
+              </div>
             )}
           </div>
 
           
-          {error && <div className="text-red-500 mb-2">{error}</div>}
-          {success && <div className="text-green-500 mb-2">{success}</div>}
-          <div className="flex gap-2 mt-2 justify-end">
-            <Button
-              type="submit"
-              variant="primary"
-              buttonType={isEditMode ? "save" : "save"}
-              disabled={isCreating || isEditing}
-            >
-              {isEditMode ? "Update" : "Save"}
-            </Button>
+          {error && <div className="text-red-500 font-bold text-xs uppercase tracking-widest mb-4 animate-fade-in">❌ {error}</div>}
+          {success && <div className="text-green-500 font-bold text-xs uppercase tracking-widest mb-4 animate-fade-in">✅ {success}</div>}
+          
+          <div className="flex gap-4 mt-8 pt-8 border-t border-gray-50 dark:border-white/5 justify-end">
             <Button
               type="button"
-              variant="secondary"
-              buttonType={"clear"}
-              disabled={isCreating || isEditing}
+              variant="outline"
               onClick={handleClear}
+              className="px-8"
+              disabled={isCreating || isEditing}
             >
-              Clear
+              Reset Form
             </Button>
             <Button
               type="button"
               variant="danger"
-              buttonType={"close"}
-              disabled={isCreating || isEditing}
               onClick={handleBack}
+              className="px-8"
+              disabled={isCreating || isEditing}
             >
               Close
+            </Button>
+            <Button
+              type="submit"
+              variant="primary"
+              disabled={isCreating || isEditing}
+              className="px-12 shadow-xl shadow-(--primary-color)/20"
+            >
+              {isEditMode ? "Update Record" : "Save Record"}
             </Button>
           </div>
         </form>

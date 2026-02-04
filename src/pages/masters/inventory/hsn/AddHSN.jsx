@@ -65,55 +65,48 @@ export default function CreateHsnSacForm({
   };
 
   return (
-    <Modal open={isOpen} onClose={onClose} title="Create HSN/SAC">
+    <Modal open={isOpen} onClose={onClose} title={initialData ? "EDIT HSN / SAC" : "CREATE HSN / SAC"}>
       <form
         onSubmit={handleSubmit(handleSave)}
-        className="space-y-3 sm:space-y-4 px-1 sm:px-2"
+        className="space-y-6 py-4"
       >
         <TextField
-          label="HSN/SAC Code"
+          label="HSN / SAC Numeric Code"
           name="hsnSacCode"
           register={register}
           errors={errors}
           required
           message="HSN/SAC Code is required"
-          noStyle={true}
-          noHeight={true}
+          className="bg-transparent border-gray-200 dark:border-gray-700 font-black h-12 text-lg"
         />
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            HSN/SAC name
+          <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
+            Description / Category Name
           </label>
-          <Input type="text" {...register("hsnsacname")} className="w-full" />
+          <Input 
+            type="text" 
+            {...register("hsnsacname")} 
+            className="w-full bg-transparent border-gray-200 dark:border-gray-700 font-bold" 
+            placeholder="e.g. Pharmaceutical Products"
+          />
         </div>
         
-        <div className="flex flex-col sm:flex-row gap-2 mt-4 sm:mt-6">
+        <div className="flex gap-4 mt-8 pt-4 border-t border-gray-50 dark:border-white/5">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={onClose}
+            className="flex-1"
+          >
+            Cancel
+          </Button>
           <Button
             type="submit"
             variant="primary"
-            buttonType={"save"}
             disabled={isLoading}
-            className="w-full sm:w-auto"
+            className="flex-1 shadow-xl shadow-(--primary-color)/20"
           >
-            Save
-          </Button>
-          <Button
-            type="button"
-            variant="secondary"
-            buttonType={"clear"}
-            onClick={handleClear}
-            className="w-full sm:w-auto"
-          >
-            Clear
-          </Button>
-          <Button
-            type="button"
-            variant="danger"
-            buttonType={"close"}
-            onClick={onClose}
-            className="w-full sm:w-auto"
-          >
-            Close
+            {initialData ? "Update HSN" : "Save HSN"}
           </Button>
         </div>
       </form>

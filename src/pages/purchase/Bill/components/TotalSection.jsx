@@ -2,33 +2,36 @@ import React from "react";
 
 const TotalSection = ({ calculations, formatCurrency }) => {
   return (
-    <div className="flex justify-end">
-      <div className="p-6 w-96 bg-gradient-to-br from-green-50 to-green-100 rounded-lg border-2 border-green-200">
-        <div className="space-y-3 text-sm">
-          <div className="flex justify-between">
-            <span className="text-gray-700">Subtotal:</span>
-            <span className="font-semibold">
+    <div className="flex justify-end pt-8">
+      <div className="p-8 w-full md:w-[450px] bg-(--sidebar-active-bg)/30 rounded-[2.5rem] border border-gray-100 dark:border-white/5 shadow-inner">
+        <div className="space-y-4">
+          <div className="flex justify-between items-center">
+            <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Gross Procurement Subtotal</span>
+            <span className="font-bold text-(--text-main)">
               ₹{formatCurrency(calculations.subtotal)}
             </span>
           </div>
-          <div className="flex justify-between">
-            <span className="text-gray-700">Total Discount:</span>
-            <span className="font-semibold">
+          <div className="flex justify-between items-center text-emerald-500">
+            <span className="text-[10px] font-black uppercase tracking-widest">Aggregate Negotiated Discount</span>
+            <span className="font-bold">
               -₹
               {formatCurrency(
                 calculations.itemDiscount + calculations.billDiscountAmount
               )}
             </span>
           </div>
-          <div className="flex justify-between">
-            <span className="text-gray-700">Total Tax:</span>
-            <span className="font-semibold">
+          <div className="flex justify-between items-center">
+            <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Total Statutory Levies (Tax)</span>
+            <span className="font-bold text-(--text-main)">
               ₹{formatCurrency(calculations.totalTaxAmount)}
             </span>
           </div>
-          <div className="border-t border-green-300 pt-3 flex justify-between text-lg font-bold text-green-700">
-            <span>Total Amount:</span>
-            <span>₹{formatCurrency(calculations.totalAmount)}</span>
+          <div className="border-t border-gray-50 dark:border-white/5 pt-6 flex justify-between items-end">
+            <div>
+               <span className="block text-[10px] font-black uppercase tracking-widest text-(--primary-color)">Net Procurement Value</span>
+               <span className="text-3xl font-black italic tracking-tighter text-(--text-main) uppercase leading-none">Final Amount</span>
+            </div>
+            <span className="text-4xl font-black italic tracking-tighter text-(--primary-color)">₹{formatCurrency(calculations.totalAmount)}</span>
           </div>
         </div>
       </div>

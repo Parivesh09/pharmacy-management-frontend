@@ -85,9 +85,9 @@ export default function SearchableSelect({
         ref={inputRef}
         disabled={disabled}
         type="text"
-        className={`w-full border border-gray-500 rounded-lg ${
-            noPadding ? "p-0" : startIcon ? "pl-10 pr-2 py-2" : "p-2"
-          } focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs`}
+        className={`w-full ${
+            noPadding ? "p-0" : startIcon ? "pl-11 pr-4 py-3" : "py-3 px-4"
+          } bg-white/50 dark:bg-white/5 border border-gray-400 dark:border-white/20 rounded-[1rem] focus:outline-none focus:ring-2 focus:ring-(--primary-color)/20 focus:border-(--primary-color) text-sm text-(--text-main) transition-all font-bold placeholder-gray-400 shadow-sm`.trim()}
         placeholder={placeholder}
         value={
           isOpen
@@ -111,17 +111,21 @@ export default function SearchableSelect({
       {isOpen && (
         <ul
           ref={listRef}
-          className="absolute z-50 mt-1 w-full bg-white border border-gray-200 rounded shadow-lg max-h-40 overflow-auto text-sm no-scrollbar"
+          className="absolute z-50 mt-2 w-full bg-(--card-bg) border border-gray-100 dark:border-white/10 rounded-2xl shadow-2xl max-h-60 overflow-auto text-sm no-scrollbar animate-in fade-in zoom-in duration-200 backdrop-blur-md"
         >
           {filteredOptions.length === 0 && !allowCreate && (
-            <li className="px-3 py-2 text-gray-400">No options</li>
+             <li className="px-5 py-6 text-center text-[10px] font-black uppercase tracking-widest text-gray-400 opacity-50">
+               No matching records
+             </li>
           )}
           {filteredOptions.map((opt, idx) => (
             <li
               key={opt.value || idx}
-              className={`px-3 py-2 cursor-pointer hover:bg-blue-50 ${
-                idx === highlightedIndex ? "bg-blue-100" : ""
-              }`}
+              className={`px-5 py-3 cursor-pointer transition-colors ${
+                idx === highlightedIndex 
+                ? "bg-(--primary-color) text-white font-black" 
+                : "text-(--text-main) hover:bg-(--sidebar-active-bg) font-bold"
+              } text-xs uppercase tracking-tight`}
               onMouseDown={(e) => {
                 e.preventDefault();
                 handleSelect(opt);
@@ -134,7 +138,7 @@ export default function SearchableSelect({
           {allowCreate &&
             !normalizedOptions.some((opt) => opt.label === inputValue) && (
               <li
-                className="px-3 py-2 cursor-pointer text-blue-600 hover:bg-blue-50"
+                className="px-5 py-4 cursor-pointer text-(--primary-color) hover:bg-(--primary-color)/10 border-t border-gray-50 dark:border-white/5 font-black text-[10px] uppercase tracking-widest flex items-center gap-2"
                 onMouseDown={(e) => {
                   e.preventDefault();
                   handleSelect({
@@ -144,7 +148,8 @@ export default function SearchableSelect({
                   });
                 }}
               >
-                F2 - Create New
+                <div className="w-4 h-4 rounded-full bg-(--primary-color) text-white flex items-center justify-center text-[10px]">+</div>
+                Initialize: {inputValue}
               </li>
             )}
         </ul>

@@ -15,6 +15,7 @@ import { menuConfig } from "../../data/menuData";
 import { useSelector, useDispatch } from "react-redux";
 import { logout as logoutAction } from "../../services/userSlice";
 import Input from "./Input";
+import Logo from "./Logo";
 import { hasPermission } from "../../data/permissions";
 
 const pathToPermission = {
@@ -154,9 +155,9 @@ const Sidebar = ({
         <div
           className={`flex items-center justify-between px-3 py-2.5 rounded-lg cursor-pointer transition-all duration-200 group ${indentClass} ${
             isDirectActive
-              ? "bg-blue-50 text-blue-600 border-r-2 border-blue-600"
+              ? "bg-(--sidebar-active-bg) text-(--primary-color) border-r-2 border-(--primary-color)"
               : isActive && !isDirectActive
-              ? "bg-blue-25 text-blue-500"
+              ? "bg-(--sidebar-active-bg) text-(--primary-color) opacity-80"
               : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
           }`}
           onClick={() => {
@@ -172,7 +173,7 @@ const Sidebar = ({
               <Icon
                 className={`w-5 h-5 transition-colors ${
                   isDirectActive
-                    ? "text-blue-600"
+                    ? "text-(--primary-color)"
                     : "text-gray-500 group-hover:text-gray-700"
                 }`}
               />
@@ -181,7 +182,7 @@ const Sidebar = ({
             {level > 0 && !Icon && (
               <div
                 className={`w-2 h-2 rounded-full transition-colors ${
-                  isDirectActive ? "bg-blue-600" : "bg-gray-300"
+                  isDirectActive ? "bg-(--primary-color)" : "bg-gray-300"
                 }`}
               ></div>
             )}
@@ -190,7 +191,7 @@ const Sidebar = ({
               <Icon
                 className={`w-4 h-4 transition-colors ${
                   isDirectActive
-                    ? "text-blue-600"
+                    ? "text-(--primary-color)"
                     : "text-gray-500 group-hover:text-gray-700"
                 }`}
               />
@@ -257,9 +258,7 @@ const Sidebar = ({
       >
         <div className="flex flex-col h-full">
           <div className="flex items-center gap-2 p-4 border-b border-gray-200">
-            <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">ASR</span>
-            </div>
+            <Logo className="w-8 h-8 !bg-(--primary-color)" textClassName="text-white" />
             {isSidebarExpanded && (
               <span className="font-bold text-gray-800 text-lg">
                 ASR Pharmacy

@@ -2,6 +2,14 @@
 
 :root {
   font-size: 16px;
+  --primary-color: #008080;
+  --primary-dark: #006666;
+  --secondary-color: #5764d8;
+  --bg-main: #f3f4f6;
+  --header-bg: #00505b;
+  --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --sidebar-active-bg: #eff6ff;
+  --sidebar-active-text: #2563eb;
 }
 
 
@@ -159,7 +167,7 @@
 
 * {
     --sb-track-color: #ffffff;
-    --sb-thumb-color: #5764d8;
+    --sb-thumb-color: #008080;
     --sb-size: 6px;
   }
   

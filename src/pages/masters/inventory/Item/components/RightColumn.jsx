@@ -40,7 +40,7 @@ const RightColumn = ({ errors, register, watch }) => {
   }, [mrp, cp, cost, sp, watch]);
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-5">
       {/* MRP Field */}
       <div>
         <TextField
@@ -51,6 +51,7 @@ const RightColumn = ({ errors, register, watch }) => {
           type="number"
           step="0.01"
           min="0"
+          className="bg-transparent border-gray-400 dark:border-gray-700 font-bold"
           validation={{
             min: { value: 0, message: "MRP must be greater than 0" },
             pattern: {
@@ -60,7 +61,10 @@ const RightColumn = ({ errors, register, watch }) => {
           }}
         />
         {pricingValidation.warnings.mrp && (
-          <p className="text-yellow-600 text-xs mt-1">⚠️ {pricingValidation.warnings.mrp}</p>
+          <p className="text-orange-500 text-[10px] font-bold uppercase tracking-wider mt-1 flex items-center gap-1">
+             <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse"></span>
+             {pricingValidation.warnings.mrp}
+          </p>
         )}
       </div>
 
@@ -74,6 +78,7 @@ const RightColumn = ({ errors, register, watch }) => {
           type="number"
           step="0.01"
           min="0"
+          className="bg-transparent border-gray-400 dark:border-gray-700 font-bold"
           validation={{
             min: { value: 0, message: "Purchase Price must be greater than 0" },
             pattern: {
@@ -83,7 +88,7 @@ const RightColumn = ({ errors, register, watch }) => {
           }}
         />
         {pricingValidation.errors.cp && (
-          <p className="text-red-600 text-xs mt-1">❌ {pricingValidation.errors.cp}</p>
+          <p className="text-red-500 text-[10px] font-bold uppercase tracking-wider mt-1">❌ {pricingValidation.errors.cp}</p>
         )}
       </div>
 
@@ -92,11 +97,12 @@ const RightColumn = ({ errors, register, watch }) => {
         <TextField
           register={register}
           errors={errors}
-          label="Cost"
+          label="Inventory Cost"
           name="cost"
           type="number"
           step="0.01"
           min="0"
+          className="bg-transparent border-gray-400 dark:border-gray-700 font-bold"
           validation={{
             min: { value: 0, message: "Cost must be greater than 0" },
             pattern: {
@@ -106,7 +112,7 @@ const RightColumn = ({ errors, register, watch }) => {
           }}
         />
         {pricingValidation.errors.cost && (
-          <p className="text-red-600 text-xs mt-1">❌ {pricingValidation.errors.cost}</p>
+          <p className="text-red-500 text-[10px] font-bold uppercase tracking-wider mt-1">❌ {pricingValidation.errors.cost}</p>
         )}
       </div>
 
@@ -120,6 +126,7 @@ const RightColumn = ({ errors, register, watch }) => {
           type="number"
           step="0.01"
           min="0"
+          className="bg-transparent border-gray-400 dark:border-gray-700 font-bold text-(--primary-color)"
           validation={{
             min: { value: 0, message: "Selling Price must be greater than 0" },
             pattern: {
@@ -129,133 +136,134 @@ const RightColumn = ({ errors, register, watch }) => {
           }}
         />
         {pricingValidation.errors.sp && (
-          <p className="text-red-600 text-xs mt-1">❌ {pricingValidation.errors.sp}</p>
+          <p className="text-red-500 text-[10px] font-bold uppercase tracking-wider mt-1">❌ {pricingValidation.errors.sp}</p>
         )}
       </div>
 
       {/* Pricing Summary Card */}
       {(mrp || cp || cost || sp) && (
-        <div className="bg-blue-50 border border-blue-200 rounded p-3 mt-4">
-          <h4 className="font-semibold text-xs text-blue-900 mb-2">Pricing Summary</h4>
-          <div className="grid grid-cols-2 gap-2 text-xs">
-            <div className="flex justify-between">
-              <span className="text-gray-700">MRP:</span>
-              <span className="font-semibold">₹{pricingSummary.mrp}</span>
+        <div className="bg-(--sidebar-active-bg) border border-(--primary-color)/10 rounded-2xl p-4 mt-6 relative overflow-hidden group/card transition-all hover:shadow-lg">
+          <div className="absolute top-0 right-0 w-2 h-full bg-(--primary-color)/10"></div>
+          <h4 className="text-[10px] font-black uppercase tracking-widest text-(--primary-color) mb-4">Pricing Analysis</h4>
+          <div className="grid grid-cols-2 gap-4 text-xs">
+            <div className="p-2 rounded-xl bg-(--card-bg) border border-gray-50 dark:border-white/5">
+              <span className="text-gray-400 font-bold uppercase text-[9px]">MRP</span>
+              <div className="font-black text-(--text-main) text-sm">₹{pricingSummary.mrp}</div>
             </div>
-            <div className="flex justify-between">
-              <span className="text-gray-700">CP:</span>
-              <span className="font-semibold">₹{pricingSummary.cp}</span>
+            <div className="p-2 rounded-xl bg-(--card-bg) border border-gray-50 dark:border-white/5">
+              <span className="text-gray-400 font-bold uppercase text-[9px]">Cost</span>
+              <div className="font-black text-(--text-main) text-sm">₹{pricingSummary.cost}</div>
             </div>
-            <div className="flex justify-between">
-              <span className="text-gray-700">Cost:</span>
-              <span className="font-semibold">₹{pricingSummary.cost}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-gray-700">SP:</span>
-              <span className="font-semibold">₹{pricingSummary.sp}</span>
-            </div>
+            
             {pricingSummary.profitPerUnit && (
-              <>
-                <div className="flex justify-between col-span-2 border-t pt-2">
-                  <span className="text-gray-700">Profit/Unit:</span>
-                  <span className={`font-semibold ${parseFloat(pricingSummary.profitPerUnit) >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                    ₹{pricingSummary.profitPerUnit}
-                  </span>
+              <div className="col-span-2 p-3 rounded-xl bg-(--primary-color) text-white shadow-xl shadow-(--primary-color)/20">
+                <div className="flex justify-between items-end">
+                  <div>
+                    <span className="text-white/60 font-bold uppercase text-[9px]">Profit per Unit</span>
+                    <div className="font-black text-xl tracking-tighter">₹{pricingSummary.profitPerUnit}</div>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-white/60 font-bold uppercase text-[9px]">Net Margin</span>
+                    <div className="font-black text-xl tracking-tighter">{pricingSummary.margin}%</div>
+                  </div>
                 </div>
-                <div className="flex justify-between col-span-2">
-                  <span className="text-gray-700">Margin:</span>
-                  <span className={`font-semibold ${parseFloat(pricingSummary.margin) >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                    {pricingSummary.margin}%
-                  </span>
-                </div>
-              </>
+              </div>
             )}
           </div>
         </div>
       )}
 
-      {/* Warnings */}
-      {Object.keys(pricingValidation.warnings).length > 0 && (
-        <div className="bg-yellow-50 border border-yellow-200 rounded p-3">
-          <h4 className="font-semibold text-xs text-yellow-900 mb-2">⚠️ Pricing Warnings</h4>
-          {Object.entries(pricingValidation.warnings).map(([key, message]) => (
-            <p key={key} className="text-yellow-700 text-xs mb-1">• {message}</p>
-          ))}
-        </div>
-      )}
+      {/* Warnings & Errors */}
+      <div className="space-y-2">
+        {Object.entries(pricingValidation.warnings).map(([key, message]) => (
+          <div key={key} className="p-3 rounded-xl bg-orange-500/10 border border-orange-500/20 text-orange-600 text-[10px] font-bold uppercase tracking-wide flex items-center gap-2 animate-fade-in">
+             <div className="w-2 h-2 rounded-full bg-orange-500"></div>
+             {message}
+          </div>
+        ))}
+        {Object.entries(pricingValidation.errors).map(([key, message]) => (
+          <div key={key} className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-600 text-[10px] font-bold uppercase tracking-wide flex items-center gap-2 animate-fade-in">
+             <div className="w-2 h-2 rounded-full bg-red-500"></div>
+             {message}
+          </div>
+        ))}
+      </div>
 
-      {/* Errors */}
-      {Object.keys(pricingValidation.errors).length > 0 && (
-        <div className="bg-red-50 border border-red-200 rounded p-3">
-          <h4 className="font-semibold text-xs text-red-900 mb-2">❌ Pricing Errors</h4>
-          {Object.entries(pricingValidation.errors).map(([key, message]) => (
-            <p key={key} className="text-red-700 text-xs mb-1">• {message}</p>
-          ))}
-        </div>
-      )}
-      <SelectField
-        register={register}
-        errors={errors}
-        label="Narcotics"
-        name="narcotic"
-        options={["No", "Yes"]}
-      />
-      <SelectField
-        register={register}
-        errors={errors}
-        label="Schedule H"
-        name="scheduleH"
-        options={["No", "Yes"]}
-      />
-      <SelectField
-        register={register}
-        errors={errors}
-        label="Schedule H1"
-        name="scheduleH1"
-        options={["No", "Yes"]}
-      />
-      <SelectField
-        register={register}
-        errors={errors}
-        label="Schedule Drug"
-        name="scheduledrug"
-        options={["No", "Yes"]}
-      />
-      <SelectField
-        register={register}
-        errors={errors}
-        label="Presc. Required"
-        name="prescription"
-        options={["No", "Yes"]}
-      />
-      <SelectField
-        register={register}
-        errors={errors}
-        label="Storage Type"
-        name="storagetype"
-        options={["Normal", "Cold"]}
-      />
-      <SelectField
-        register={register}
-        errors={errors}
-        label="Status"
-        name="status"
-        options={["Continue", "Discontinued"]}
-      />
-      <SelectField
-        register={register}
-        errors={errors}
-        label="Color Type"
-        name="colortype"
-        options={["---Blank---"]}
-      />
-      <SelectField
-        register={register}
-        errors={errors}
-        label="TB Item"
-        name="tbitem"
-        options={["Normal", "Special"]}
-      />
+      <div className="grid grid-cols-2 gap-4">
+        <SelectField
+          register={register}
+          errors={errors}
+          label="Narcotics"
+          name="narcotic"
+          options={["No", "Yes"]}
+          className="bg-transparent border-gray-400 dark:border-gray-700"
+        />
+        <SelectField
+          register={register}
+          errors={errors}
+          label="Schedule H"
+          name="scheduleH"
+          options={["No", "Yes"]}
+          className="bg-transparent border-gray-400 dark:border-gray-700"
+        />
+      </div>
+      
+      <div className="grid grid-cols-2 gap-4">
+        <SelectField
+          register={register}
+          errors={errors}
+          label="Schedule H1"
+          name="scheduleH1"
+          options={["No", "Yes"]}
+          className="bg-transparent border-gray-400 dark:border-gray-700"
+        />
+        <SelectField
+          register={register}
+          errors={errors}
+          label="Schedule Drug"
+          name="scheduledrug"
+          options={["No", "Yes"]}
+          className="bg-transparent border-gray-400 dark:border-gray-700"
+        />
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <SelectField
+          register={register}
+          errors={errors}
+          label="Presc. Req."
+          name="prescription"
+          options={["No", "Yes"]}
+          className="bg-transparent border-gray-400 dark:border-gray-700"
+        />
+        <SelectField
+          register={register}
+          errors={errors}
+          label="Storage"
+          name="storagetype"
+          options={["Normal", "Cold"]}
+          className="bg-transparent border-gray-400 dark:border-gray-700"
+        />
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <SelectField
+          register={register}
+          errors={errors}
+          label="Status"
+          name="status"
+          options={["Continue", "Discontinued"]}
+          className="bg-transparent border-gray-400 dark:border-gray-700"
+        />
+        <SelectField
+          register={register}
+          errors={errors}
+          label="TB Item"
+          name="tbitem"
+          options={["Normal", "Special"]}
+          className="bg-transparent border-gray-400 dark:border-gray-700"
+        />
+      </div>
     </div>
   );
 };

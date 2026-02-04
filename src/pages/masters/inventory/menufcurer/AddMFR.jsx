@@ -57,144 +57,156 @@ export default function CreateManufacturerPage() {
   };
 
   return (
-    <div className="flex flex-col overflow-hidden no-scrollbar">
+    <div className="flex flex-col min-h-screen bg-(--bg-main) p-4 tracking-tight">
       <form
         onSubmit={handleSubmit(handleSave)}
         className="flex-1 flex flex-col relative"
       >
-        <div className="bg-white rounded shadow p-4 transition-all duration-500">
-          <div className="flex items-center justify-between sticky top-0 z-10">
-            <h1 className="text-xl font-bold">Create Manufacturer</h1>
+        <div className="bg-(--card-bg) rounded-3xl shadow-2xl p-8 max-w-4xl mx-auto w-full border border-gray-100 dark:border-white/5 transition-all duration-500">
+          <div className="flex items-center justify-between sticky top-0 z-10 bg-(--card-bg) border-b border-gray-200 dark:border-white/5 pb-4 mb-8">
+            <h1 className="text-3xl font-black italic tracking-tighter text-(--text-main)">CREATE MANUFACTURER</h1>
             <Button type="button" variant="secondary" onClick={handleClose}>
-              &#8592; Back
+              &#8592; Back to List
             </Button>
           </div>
 
-          <div className="mb-5">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Name <span className="text-red-500">*</span>
+          <div className="mb-8">
+            <label className="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">
+              Manufacturer Entity Name <span className="text-red-500">*</span>
             </label>
             <Input
               type="text"
               {...register("mfrname", { required: "Name is required" })}
-              className="h-8 text-xs w-full"
+              className="h-12 text-lg font-bold w-full bg-transparent border-gray-400 dark:border-gray-700 focus:ring-2 focus:ring-(--primary-color)"
+              placeholder="e.g. Pharmaceutical Labs Pvt Ltd"
             />
-            {errors.name && (
-              <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>
+            {errors.mfrname && ( // Fixed error lookup to use mfrname
+              <p className="text-red-500 text-xs font-bold mt-1 uppercase tracking-wider">{errors.mfrname.message}</p>
             )}
           </div>
 
-          <div className="w-fit mb-4">
-            <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
+          <div className="mb-8">
+            <label className="flex items-center gap-3 p-4 rounded-2xl bg-(--sidebar-active-bg) border border-(--primary-color)/10 cursor-pointer group transition-all w-fit pr-8">
               <Input
-                width="w-4"
+                width="w-5"
                 type="checkbox"
                 {...register("showMoreOptions")}
                 onChange={(e) => setShowMore(e.target.checked)}
-                className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                className="w-5 h-5 text-(--primary-color) border-gray-400 rounded-lg focus:ring-(--primary-color)"
               />
-              <span className="font-semibold text-sm">More info</span>
+              <div className="flex flex-col">
+                <span className="font-bold text-sm text-(--text-main) tracking-tight">
+                  Detailed Information
+                </span>
+                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                  Configure address, contact and legal status
+                </span>
+              </div>
             </label>
           </div>
 
           {showMore && (
-            <div className="space-y-4 border border-gray-300 rounded p-3 bg-gray-50 mb-4 text-xs">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="p-8 rounded-3xl bg-(--sidebar-active-bg)/30 border border-(--primary-color)/5 mb-8 animate-fade-in space-y-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <TextField
-                  label="Phone"
+                  label="Office Phone"
                   name="phone"
                   register={register}
                   errors={errors}
+                  className="bg-transparent border-gray-400 dark:border-gray-700"
                 />
                 <TextField
-                  label="Mobile No."
+                  label="Direct Mobile"
                   name="mobile"
                   register={register}
                   errors={errors}
+                  className="bg-transparent border-gray-400 dark:border-gray-700"
                 />
                 <TextField
-                  label="Country"
+                  label="Headquarters Country"
                   name="country"
                   register={register}
                   errors={errors}
+                  className="bg-transparent border-gray-400 dark:border-gray-700 font-bold"
                 />
                 <TextField
-                  label="State"
+                  label="State / Province"
                   name="state"
                   register={register}
                   errors={errors}
+                  className="bg-transparent border-gray-400 dark:border-gray-700 font-bold"
                 />
               </div>
               <TextField
-                label="Address"
+                label="Registered Office Address"
                 name="address"
                 register={register}
                 errors={errors}
+                className="bg-transparent border-gray-400 dark:border-gray-700"
               />
-              <TextField
-                label="Contact Person"
-                name="contactperson"
-                register={register}
-                errors={errors}
-              />
-              <TextField
-                label="Email"
-                name="email"
-                register={register}
-                errors={errors}
-              />
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <SelectField
-                    label="Status"
-                    options={["Continue", "Discontinue"]}
-                    name="status"
-                    register={register}
-                  />
-                </div>
-                <div>
-                  <SelectField
-                    label="Prohibited"
-                    options={["Yes", "No"]}
-                    name="prohibited"
-                    register={register}
-                  />
-                </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <TextField
+                  label="Primary Contact Person"
+                  name="contactperson"
+                  register={register}
+                  errors={errors}
+                  className="bg-transparent border-gray-400 dark:border-gray-700 font-bold"
+                />
+                <TextField
+                  label="Official Email Address"
+                  name="email"
+                  register={register}
+                  errors={errors}
+                  className="bg-transparent border-gray-400 dark:border-gray-700"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-5 pt-4 border-t border-gray-200 dark:border-white/5">
+                <SelectField
+                  label="Operational Status"
+                  options={["Continue", "Discontinue"]}
+                  name="status"
+                  register={register}
+                  className="bg-transparent border-gray-400 dark:border-gray-700 font-bold"
+                />
+                <SelectField
+                  label="Legal Prohibition"
+                  options={["No", "Yes"]}
+                  name="prohibited"
+                  register={register}
+                  className="bg-transparent border-gray-400 dark:border-gray-700 font-bold"
+                />
               </div>
             </div>
           )}
 
           
-          {error && <div className="text-red-500 mb-4 text-xs">{error}</div>}
-          {success && (
-            <div className="text-green-500 mb-4 text-xs">{success}</div>
-          )}
+          {error && <div className="text-red-500 font-bold text-xs uppercase tracking-widest mb-4 animate-fade-in">❌ {error}</div>}
+          {success && <div className="text-green-500 font-bold text-xs uppercase tracking-widest mb-4 animate-fade-in">✅ {success}</div>}
 
-          
-          <div className="flex gap-2 mt-4 justify-end">
-            <Button
-              type="submit"
-              variant="primary"
-              disabled={isLoading}
-              buttonType={"save"}
-            >
-              Save
-            </Button>
+          <div className="flex gap-4 mt-8 pt-6 border-t border-gray-200 dark:border-white/5 justify-end">
             <Button
               type="button"
-              variant="secondary"
+              variant="outline"
               onClick={handleClear}
-              buttonType={"clear"}
+              className="px-8"
             >
-              Clear
+              Reset
             </Button>
             <Button
               type="button"
               variant="danger"
               onClick={handleClose}
-              buttonType={"close"}
+              className="px-8"
             >
               Close
+            </Button>
+            <Button
+              type="submit"
+              variant="primary"
+              disabled={isLoading}
+              className="px-12 shadow-xl shadow-(--primary-color)/20"
+            >
+              Save Manufacturer
             </Button>
           </div>
         </div>

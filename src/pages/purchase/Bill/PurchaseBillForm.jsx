@@ -240,7 +240,7 @@ const PurchaseBillForm = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-25 p-4">
+    <div className="min-h-screen bg-(--bg-main) p-6">
       <SelectItemDialog
         open={showItemDialog}
         onClose={() => setShowItemDialog(false)}
@@ -287,19 +287,27 @@ const PurchaseBillForm = () => {
         }
       />
 
-      <div className="max-w-full mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
+      <div className="max-w-full mx-auto bg-(--card-bg) rounded-[2.5rem] shadow-2xl overflow-hidden border border-gray-100 dark:border-white/5 transition-all duration-500">
         {/* Header */}
-        <div className="bg-gradient-to-r from-green-600 to-green-700 text-white p-6 flex justify-between items-center">
-          <div>
-            <h1 className="text-3xl font-bold">Purchase Bill</h1>
-            <p className="text-green-100 text-sm mt-1">
-              {isEdit ? "Edit Purchase Bill" : "Create New Purchase Bill"}
-            </p>
-          </div>
-          <div className="text-right">
-            <div className="text-sm text-green-100">Total Due</div>
-            <div className="text-4xl font-bold">
-              ₹{formatCurrency(calculations.totalAmount)}
+        <div className="bg-gradient-to-r from-(--header-bg) to-(--header-bg)/90 text-white p-8 mb-4 relative overflow-hidden">
+          {/* Subtle pattern overlay */}
+          <div className="absolute inset-0 opacity-10 pointer-events-none" style={{
+            backgroundImage: `radial-gradient(#ffffff 1px, transparent 1px)`,
+            backgroundSize: '20px 20px'
+          }}></div>
+          
+          <div className="relative z-10 flex justify-between items-center">
+            <div>
+              <h1 className="text-4xl font-black italic tracking-tighter uppercase drop-shadow-lg">Purchase Bill</h1>
+              <p className="text-white/70 text-xs font-bold uppercase tracking-widest mt-2 px-1">
+                {isEdit ? "MODIFY EXISTING RECORD" : "INITIALIZE NEW PROCUREMENT"}
+              </p>
+            </div>
+            <div className="text-right">
+              <div className="text-[10px] font-black uppercase tracking-widest text-white/60 mb-1">TOTAL PAYABLE</div>
+              <div className="text-5xl font-black italic tracking-tighter drop-shadow-lg">
+                ₹{formatCurrency(calculations.totalAmount)}
+              </div>
             </div>
           </div>
         </div>
@@ -345,16 +353,16 @@ const PurchaseBillForm = () => {
           />
 
           {/* Notes Section */}
-          <div className="pb-6 border-b border-gray-200">
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Notes
+          <div className="pb-8 border-b border-gray-50 dark:border-white/5">
+            <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3">
+              PROCUREMENT MEMO & REMARKS
             </label>
             <textarea
               value={form.notes}
               onChange={(e) => setForm({ ...form, notes: e.target.value })}
-              placeholder="Additional notes..."
+              placeholder="Enter internal notes or procurement remarks..."
               rows="3"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="w-full px-4 py-3 bg-transparent border border-gray-100 dark:border-white/10 rounded-2xl focus:outline-none focus:ring-2 focus:ring-(--primary-color)/20 text-(--text-main) placeholder:text-gray-400 font-bold transition-all"
             />
           </div>
 
@@ -363,24 +371,26 @@ const PurchaseBillForm = () => {
             setPaymentMode={setPaymentMode}
             cashDenominations={cashDenominations}
             setCashDenominations={setCashDenominations}
+            formatCurrency={formatCurrency}
           />
 
           {/* Action Buttons */}
-          <div className="flex gap-3 justify-end">
+          <div className="flex gap-4 justify-end pt-8 border-t border-gray-50 dark:border-white/5">
             <Button
               type="button"
               onClick={() => navigate("/purchase/bill")}
               variant="outline"
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 px-8 rounded-2xl h-12 font-bold uppercase tracking-widest text-xs"
             >
-              <X size={18} /> Cancel
+              <X size={18} /> Discard Changes
             </Button>
             <Button
               type="submit"
               disabled={isLoading}
-              className="bg-green-600 hover:bg-green-700 text-white flex items-center gap-2 disabled:opacity-50"
+              variant="primary"
+              className="flex items-center gap-2 px-12 rounded-2xl h-12 font-black uppercase tracking-widest text-xs shadow-xl shadow-(--primary-color)/20"
             >
-              <Save size={18} /> {isLoading ? "Saving..." : isEdit ? "Update Bill" : "Create Bill"}
+              <Save size={18} /> {isLoading ? "Processing..." : isEdit ? "Update Procurement" : "Confirm Purchase"}
             </Button>
           </div>
         </form>
