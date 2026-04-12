@@ -20,7 +20,7 @@ const Modal = ({ open, onClose, title, children, className = "max-w-lg" }) => {
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/20 backdrop-blur-xl animate-fade-in p-4" onClick={onClose}>
       <div
-        className={`bg-(--card-bg) max-h-[90vh] overflow-y-auto no-scrollbar rounded-[2rem] shadow-2xl border border-white/10 p-8 w-full relative transition-all duration-500 scale-100 animate-zoom-in ${className}`}
+        className={`bg-(--card-bg)/90 max-h-[90vh] overflow-y-auto no-scrollbar rounded-[2rem] shadow-2xl border border-white/20 p-8 w-full relative transition-all duration-500 scale-100 animate-zoom-in ${className}`}
         tabIndex={-1}
         ref={ref}
         onClick={e => e.stopPropagation()}

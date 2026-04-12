@@ -88,10 +88,10 @@ const BatchSelectionDialog = ({ open, onClose, onSelectBatch, itemId, itemName }
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-(--card-bg) rounded-[2.5rem] shadow-2xl max-w-6xl w-full max-h-[90vh] flex flex-col border border-white/10 overflow-hidden animate-in fade-in zoom-in duration-300">
+    <div className="fixed inset-0 bg-black/20 backdrop-blur-xl flex items-center justify-center z-50 p-4">
+      <div className="bg-(--card-bg)/90 rounded-[2.5rem] shadow-2xl max-w-6xl w-full max-h-[90vh] flex flex-col border border-white/20 overflow-hidden animate-in fade-in zoom-in duration-300">
         {/* Header */}
-        <div className="flex justify-between items-center p-8 border-b border-gray-50 dark:border-white/5 bg-gradient-to-r from-(--header-bg) to-(--header-bg)/90 text-white relative">
+        <div className="flex justify-between items-center p-8 border-b border-gray-100 dark:border-white/5 bg-gradient-to-r from-(--header-bg) to-(--header-bg)/90 text-white relative">
            <div className="absolute inset-0 opacity-10 pointer-events-none" style={{
             backgroundImage: `radial-gradient(#ffffff 1px, transparent 1px)`,
             backgroundSize: '20px 20px'
@@ -252,16 +252,16 @@ const BatchSelectionDialog = ({ open, onClose, onSelectBatch, itemId, itemName }
         ) : (
           <>
             {/* Search and Add Button */}
-            <div className="p-6 border-b border-gray-50 dark:border-white/5 bg-(--sidebar-active-bg)/30">
+            <div className="p-6 border-b border-gray-100 dark:border-white/5 bg-(--sidebar-active-bg)">
               <div className="flex gap-4 items-center">
                 <div className="relative flex-1">
                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
                   <input
                     type="text"
-                    placeholder="SCAN_OR_FILTER_BATCH_IDENTIFIER"
+                    placeholder="search.."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    className="w-full pl-12 pr-4 py-3 bg-white dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl focus:outline-none focus:ring-2 focus:ring-(--primary-color)/20 font-bold text-sm tracking-tight"
+                    className="w-full pl-12 pr-4 py-3 bg-white/50 dark:bg-white/5 border border-gray-400 dark:border-white/10 rounded-2xl focus:outline-none focus:ring-2 focus:ring-(--primary-color)/20 font-bold text-sm tracking-tight shadow-sm"
                   />
                 </div>
                 <button
@@ -295,7 +295,7 @@ const BatchSelectionDialog = ({ open, onClose, onSelectBatch, itemId, itemName }
                 </div>
               ) : (
                 <table className="w-full text-sm">
-                  <thead className="bg-(--sidebar-active-bg)/50 border-b border-gray-50 dark:border-white/5 sticky top-0 z-10 backdrop-blur-md">
+                  <thead className="bg-(--sidebar-active-bg)/50 border-b border-gray-100 dark:border-white/5 sticky top-0 z-10 backdrop-blur-md">
                     <tr>
                       <th className="px-6 py-4 text-left font-black uppercase tracking-widest text-gray-400 text-[10px]">Identifier</th>
                       <th className="px-6 py-4 text-center font-black uppercase tracking-widest text-gray-400 text-[10px]">Liquidity</th>
@@ -312,7 +312,7 @@ const BatchSelectionDialog = ({ open, onClose, onSelectBatch, itemId, itemName }
                     {filteredBatches.map((batch, index) => (
                       <tr
                         key={batch.id}
-                        className="hover:bg-(--sidebar-active-bg)/30 cursor-pointer transition-all duration-300 group"
+                        className="bg-(--sidebar-active-bg) hover:bg-(--sidebar-active-bg)/80 transition-all duration-300 group cursor-pointer"
                         onClick={() => handleSelectBatch(batch)}
                       >
                         <td className="px-6 py-4">
