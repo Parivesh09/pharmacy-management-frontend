@@ -38,10 +38,10 @@ const SaleItemsTableSection = ({
                 Stock
               </th>
               <th className="px-4 py-4 text-center font-bold text-(--text-main) opacity-70 uppercase text-[10px] tracking-widest">
-                Unit-2
+                Unit-1
               </th>
               <th className="px-4 py-4 text-center font-bold text-(--text-main) opacity-70 uppercase text-[10px] tracking-widest">
-                Unit-1
+                Unit-2
               </th>
               <th className="px-4 py-4 text-right font-bold text-(--text-main) opacity-70 uppercase text-[10px] tracking-widest">
                 Rate
@@ -111,11 +111,10 @@ const SaleItemsTableSection = ({
                   />
                 </td>
                 <td className="px-3 py-3 text-center">
-                  <span className={`px-2 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter ${
-                    (item.availableStock || 0) > 0
+                  <span className={`px-2 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter ${(item.availableStock || 0) > 0
                       ? "bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-500"
                       : "bg-red-100 text-red-700 dark:bg-red-900/20 dark:text-red-500"
-                  }`}>
+                    }`}>
                     {item.availableStock || 0}
                   </span>
                 </td>
@@ -158,12 +157,11 @@ const SaleItemsTableSection = ({
                       const newQuantity = parseFloat(e.target.value) || 1;
                       onItemChange(idx, "quantity", newQuantity);
                     }}
-                    className={`text-xs text-center bg-transparent font-black ${
-                      (item.quantity || 0) > (item.batchQuantity || item.availableStock || 0) && 
-                      (item.batchQuantity || item.availableStock || 0) > 0
+                    className={`text-xs text-center bg-transparent font-black ${(item.quantity || 0) > (item.batchQuantity || item.availableStock || 0) &&
+                        (item.batchQuantity || item.availableStock || 0) > 0
                         ? "text-red-500 !border-red-500"
                         : ""
-                    }`}
+                      }`}
                     step="1"
                     max={item.batchQuantity || item.availableStock || undefined}
                   />

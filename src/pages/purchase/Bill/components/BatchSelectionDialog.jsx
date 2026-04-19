@@ -88,26 +88,26 @@ const BatchSelectionDialog = ({ open, onClose, onSelectBatch, itemId, itemName }
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/20 backdrop-blur-xl flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/10 backdrop-blur-[2px] flex items-center justify-center z-50 p-4">
       <div className="bg-(--card-bg)/90 rounded-[2.5rem] shadow-2xl max-w-6xl w-full max-h-[90vh] flex flex-col border border-white/20 overflow-hidden animate-in fade-in zoom-in duration-300">
         {/* Header */}
         <div className="flex justify-between items-center p-8 border-b border-gray-100 dark:border-white/5 bg-gradient-to-r from-(--header-bg) to-(--header-bg)/90 text-white relative">
-           <div className="absolute inset-0 opacity-10 pointer-events-none" style={{
+          <div className="absolute inset-0 opacity-10 pointer-events-none" style={{
             backgroundImage: `radial-gradient(#ffffff 1px, transparent 1px)`,
             backgroundSize: '20px 20px'
           }}></div>
           <div className="relative z-10 flex items-center gap-4">
-             <div className="p-3 bg-white/10 rounded-2xl backdrop-blur-md">
-                <Info className="text-white" size={24} />
-             </div>
-             <div>
-                <h2 className="text-xl font-black italic tracking-tighter uppercase leading-none">
-                  {showCreateForm ? "Initialize Record" : "Batch Repository"}
-                </h2>
-                <p className="text-[10px] font-bold text-white/60 uppercase tracking-widest mt-1">
-                  {showCreateForm ? `New Entry for ${itemName}` : `Available Stock for ${itemName}`}
-                </p>
-             </div>
+            <div className="p-3 bg-white/10 rounded-2xl backdrop-blur-md">
+              <Info className="text-white" size={24} />
+            </div>
+            <div>
+              <h2 className="text-xl font-black italic tracking-tighter uppercase leading-none">
+                {showCreateForm ? "Initialize Record" : "Batch Repository"}
+              </h2>
+              <p className="text-[10px] font-bold text-white/60 uppercase tracking-widest mt-1">
+                {showCreateForm ? `New Entry for ${itemName}` : `Available Stock for ${itemName}`}
+              </p>
+            </div>
           </div>
           <button
             onClick={onClose}
@@ -128,7 +128,7 @@ const BatchSelectionDialog = ({ open, onClose, onSelectBatch, itemId, itemName }
                 <input
                   type="text"
                   value={newBatchData.batchNumber}
-                  onChange={(e) => setNewBatchData({...newBatchData, batchNumber: e.target.value})}
+                  onChange={(e) => setNewBatchData({ ...newBatchData, batchNumber: e.target.value })}
                   placeholder="e.g., B1, BATCH001"
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
@@ -140,7 +140,7 @@ const BatchSelectionDialog = ({ open, onClose, onSelectBatch, itemId, itemName }
                 <input
                   type="number"
                   value={newBatchData.quantity}
-                  onChange={(e) => setNewBatchData({...newBatchData, quantity: parseFloat(e.target.value) || 0})}
+                  onChange={(e) => setNewBatchData({ ...newBatchData, quantity: parseFloat(e.target.value) || 0 })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   step="1"
                 />
@@ -151,7 +151,7 @@ const BatchSelectionDialog = ({ open, onClose, onSelectBatch, itemId, itemName }
                 </label>
                 <select
                   value={newBatchData.unit1st}
-                  onChange={(e) => setNewBatchData({...newBatchData, unit1st: e.target.value})}
+                  onChange={(e) => setNewBatchData({ ...newBatchData, unit1st: e.target.value })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="PCS">PCS</option>
@@ -168,7 +168,7 @@ const BatchSelectionDialog = ({ open, onClose, onSelectBatch, itemId, itemName }
                   type="number"
                   step="0.01"
                   value={newBatchData.mrp}
-                  onChange={(e) => setNewBatchData({...newBatchData, mrp: parseFloat(e.target.value) || 0})}
+                  onChange={(e) => setNewBatchData({ ...newBatchData, mrp: parseFloat(e.target.value) || 0 })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -180,7 +180,7 @@ const BatchSelectionDialog = ({ open, onClose, onSelectBatch, itemId, itemName }
                   type="number"
                   step="0.01"
                   value={newBatchData.billingMrp}
-                  onChange={(e) => setNewBatchData({...newBatchData, billingMrp: parseFloat(e.target.value) || 0})}
+                  onChange={(e) => setNewBatchData({ ...newBatchData, billingMrp: parseFloat(e.target.value) || 0 })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -191,7 +191,7 @@ const BatchSelectionDialog = ({ open, onClose, onSelectBatch, itemId, itemName }
                 <input
                   type="date"
                   value={newBatchData.mfgDate}
-                  onChange={(e) => setNewBatchData({...newBatchData, mfgDate: e.target.value})}
+                  onChange={(e) => setNewBatchData({ ...newBatchData, mfgDate: e.target.value })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -202,7 +202,7 @@ const BatchSelectionDialog = ({ open, onClose, onSelectBatch, itemId, itemName }
                 <input
                   type="date"
                   value={newBatchData.expiryDate}
-                  onChange={(e) => setNewBatchData({...newBatchData, expiryDate: e.target.value})}
+                  onChange={(e) => setNewBatchData({ ...newBatchData, expiryDate: e.target.value })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -212,7 +212,7 @@ const BatchSelectionDialog = ({ open, onClose, onSelectBatch, itemId, itemName }
                 </label>
                 <select
                   value={newBatchData.status}
-                  onChange={(e) => setNewBatchData({...newBatchData, status: e.target.value})}
+                  onChange={(e) => setNewBatchData({ ...newBatchData, status: e.target.value })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="Active">Active</option>
@@ -321,9 +321,8 @@ const BatchSelectionDialog = ({ open, onClose, onSelectBatch, itemId, itemName }
                           </div>
                         </td>
                         <td className="px-6 py-4 text-center">
-                          <span className={`px-3 py-1 rounded-full text-[10px] font-black tracking-widest ${
-                            parseFloat(batch.quantity || 0) > 0 ? 'bg-emerald-500/10 text-emerald-500' : 'bg-red-500/10 text-red-500'
-                          }`}>
+                          <span className={`px-3 py-1 rounded-full text-[10px] font-black tracking-widest ${parseFloat(batch.quantity || 0) > 0 ? 'bg-emerald-500/10 text-emerald-500' : 'bg-red-500/10 text-red-500'
+                            }`}>
                             {parseFloat(batch.quantity || 0).toFixed(1)}
                           </span>
                         </td>

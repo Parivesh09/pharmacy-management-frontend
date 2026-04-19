@@ -9,7 +9,7 @@ const SelectPartyDialog = ({ open, onClose, onSelectParty }) => {
 
   const filteredLedgers = useMemo(() => {
     if (!ledgersData?.data) return [];
-    
+
     let filtered = ledgersData.data.filter(ledger =>
       ledger.name?.toLowerCase().includes(search.toLowerCase()) ||
       ledger.address?.toLowerCase().includes(search.toLowerCase())
@@ -27,21 +27,21 @@ const SelectPartyDialog = ({ open, onClose, onSelectParty }) => {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/20 backdrop-blur-xl flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/10 backdrop-blur-[2px] flex items-center justify-center z-50 p-4">
       <div className="w-full max-w-5xl max-h-[85vh] flex flex-col bg-(--card-bg)/90 rounded-[2.5rem] shadow-2xl border border-white/20 overflow-hidden animate-in fade-in zoom-in duration-300">
         {/* Header */}
         <div className="flex items-center justify-between p-8 border-b border-gray-100 dark:border-white/5 bg-gradient-to-r from-(--header-bg) to-(--header-bg)/90 text-white relative">
-           <div className="absolute inset-0 opacity-10 pointer-events-none" style={{
+          <div className="absolute inset-0 opacity-10 pointer-events-none" style={{
             backgroundImage: `radial-gradient(#ffffff 1px, transparent 1px)`,
             backgroundSize: '20px 20px'
           }}></div>
           <div className="relative z-10 flex items-center gap-4">
             <div className="p-3 bg-white/10 rounded-2xl backdrop-blur-md">
-               <Search className="text-white" size={24} />
+              <Search className="text-white" size={24} />
             </div>
             <div>
-               <h2 className="text-xl font-black italic tracking-tighter uppercase leading-none">Select Trading Ally</h2>
-               <p className="text-[10px] font-bold text-white/60 uppercase tracking-widest mt-1">Acquire ledger for business transaction</p>
+              <h2 className="text-xl font-black italic tracking-tighter uppercase leading-none">Select Trading Ally</h2>
+              <p className="text-[10px] font-bold text-white/60 uppercase tracking-widest mt-1">Acquire ledger for business transaction</p>
             </div>
           </div>
           <button
@@ -109,11 +109,10 @@ const SelectPartyDialog = ({ open, onClose, onSelectParty }) => {
                         <div className="text-[10px] text-gray-400 font-bold uppercase tracking-tight truncate max-w-[400px]">{ledger.address || "No secondary address provided"}</div>
                       </td>
                       <td className="px-6 py-5">
-                        <span className={`px-3 py-1 rounded-full text-[10px] font-black tracking-widest ${
-                          (ledger.status || "Active").toLowerCase() === "active"
+                        <span className={`px-3 py-1 rounded-full text-[10px] font-black tracking-widest ${(ledger.status || "Active").toLowerCase() === "active"
                             ? "bg-emerald-500/10 text-emerald-500 shadow-sm shadow-emerald-500/10"
                             : "bg-red-500/10 text-red-500"
-                        }`}>
+                          }`}>
                           {ledger.status || "ACTIVE"}
                         </span>
                       </td>
@@ -132,12 +131,12 @@ const SelectPartyDialog = ({ open, onClose, onSelectParty }) => {
                 ) : (
                   <tr>
                     <td colSpan="4" className="px-6 py-20 text-center">
-                       <div className="flex flex-col items-center gap-4 opacity-30">
-                          <div className="w-16 h-16 rounded-full border-2 border-dashed border-gray-400 flex items-center justify-center">
-                             <Search size={32} />
-                          </div>
-                          <p className="text-[10px] font-black uppercase tracking-widest">No matching entities found in matrix</p>
-                       </div>
+                      <div className="flex flex-col items-center gap-4 opacity-30">
+                        <div className="w-16 h-16 rounded-full border-2 border-dashed border-gray-400 flex items-center justify-center">
+                          <Search size={32} />
+                        </div>
+                        <p className="text-[10px] font-black uppercase tracking-widest">No matching entities found in matrix</p>
+                      </div>
                     </td>
                   </tr>
                 )}

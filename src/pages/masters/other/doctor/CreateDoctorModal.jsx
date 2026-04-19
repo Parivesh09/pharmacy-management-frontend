@@ -49,12 +49,12 @@ const CreateDoctorModal = ({ open, onClose, onSave }) => {
       open={open}
       onClose={onClose}
       title="CREATE DOCTOR PROFILE"
-      className="max-w-4xl"
+      className="!p-0 !max-w-5xl w-full !bg-white dark:!bg-(--card-bg) overflow-hidden"
     >
-      <div className="flex flex-col md:flex-row gap-6 py-4">
-        
-        <div className="flex-1 bg-(--sidebar-active-bg)/30 border border-(--primary-color)/5 rounded-3xl p-6 space-y-4">
-          <div className="text-[10px] font-black uppercase tracking-widest text-(--primary-color) border-b border-gray-50 dark:border-white/5 pb-3 mb-2">Professional Identity</div>
+      <div className="flex flex-col md:flex-row gap-6 p-6">
+
+        <div className="flex-1 space-y-4">
+          <div className="text-[10px] font-black uppercase tracking-widest text-(--primary-color) border-b border-gray-100 dark:border-white/5 pb-2 mb-2">Professional Identity</div>
           <Input
             label="Mobile Number"
             name="mobileNo"
@@ -94,9 +94,7 @@ const CreateDoctorModal = ({ open, onClose, onSave }) => {
             name="specialization"
             value={form.specialization}
             options={specializationOptions}
-            onChange={(e) =>
-              handleSelectChange("specialization", e.target.value)
-            }
+            onChange={(e) => handleSelectChange("specialization", e.target.value)}
             className="bg-transparent border-gray-200 dark:border-gray-700 font-bold"
           />
           <div className="grid grid-cols-2 gap-4">
@@ -116,10 +114,10 @@ const CreateDoctorModal = ({ open, onClose, onSave }) => {
             />
           </div>
         </div>
-        
+
         <div className="flex-1 flex flex-col justify-between">
-          <div className="bg-(--sidebar-active-bg)/30 border border-(--primary-color)/5 rounded-3xl p-6 space-y-4">
-            <div className="text-[10px] font-black uppercase tracking-widest text-(--primary-color) border-b border-gray-50 dark:border-white/5 pb-3 mb-2">Practice Locations</div>
+          <div className="space-y-4">
+            <div className="text-[10px] font-black uppercase tracking-widest text-(--primary-color) border-b border-gray-100 dark:border-white/5 pb-2 mb-2">Practice Locations</div>
             <Input
               label="Clinic / Office Address"
               name="address"
@@ -157,24 +155,24 @@ const CreateDoctorModal = ({ open, onClose, onSave }) => {
               prefix="+91"
               value={form.whatsapp}
               onChange={handleChange}
-              className="bg-transparent border-gray-200 dark:border-gray-700 font-bold"
+              className="bg- border-gray-200 dark:border-gray-700 font-bold"
             />
           </div>
 
-          <div className="flex gap-4 mt-8 pt-6 border-t border-gray-50 dark:border-white/5 justify-end">
-            <Button 
-               onClick={onClose} 
-               type="button" 
-               variant="outline"
-               className="flex-1"
+          <div className="flex gap-3 mt-8 pt-4 border-t border-gray-50 dark:border-white/5 justify-end">
+            <Button
+              onClick={onClose}
+              type="button"
+              variant="outline"
+              className="px-8"
             >
               Cancel
             </Button>
-            <Button 
-               onClick={handleSave} 
-               type="button" 
-               variant="primary"
-               className="flex-1 shadow-xl shadow-(--primary-color)/20 font-black uppercase tracking-widest"
+            <Button
+              onClick={handleSave}
+              type="button"
+              variant="primary"
+              className="px-8 shadow-lg shadow-(--primary-color)/20 font-black uppercase tracking-widest"
             >
               Save Profile
             </Button>

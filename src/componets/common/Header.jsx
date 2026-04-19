@@ -80,7 +80,7 @@ export default function DefaultHeader({ title, onMenuClick }) {
         <div className="flex items-center gap-1 md:gap-2 text-xs md:text-sm text-white/90 bg-white/10 px-2 py-1 rounded truncate max-w-[120px] md:max-w-none border border-white/20">
           <span className="hidden sm:inline">Financial Year:</span>
           <span className="font-semibold text-white truncate">
-             {currentCompany?.financialYearFrom} - {currentCompany?.financialYearTo}
+            {currentCompany?.financialYearFrom} - {currentCompany?.financialYearTo}
           </span>
         </div>
 
@@ -140,7 +140,7 @@ export default function DefaultHeader({ title, onMenuClick }) {
             variant="default"
             size="sm"
             title="User menu"
-            className="bg-gray-300 border-2 border-white shadow hover:text-blue-600 hover:border-blue-600"
+            className="bg-gray-300 border-2 border-blue text-blue-600 shadow hover:border-blue-600"
           />
           {cardOpen && (
             <Card className="absolute right-0 mt-3 w-72 md:w-80 bg-white rounded-xl shadow-2xl z-50 border border-gray-100 p-0 animate-fade-in">

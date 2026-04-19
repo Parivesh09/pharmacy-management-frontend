@@ -4,13 +4,13 @@ import { useGetLedgersQuery } from "../../services/ledgerApi.js";
 import { useDebounce } from "../../utils/useDebounce.js";
 import Pagination from "./Pagination.jsx";
 
-const GlobalLedgerListModal = ({ 
-    open, 
-    onClose, 
-    onSelectLedger, 
-    title = "Select Ledger",
-    groupIds,
-    defaultFilters = {} 
+const GlobalLedgerListModal = ({
+  open,
+  onClose,
+  onSelectLedger,
+  title = "Select Ledger",
+  groupIds,
+  defaultFilters = {}
 }) => {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
@@ -18,10 +18,10 @@ const GlobalLedgerListModal = ({
   const debouncedSearch = useDebounce(search, 300);
   const prevDataRef = useRef([]);
 
-  const { 
-    data: ledgerData, 
-    isLoading, 
-    isFetching 
+  const {
+    data: ledgerData,
+    isLoading,
+    isFetching
   } = useGetLedgersQuery({
     page,
     limit: 10,
@@ -67,21 +67,21 @@ const GlobalLedgerListModal = ({
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/20 backdrop-blur-xl flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/10 backdrop-blur-[2px] flex items-center justify-center z-50 p-4">
       <div className="w-full max-w-5xl max-h-[85vh] flex flex-col bg-(--card-bg)/90 rounded-[2.5rem] shadow-2xl border border-white/20 overflow-hidden animate-in fade-in zoom-in duration-300">
         {/* Header */}
         <div className="flex items-center justify-between p-8 border-b border-gray-100 dark:border-white/5 bg-gradient-to-r from-(--header-bg) to-(--header-bg)/90 text-white relative">
-           <div className="absolute inset-0 opacity-10 pointer-events-none" style={{
+          <div className="absolute inset-0 opacity-10 pointer-events-none" style={{
             backgroundImage: `radial-gradient(#ffffff 1px, transparent 1px)`,
             backgroundSize: '20px 20px'
           }}></div>
           <div className="relative z-10 flex items-center gap-4">
             <div className="p-3 bg-white/10 rounded-2xl backdrop-blur-md">
-               <BookOpen className="text-white" size={24} />
+              <BookOpen className="text-white" size={24} />
             </div>
             <div>
-               <h2 className="text-xl font-black italic tracking-tighter uppercase leading-none">{title}</h2>
-               <p className="text-[10px] font-bold text-white/60 uppercase tracking-widest mt-1">Acquire account ledger for financial operations</p>
+              <h2 className="text-xl font-black italic tracking-tighter uppercase leading-none">{title}</h2>
+              <p className="text-[10px] font-bold text-white/60 uppercase tracking-widest mt-1">Acquire account ledger for financial operations</p>
             </div>
           </div>
           <button
@@ -151,11 +151,10 @@ const GlobalLedgerListModal = ({
                         <div className="text-[9px] font-black uppercase text-gray-400 tracking-[0.1em]">{ledger.balanceType}</div>
                       </td>
                       <td className="px-6 py-5 text-center">
-                         <span className={`px-3 py-1 rounded-full text-[10px] font-black tracking-widest ${
-                          (ledger.status || "Active").toLowerCase() === "active"
+                        <span className={`px-3 py-1 rounded-full text-[10px] font-black tracking-widest ${(ledger.status || "Active").toLowerCase() === "active"
                             ? "bg-emerald-500/10 text-emerald-500"
                             : "bg-red-500/10 text-red-500"
-                        }`}>
+                          }`}>
                           {ledger.status || "ACTIVE"}
                         </span>
                       </td>
@@ -169,10 +168,10 @@ const GlobalLedgerListModal = ({
                 ) : (
                   <tr>
                     <td colSpan="5" className="px-6 py-20 text-center">
-                       <div className="flex flex-col items-center gap-4 opacity-30">
-                          <BookOpen size={32} />
-                          <p className="text-[10px] font-black uppercase tracking-widest">No matching ledgers found in matrix</p>
-                       </div>
+                      <div className="flex flex-col items-center gap-4 opacity-30">
+                        <BookOpen size={32} />
+                        <p className="text-[10px] font-black uppercase tracking-widest">No matching ledgers found in matrix</p>
+                      </div>
                     </td>
                   </tr>
                 )}
@@ -183,14 +182,14 @@ const GlobalLedgerListModal = ({
 
         {/* Infinite Scroll / Pagination info would go here, for now using same layout */}
         <div className="p-4 border-t border-gray-100 dark:border-white/5 bg-(--bg-main)/50 flex justify-center">
-             {hasMore && (
-               <button 
-                onClick={() => setPage(p => p + 1)}
-                className="text-[10px] font-black uppercase tracking-[0.2em] text-(--primary-color) hover:brightness-110 transition-all py-2"
-               >
-                 Expand Repository View
-               </button>
-             )}
+          {hasMore && (
+            <button
+              onClick={() => setPage(p => p + 1)}
+              className="text-[10px] font-black uppercase tracking-[0.2em] text-(--primary-color) hover:brightness-110 transition-all py-2"
+            >
+              Expand Repository View
+            </button>
+          )}
         </div>
       </div>
     </div>
