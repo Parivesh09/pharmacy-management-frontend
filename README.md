@@ -1,4 +1,4 @@
-# ASR Pharmacy Inventory Management
+# Pharmacy Management (Frontend)
 
 A modern inventory and billing management system for pharmacies, built with React, Vite, and Redux Toolkit. This app features robust authentication, role-based access, and persistent login across reloads for a seamless user experience.
 
@@ -52,7 +52,7 @@ VITE_BACKEND_BASE_URL=http://localhost:5000
 
 ## Project Structure
 ```
-asr-pharmacy/
+pharmacy-management-frontend/
 ├── public/                # Static assets
 ├── src/
 │   ├── componets/         # UI components (auth, common, dashboard, layout)
@@ -71,4 +71,4 @@ asr-pharmacy/
 This project is for demonstration and educational purposes.
 
 ---
-For questions or support, contact: support@asrpharmacy.com
+For questions or support, contact: support@example.com
