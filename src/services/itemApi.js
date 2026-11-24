@@ -21,16 +21,10 @@ export const itemApi = createApi({
     }),
     getItemById: builder.query({
       query: (id) => ({
-        url: `/item/v1/get-item?filters=${JSON.stringify({ _id: id })}`,
+        url: `/item/v1/get-items/${id}`,
         method: 'GET',
       }),
-      transformResponse: (response) => {
-        // Handle list response and extract first item
-        if (response?.data && Array.isArray(response.data)) {
-          return { ...response, data: response.data[0] };
-        }
-        return response;
-      },
+      transformResponse: (response) => response.data || response,
       providesTags: (result, error, id) => [{ type: 'Item', id }],
     }),
     addItem: builder.mutation({

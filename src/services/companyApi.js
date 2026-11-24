@@ -54,21 +54,6 @@ export const companyApi = createApi({
       }),
       invalidatesTags: ["Company"],
     }),
-    addUserToCompany: builder.mutation({
-      query: ({ companyId, userData }) => ({
-        url: `/company/v1/${companyId}/add-user`,
-        method: "POST",
-        body: userData,
-      }),
-      invalidatesTags: ["Company"],
-    }),
-    removeUserFromCompany: builder.mutation({
-      query: ({ companyId, userId }) => ({
-        url: `/company/v1/${companyId}/remove-user/${userId}`,
-        method: "DELETE",
-      }),
-      invalidatesTags: ["Company"],
-    }),
   }),
   overrideExisting: false,
 });
@@ -80,6 +65,4 @@ export const {
   useAddCompanyMutation,
   useUpdateCompanyMutation,
   useDeleteCompanyMutation,
-  useAddUserToCompanyMutation,
-  useRemoveUserFromCompanyMutation,
 } = companyApi;

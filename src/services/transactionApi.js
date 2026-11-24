@@ -13,7 +13,7 @@ export const transactionApi = createApi({
   endpoints: (builder) => ({
     getTransactions: builder.query({
       query: ({ page = 1, limit, search = '', voucherType, status, isPosted, startDate, endDate, companyId } = {}) => ({
-        url: `/transaction/v1/get-transactions?${buildQueryParams({ page, limit, search, voucherType, status, isPosted, startDate, endDate })}`,
+        url: `/transaction/v1/list?${buildQueryParams({ page, limit, search, voucherType, status, isPosted, startDate, endDate })}`,
         method: 'GET',
       }),
       providesTags: ['Transaction'],
@@ -22,7 +22,7 @@ export const transactionApi = createApi({
 
     getTransactionById: builder.query({
       query: (id) => ({
-        url: `/transaction/v1/get-transaction/${id}`,
+        url: `/transaction/v1/${id}`,
         method: 'GET',
       }),
       providesTags: (result, error, id) => [{ type: 'Transaction', id }],
@@ -31,7 +31,7 @@ export const transactionApi = createApi({
 
     createTransaction: builder.mutation({
       query: (transactionData) => ({
-        url: '/transaction/v1/add-transaction',
+        url: '/transaction/v1/create',
         method: 'POST',
         body: transactionData,
       }),
@@ -40,7 +40,7 @@ export const transactionApi = createApi({
 
     updateTransaction: builder.mutation({
       query: ({ id, ...transactionData }) => ({
-        url: `/transaction/v1/update-transaction/${id}`,
+        url: `/transaction/v1/${id}`,
         method: 'PUT',
         body: transactionData,
       }),
@@ -49,7 +49,7 @@ export const transactionApi = createApi({
 
     deleteTransaction: builder.mutation({
       query: (id) => ({
-        url: `/transaction/v1/delete-transaction/${id}`,
+        url: `/transaction/v1/${id}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['Transaction'],
@@ -57,23 +57,23 @@ export const transactionApi = createApi({
 
     postTransaction: builder.mutation({
       query: (id) => ({
-        url: `/transaction/v1/post-transaction/${id}`,
-        method: 'PUT',
+        url: `/transaction/v1/${id}/post`,
+        method: 'POST',
       }),
       invalidatesTags: (result, error, id) => [{ type: 'Transaction', id }, 'Transaction'],
     }),
 
     cancelTransaction: builder.mutation({
       query: (id) => ({
-        url: `/transaction/v1/cancel-transaction/${id}`,
-        method: 'PUT',
+        url: `/transaction/v1/${id}/cancel`,
+        method: 'POST',
       }),
       invalidatesTags: (result, error, id) => [{ type: 'Transaction', id }, 'Transaction'],
     }),
 
     getTransactionStats: builder.query({
       query: ({ startDate, endDate, voucherType } = {}) => ({
-        url: `/transaction/v1/stats?${buildQueryParams({ startDate, endDate, voucherType })}`,
+        url: `/transaction/v1/stats/summary?${buildQueryParams({ startDate, endDate, voucherType })}`,
         method: 'GET',
       }),
       providesTags: ['TransactionStats'],
@@ -92,4 +92,4 @@ export const {
   usePostTransactionMutation,
   useCancelTransactionMutation,
   useGetTransactionStatsQuery,
-} = transactionApi; 
+} = transactionApi;

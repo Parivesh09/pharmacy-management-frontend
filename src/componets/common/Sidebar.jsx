@@ -106,7 +106,6 @@ const Sidebar = ({
     (!isLargeScreen && mobileOpen) ||
     (isLargeScreen && (!isCollapsed || isHovered));
   const user = useSelector((state) => state.user.user);
-  console.log('Current user role:', user?.role);
   const dispatch = useDispatch();
   const logout = () => dispatch(logoutAction());
   const location = useLocation();
@@ -155,11 +154,12 @@ const Sidebar = ({
         <div
           className={`flex items-center justify-between px-3 py-2.5 rounded-lg cursor-pointer transition-all duration-200 group ${indentClass} ${
             isDirectActive
-              ? "bg-(--sidebar-active-bg) text-(--primary-color) border-r-2 border-(--primary-color)"
+              ? "bg-sidebar-active-bg text-primary border-r-2 border-primary"
               : isActive && !isDirectActive
-              ? "bg-(--sidebar-active-bg) text-(--primary-color) opacity-80"
-              : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+              ? "bg-sidebar-active-bg text-primary opacity-80"
+              : "text-sidebar-text hover:bg-sidebar-hover hover:text-sidebar-active-text"
           }`}
+          style={{ color: 'var(--sidebar-text)' }}
           onClick={() => {
             if (hasChildren && isSidebarExpanded) {
               toggleExpanded(item.title, level, parentTitles);
@@ -173,16 +173,17 @@ const Sidebar = ({
               <Icon
                 className={`w-5 h-5 transition-colors ${
                   isDirectActive
-                    ? "text-(--primary-color)"
-                    : "text-gray-500 group-hover:text-gray-700"
+                    ? "text-primary"
+                    : "text-sidebar-text group-hover:text-sidebar-active-text opacity-70"
                 }`}
+                style={{ color: 'var(--sidebar-text)' }}
               />
             )}
 
             {level > 0 && !Icon && (
               <div
                 className={`w-2 h-2 rounded-full transition-colors ${
-                  isDirectActive ? "bg-(--primary-color)" : "bg-gray-300"
+                  isDirectActive ? "bg-primary" : "bg-sidebar-text opacity-50"
                 }`}
               ></div>
             )}
@@ -191,14 +192,15 @@ const Sidebar = ({
               <Icon
                 className={`w-4 h-4 transition-colors ${
                   isDirectActive
-                    ? "text-(--primary-color)"
-                    : "text-gray-500 group-hover:text-gray-700"
+                    ? "text-primary"
+                    : "text-sidebar-text group-hover:text-sidebar-active-text opacity-70"
                 }`}
+                style={{ color: 'var(--sidebar-text)' }}
               />
             )}
 
             {isSidebarExpanded && (
-              <span className={`font-medium transition-colors text-sm`}>
+              <span className={`font-medium transition-colors text-sm`} style={{ color: 'var(--sidebar-text)' }}>
                 {item.title}
               </span>
             )}
@@ -207,9 +209,9 @@ const Sidebar = ({
           {isSidebarExpanded && hasChildren && (
             <div className="flex items-center">
               {isExpanded ? (
-                <ChevronDown className="w-4 h-4 text-gray-400" />
+                <ChevronDown className="w-4 h-4 text-sidebar-text opacity-70" />
               ) : (
-                <ChevronRight className="w-4 h-4 text-gray-400" />
+                <ChevronRight className="w-4 h-4 text-sidebar-text opacity-70" />
               )}
             </div>
           )}
@@ -234,48 +236,66 @@ const Sidebar = ({
     );
   };
 
+  const sidebarStyle = {
+    backgroundColor: 'var(--sidebar-bg)',
+    borderColor: 'var(--sidebar-border)',
+    borderWidth: '1px',
+    borderStyle: 'solid'
+  };
+
+  const overlayStyle = {
+    backgroundColor: 'rgba(0, 0, 0, 0.3)'
+  };
+
   return (
     <>
-      
       <div
-        className={`fixed inset-0 bg-black/30 z-50 transition-opacity duration-300 lg:hidden ${
+        className={`fixed inset-0 z-50 transition-opacity duration-300 lg:hidden ${
           mobileOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
         }`}
         onClick={() => setMobileOpen(false)}
         aria-hidden="true"
+        style={overlayStyle}
       />
       <div
-        className={`fixed top-0 left-0 h-full z-60 bg-white shadow-lg border-r border-gray-200 transition-all duration-300 lg:static lg:z-0 lg:translate-x-0 ${
+        className={`fixed top-0 left-0 h-full z-60 shadow-lg border-r transition-all duration-300 lg:static lg:z-0 lg:translate-x-0 ${
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         } ${
           isLargeScreen ? (isCollapsed ? "w-16 hover:w-64" : "w-64") : "w-64"
         } overflow-x-hidden`}
-        style={{ maxWidth: "100vw" }}
+        style={{ 
+          ...sidebarStyle,
+          maxWidth: "100vw" 
+        }}
         onMouseEnter={() => isLargeScreen && isCollapsed && setIsHovered(true)}
         onMouseLeave={() => isLargeScreen && isCollapsed && setIsHovered(false)}
       >
         <div className="flex flex-col h-full">
-          <div className="flex items-center gap-2 p-4 border-b border-gray-200">
-            <Logo className="w-8 h-8 !bg-(--primary-color)" textClassName="text-white" />
+          <div className="flex items-center gap-2 p-4 border-b" style={{ borderColor: 'var(--sidebar-border)' }}>
+            <Logo className="w-8 h-8" textClassName="text-white" />
             {isSidebarExpanded && (
-              <span className="font-bold text-gray-800 text-lg">
+              <span className="font-bold text-lg" style={{ color: 'var(--sidebar-text)' }}>
                 ASR Pharmacy
               </span>
             )}
             <button
-              className="lg:hidden ml-auto p-2 rounded hover:bg-gray-100 focus:outline-none"
+              className="lg:hidden ml-auto p-2 rounded hover:bg-sidebar-hover transition focus:outline-none"
               onClick={() => setMobileOpen(false)}
               aria-label="Close sidebar"
+              style={{ color: 'var(--sidebar-text)' }}
             >
-              <X className="w-6 h-6 text-gray-700" />
+              <X className="w-6 h-6" />
             </button>
           </div>
           {isSidebarExpanded && (
             <div className="px-4 py-2">
-              <div className="bg-gradient-to-r from-blue-50 to-purple-50 px-3 py-2 rounded-lg">
-                <span className="text-xs font-medium text-blue-700 uppercase tracking-wide">
+              <div className="px-3 py-2 rounded-lg" style={{ 
+                backgroundColor: 'var(--sidebar-active-bg)',
+                borderColor: 'var(--sidebar-border)'
+              }}>
+                <span className="text-xs font-medium uppercase tracking-wide" style={{ color: 'var(--sidebar-active-text)' }}>
                   {user?.role?.replace("_", " ")}
                 </span>
               </div>
@@ -287,7 +307,7 @@ const Sidebar = ({
                 <Input
                   label="Search"
                   type="text"
-                  startIcon={<Search className="w-4 h-4 text-gray-400" />}
+                  startIcon={<Search className="w-4 h-4" style={{ color: 'var(--text-muted)' }} />}
                   className="w-full"
                 />
               </div>

@@ -1,4 +1,12 @@
-import { createSlice, current } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+
+const defaultTheme = {
+  primaryColor: '#008080',
+  headerBg: '#00505b',
+  sidebarBg: '#ffffff',
+  sidebarText: '#374151',
+  mode: 'light'
+};
 
 const initialState = {
   user: null,
@@ -6,13 +14,7 @@ const initialState = {
   isAuthenticated: false,
   userCompanies: [],
   currentCompany: null,
-  theme: {
-    primaryColor: '#008080',
-    headerBg: '#00505b',
-    sidebarBg: '#ffffff',
-    sidebarText: '#374151',
-    mode: 'light' // or 'dark'
-  },
+  theme: defaultTheme,
   loading: false,
   error: null
 };
@@ -69,6 +71,9 @@ const userSlice = createSlice({
     },
     setTheme: (state, action) => {
       state.theme = { ...state.theme, ...action.payload };
+    },
+    resetTheme: (state) => {
+      state.theme = defaultTheme;
     }
   }
 });
@@ -83,7 +88,8 @@ export const {
   setCurrentCompany,
   logout,
   clearError,
-  setTheme
+  setTheme,
+  resetTheme
 } = userSlice.actions;
 
 export default userSlice.reducer; 

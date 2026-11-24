@@ -38,6 +38,32 @@ export const batchApi = createApi({
       }),
       invalidatesTags: ["Batch"],
     }),
+
+    updateBatchQuantity: builder.mutation({
+      query: ({ id, quantity }) => ({
+        url: `/v1/update-quantity/${id}`,
+        method: "PUT",
+        body: { quantity },
+      }),
+      invalidatesTags: ["Batch"],
+    }),
+
+    moveBatchQuantity: builder.mutation({
+      query: (batchData) => ({
+        url: "/v1/move-quantity",
+        method: "POST",
+        body: batchData,
+      }),
+      invalidatesTags: ["Batch"],
+    }),
+
+    deleteBatch: builder.mutation({
+      query: (id) => ({
+        url: `/v1/delete/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Batch"],
+    }),
   }),
 });
 
@@ -46,4 +72,7 @@ export const {
   useGetAllBatchesQuery,
   useGetBatchByIdQuery,
   useCreateBatchMutation,
+  useUpdateBatchQuantityMutation,
+  useMoveBatchQuantityMutation,
+  useDeleteBatchMutation,
 } = batchApi;

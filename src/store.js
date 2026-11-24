@@ -4,7 +4,6 @@ import userReducer from './services/userSlice';
 
 import { authApi } from './services/authApi';
 import { userApi } from './services/userApi';
-import { billApi } from './services/billApi';
 import { companyApi } from './services/companyApi';
 import { storeApi } from './services/storeApi';
 import { itemApi } from './services/itemApi';
@@ -27,6 +26,7 @@ import { purchaseBillApi } from './services/purchaseBillApi';
 import { batchApi } from './services/batchApi';
 import { stationApi } from './services/stationApi';
 import { userCompanyApi } from './services/userCompanyApi';
+import { posApi } from './services/posApi';
 
 import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
@@ -41,8 +41,6 @@ const persistConfig = {
 const rootReducer = combineReducers({
     [authApi.reducerPath]: authApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
-
-    [billApi.reducerPath]: billApi.reducer,
     [companyApi.reducerPath]: companyApi.reducer,
     [storeApi.reducerPath]: storeApi.reducer,
     [itemApi.reducerPath]: itemApi.reducer,
@@ -65,6 +63,7 @@ const rootReducer = combineReducers({
     [batchApi.reducerPath]: batchApi.reducer,
     [stationApi.reducerPath]: stationApi.reducer,
     [userCompanyApi.reducerPath]: userCompanyApi.reducer,
+    [posApi.reducerPath]: posApi.reducer,
     user: userReducer,
   })
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -76,8 +75,6 @@ export const store = configureStore({
     getDefaultMiddleware({ serializableCheck: false }).concat(
       authApi.middleware,
       userApi.middleware,
-
-      billApi.middleware,
       companyApi.middleware,
       storeApi.middleware,
       itemApi.middleware,
@@ -100,6 +97,7 @@ export const store = configureStore({
       batchApi.middleware,
       stationApi.middleware,
       userCompanyApi.middleware,
+      posApi.middleware,
     ),
 }); 
 
