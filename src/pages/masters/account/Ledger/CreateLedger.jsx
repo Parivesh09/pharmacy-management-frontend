@@ -136,11 +136,197 @@ const CreateLedger = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty, isSubmitting },
     setValue,
     watch,
     reset,
+    trigger,
   } = useForm({
+    mode: "onBlur",
+    reValidateMode: "onChange",
+    criteriaMode: "all",
+    resolver: async (data) => {
+      const errors = {};
+
+      // Required fields
+      if (!data.ledgerName?.trim()) {
+        errors.ledgerName = { type: "required", message: "Ledger name is required" };
+      } else if (data.ledgerName.trim().length < 2) {
+        errors.ledgerName = { type: "minLength", message: "Ledger name must be at least 2 characters" };
+      } else if (data.ledgerName.trim().length > 100) {
+        errors.ledgerName = { type: "maxLength", message: "Ledger name must not exceed 100 characters" };
+      }
+
+      if (!data.acgroup) {
+        errors.acgroup = { type: "required", message: "Account group is required" };
+      }
+
+      if (data.openingBalance !== undefined && data.openingBalance !== null) {
+        if (isNaN(data.openingBalance) || data.openingBalance < -999999999999 || data.openingBalance > 999999999999) {
+          errors.openingBalance = { type: "range", message: "Opening balance out of valid range" };
+        }
+      }
+
+      if (data.creditDays !== undefined && data.creditDays !== null) {
+        if (isNaN(data.creditDays) || data.creditDays < 0 || data.creditDays > 999) {
+          errors.creditDays = { type: "range", message: "Credit days must be between 0 and 999" };
+        }
+      }
+
+      if (data.creditLimit !== undefined && data.creditLimit !== null && data.creditLimit !== "") {
+        if (isNaN(data.creditLimit) || data.creditLimit < 0 || data.creditLimit > 999999999999) {
+          errors.creditLimit = { type: "range", message: "Credit limit out of valid range" };
+        }
+      }
+
+      if (data.maxLimit !== undefined && data.maxLimit !== null && data.maxLimit !== "") {
+        if (isNaN(data.maxLimit) || data.maxLimit < 0 || data.maxLimit > 999999999999) {
+          errors.maxLimit = { type: "range", message: "Max limit out of valid range" };
+        }
+      }
+
+      // Format validations
+      if (data.email?.trim()) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(data.email.trim())) {
+          errors.email = { type: "format", message: "Invalid email format" };
+        }
+      }
+
+      if (data.mobile?.trim()) {
+        const phoneRegex = /^[0-9]{10}$/;
+        if (!phoneRegex.test(data.mobile.trim().replace(/\s+/g, ""))) {
+          errors.mobile = { type: "format", message: "Mobile number must be 10 digits" };
+        }
+      }
+
+      if (data.phoneNo?.trim()) {
+        const phoneRegex = /^[0-9]{10}$/;
+        if (!phoneRegex.test(data.phoneNo.trim().replace(/\s+/g, ""))) {
+          errors.phoneNo = { type: "format", message: "Phone number must be 10 digits" };
+        }
+      }
+
+      if (data.panNo?.trim()) {
+        const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+        if (!panRegex.test(data.panNo.trim().toUpperCase())) {
+          errors.panNo = { type: "format", message: "Invalid PAN format (e.g., ABCDE1234F)" };
+        }
+      }
+
+      if (data.gstNo?.trim()) {
+        const gstRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
+        if (!gstRegex.test(data.gstNo.trim().toUpperCase())) {
+          errors.gstNo = { type: "format", message: "Invalid GST format" };
+        }
+      }
+
+      if (data.pincode?.trim()) {
+        const pincodeRegex = /^[0-9]{6}$/;
+        if (!pincodeRegex.test(data.pincode.trim())) {
+          errors.pincode = { type: "format", message: "Pincode must be 6 digits" };
+        }
+      }
+
+      if (data.ifscCode?.trim()) {
+        const ifscRegex = /^[A-Z]{4}0[A-Z0-9]{6}$/;
+        if (!ifscRegex.test(data.ifscCode.trim().toUpperCase())) {
+          errors.ifscCode = { type: "format", message: "Invalid IFSC format" };
+        }
+      }
+
+      if (data.accountNo?.trim()) {
+        const accountRegex = /^[0-9]{9,18}$/;
+        if (!accountRegex.test(data.accountNo.trim())) {
+          errors.accountNo = { type: "format", message: "Account number must be 9-18 digits" };
+        }
+      }
+
+      // Cross-field validations
+      if (showBankDetails) {
+        if (!data.accountNo?.trim()) {
+          errors.accountNo = { type: "required", message: "Account number is required for bank accounts" };
+        }
+        if (!data.ifscCode?.trim()) {
+          errors.ifscCode = { type: "required", message: "IFSC code is required for bank accounts" };
+        }
+        if (!data.bankName?.trim()) {
+          errors.bankName = { type: "required", message: "Bank name is required for bank accounts" };
+        }
+        if (!data.branch?.trim()) {
+          errors.branch = { type: "required", message: "Branch is required for bank accounts" };
+        }
+      }
+
+      if (showCashDetails) {
+        if (!data.cashType?.trim()) {
+          errors.cashType = { type: "required", message: "Cash type is required for cash accounts" };
+        }
+        if (!data.cashLocation?.trim()) {
+          errors.cashLocation = { type: "required", message: "Cash location is required for cash accounts" };
+        }
+      }
+
+      if (showDebtorCreditorDetails) {
+        if (!data.partyType?.trim()) {
+          errors.partyType = { type: "required", message: "Party type is required for debtor/creditor accounts" };
+        }
+      }
+
+      // String length validations
+      const stringLimits = {
+        ledgerName: 100,
+        mailTo: 100,
+        address: 255,
+        city: 50,
+        state: 50,
+        country: 50,
+        pincode: 10,
+        panNo: 10,
+        gstNo: 15,
+        contactPerson: 100,
+        email: 100,
+        mobile: 15,
+        upiId: 50,
+        licenseNo: 50,
+        licenseType: 50,
+        accountNo: 18,
+        ifscCode: 11,
+        branch: 100,
+        micrNo: 9,
+        phoneNo: 15,
+        bankName: 100,
+        cashType: 50,
+        cashLocation: 100,
+        cashierName: 100,
+        paymentTerms: 200,
+        partyType: 50,
+        tdsRate: 10,
+        assetType: 100,
+        depreciationRate: 10,
+        investmentType: 100,
+        interestRate: 10,
+        loanType: 100,
+        lenderName: 100,
+        expenseCategory: 100,
+        expenseType: 100,
+        budgetAmount: 20,
+        expenseFrequency: 50,
+        incomeCategory: 100,
+        incomeType: 100,
+        expectedAmount: 20,
+        incomeFrequency: 50,
+        description: 500,
+      };
+
+      Object.entries(stringLimits).forEach(([field, maxLength]) => {
+        if (data[field] && data[field].trim().length > maxLength) {
+          errors[field] = { type: "maxLength", message: `${field} must not exceed ${maxLength} characters` };
+        }
+      });
+
+      return { errors };
+    },
     defaultValues: DEFAULT_FORM_VALUES,
   });
 
@@ -246,13 +432,6 @@ const CreateLedger = () => {
 
   const onSubmit = async (data) => {
     try {
-      if (!data.ledgerName || data.ledgerName.trim().length < 2) {
-        showToast(
-          "Ledger name is required and must be at least 2 characters",
-          "error",
-        );
-        return;
-      }
       if (!selectedGroup?.value) {
         showToast("Account group is required", "error");
         return;
@@ -281,11 +460,15 @@ const CreateLedger = () => {
   };
 
   const handleClear = () => {
+    if (isDirty && !window.confirm("Discard all changes?")) return;
     reset(DEFAULT_FORM_VALUES);
     setSelectedGroup(null);
   };
 
-  const handleBack = () => navigate("/master/account/ledger");
+  const handleBack = () => {
+    if (isDirty && !window.confirm("Discard all changes and go back?")) return;
+    navigate("/master/account/ledger");
+  };
 
   const isLoading =
     groupsLoading ||
