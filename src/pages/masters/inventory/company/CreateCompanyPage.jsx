@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 
-import Input from "../../../../componets/common/Input";
-import Select from "../../../../componets/common/Select";
-import Button from "../../../../componets/common/Button";
+import Input from "../../../../components/common/Input";
+import Select from "../../../../components/common/Select";
+import Button from "../../../../components/common/Button";
 import { useNavigate, useParams } from "react-router-dom";
 import { Save, Eraser, X } from "lucide-react";
 import EmailWebsiteModal from "./EmailWebsiteModal";

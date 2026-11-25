@@ -5,14 +5,14 @@ import {
   useGetSaltsQuery,
 } from "../../../../services/saltApi";
 import { useNavigate, useParams } from "react-router-dom";
-import Input from "../../../../componets/common/Input";
-import Select from "../../../../componets/common/Select";
-import Button from "../../../../componets/common/Button";
+import Input from "../../../../components/common/Input";
+import Select from "../../../../components/common/Select";
+import Button from "../../../../components/common/Button";
 import InputFields from "./components/InputFields";
 import SaltVariTable from "./components/SaltVariTable";
 import { Eraser, Loader, SaveIcon, X } from "lucide-react";
 import { useForm, Controller } from "react-hook-form";
-import { showToast } from "../../../../componets/common/Toast";
+import { showToast } from "../../../../components/common/Toast";
 
 export default function SaltForm({
   isEditMode = false,

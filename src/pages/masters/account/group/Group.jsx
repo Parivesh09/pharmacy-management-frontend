@@ -1,6 +1,6 @@
 import React from "react";
-import Button from "../../../../componets/common/Button";
-import IconButton from "../../../../componets/common/IconButton";
+import Button from "../../../../components/common/Button";
+import IconButton from "../../../../components/common/IconButton";
 import {
   Plus,
   ChevronDown,

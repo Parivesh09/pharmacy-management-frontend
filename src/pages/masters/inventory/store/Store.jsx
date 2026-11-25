@@ -1,18 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import AddStore from "./AddStore";
-import ConfirmationModal from "../../../../componets/common/ConfirmationModal";
-import Button from "../../../../componets/common/Button";
+import ConfirmationModal from "../../../../components/common/ConfirmationModal";
+import Button from "../../../../components/common/Button";
 import { Plus, Database, Package, FileText, Pill } from "lucide-react";
 import { useGetStoresQuery } from "../../../../services/storeApi";
-import Loader from "../../../../componets/common/Loader";
+import Loader from "../../../../components/common/Loader";
 import {
   useEditStoreMutation,
   useDeleteStoreMutation,
 } from "../../../../services/storeApi";
-import CommonPageLayout from "../../../../componets/layout/CommonPageLayout";
-import Pagination from '../../../../componets/common/Pagination';
+import CommonPageLayout from "../../../../components/layout/CommonPageLayout";
+import Pagination from '../../../../components/common/Pagination';
 import { useDebounce } from '../../../../utils/useDebounce';
-import { showToast } from "../../../../componets/common/Toast";
+import { showToast } from "../../../../components/common/Toast";
 
 const StorePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

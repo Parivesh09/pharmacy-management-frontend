@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { useAddRackMutation } from "../../../../services/rackApi";
-import Modal from "../../../../componets/common/Modal";
-import Input from "../../../../componets/common/Input";
-import Button from "../../../../componets/common/Button";
+import Modal from "../../../../components/common/Modal";
+import Input from "../../../../components/common/Input";
+import Button from "../../../../components/common/Button";
 import { useForm } from "react-hook-form";
-import { TextField } from "../../../../componets/common/Fields";
+import { TextField } from "../../../../components/common/Fields";
 import { useGetStoresQuery } from "../../../../services/storeApi";
-import SearchableSelect from "../../../../componets/common/SearchableSelect";
+import SearchableSelect from "../../../../components/common/SearchableSelect";
 import AddStore from "../store/AddStore";
 
 export default function AddRack({

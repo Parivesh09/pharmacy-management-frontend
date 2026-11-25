@@ -3,10 +3,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useCreateSaleMasterMutation, useUpdateSaleMasterMutation, useGetSaleMasterByIdQuery } from "../../../../services/saleMasterApi";
 import { useGetLedgersQuery } from "../../../../services/ledgerApi";
-import { showToast } from "../../../../componets/common/Toast";
+import { showToast } from "../../../../components/common/Toast";
 import { ArrowLeft, Save, RefreshCw, X } from "lucide-react";
-import Input from "../../../../componets/common/Input";
-import SearchableSelect from "../../../../componets/common/SearchableSelect";
+import Input from "../../../../components/common/Input";
+import SearchableSelect from "../../../../components/common/SearchableSelect";
 
 const CreateSaleMaster = () => {
   const navigate = useNavigate();

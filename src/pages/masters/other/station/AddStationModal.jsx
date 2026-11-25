@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Modal from "../../../../componets/common/Modal";
-import Input from "../../../../componets/common/Input";
-import Button from "../../../../componets/common/Button";
+import Modal from "../../../../components/common/Modal";
+import Input from "../../../../components/common/Input";
+import Button from "../../../../components/common/Button";
 
 const AddStationModal = ({
   isOpen,

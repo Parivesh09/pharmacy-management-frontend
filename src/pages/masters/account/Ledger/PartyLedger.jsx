@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { ArrowLeft, Plus } from 'lucide-react';
-import Input from '../../../../componets/common/Input';
-import Select from '../../../../componets/common/Select';
-import Button from '../../../../componets/common/Button';
-import Modal from '../../../../componets/common/Modal';
-import Loader from '../../../../componets/common/Loader';
-import IconButton from '../../../../componets/common/IconButton';
+import Input from '../../../../components/common/Input';
+import Select from '../../../../components/common/Select';
+import Button from '../../../../components/common/Button';
+import Modal from '../../../../components/common/Modal';
+import Loader from '../../../../components/common/Loader';
+import IconButton from '../../../../components/common/IconButton';
 
 export default function PartyLedger (){
 

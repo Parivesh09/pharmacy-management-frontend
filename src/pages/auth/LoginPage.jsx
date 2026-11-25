@@ -4,11 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../services/userSlice";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Mail, Phone, User } from "lucide-react";
-import Input from "../../componets/common/Input";
-import Button from "../../componets/common/Button";
+import Input from "../../components/common/Input";
+import Button from "../../components/common/Button";
 import { validateEmail, validatePhone } from "../../utils/inputValidation";
-import { showToast } from "../../componets/common/Toast";
-import Logo from "../../componets/common/Logo";
+import { showToast } from "../../components/common/Toast";
+import Logo from "../../components/common/Logo";
 
 const LoginPage = () => {
   const dispatch = useDispatch();

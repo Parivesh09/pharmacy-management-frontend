@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Button from "../../../../componets/common/Button";
+import Button from "../../../../components/common/Button";
 import { useForm } from "react-hook-form";
-import { showToast } from "../../../../componets/common/Toast";
+import { showToast } from "../../../../components/common/Toast";
 import { useGetGroupsQuery } from "../../../../services/groupApi";
 import {
   useGetLedgerByIdQuery,
@@ -12,12 +12,12 @@ import {
 } from "../../../../services/ledgerApi";
 import { useGetStationsQuery } from "../../../../services/stationApi";
 import { flattenGroups } from "../../../../utils/groupUtils";
-import Input from "../../../../componets/common/Input";
-import Select from "../../../../componets/common/Select";
-import SearchableSelect from "../../../../componets/common/SearchableSelect";
+import Input from "../../../../components/common/Input";
+import Select from "../../../../components/common/Select";
+import SearchableSelect from "../../../../components/common/SearchableSelect";
 import { useLedgerPermissions } from "../../../../hooks/useLedgerPermissions";
 import { useDefaultLedgerPermissions } from "../../../../hooks/useDefaultLedgerPermissions";
-import DefaultLedgerIndicator from "../../../../componets/common/DefaultLedgerIndicator";
+import DefaultLedgerIndicator from "../../../../components/common/DefaultLedgerIndicator";
 
 const INDIAN_STATES = [
   "Andhra Pradesh",

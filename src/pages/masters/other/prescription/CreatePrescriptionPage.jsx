@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Input from "../../../../componets/common/Input";
-import Button from "../../../../componets/common/Button";
+import Input from "../../../../components/common/Input";
+import Button from "../../../../components/common/Button";
 import { useNavigate } from "react-router-dom";
 import { useForm, useFieldArray } from "react-hook-form";
 import {

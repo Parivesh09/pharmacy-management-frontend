@@ -1,4 +1,4 @@
-import Input from "../../../../../componets/common/Input";
+import Input from "../../../../../components/common/Input";
 
 const BankDetailsForm = ({ register, errors, selectedGroup }) => {
 

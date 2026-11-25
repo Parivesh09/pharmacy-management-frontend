@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import CommonPageLayout from "../../../../componets/layout/CommonPageLayout";
+import CommonPageLayout from "../../../../components/layout/CommonPageLayout";
 import { useGetPurchaseMastersQuery, useDeletePurchaseMasterMutation } from "../../../../services/purchaseMasterApi";
-import { showToast } from "../../../../componets/common/Toast";
+import { showToast } from "../../../../components/common/Toast";
 import { Plus } from "lucide-react";
-import Button from "../../../../componets/common/Button";
-import ConfirmationModal from "../../../../componets/common/ConfirmationModal";
+import Button from "../../../../components/common/Button";
+import ConfirmationModal from "../../../../components/common/ConfirmationModal";
 import useConfirmation from "../../../../hooks/useConfirmation";
 
 const PurchaseMaster = () => {

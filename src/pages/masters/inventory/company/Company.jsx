@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import Button from "../../../../componets/common/Button";
+import Button from "../../../../components/common/Button";
 import { Plus } from "lucide-react";
 import {
   useDeleteCompanyMutation,
   useGetCompaniesQuery,
 } from "../../../../services/companyApi";
 import { useNavigate } from "react-router-dom";
-import CommonPageLayout from "../../../../componets/layout/CommonPageLayout";
-import Pagination from "../../../../componets/common/Pagination";
+import CommonPageLayout from "../../../../components/layout/CommonPageLayout";
+import Pagination from "../../../../components/common/Pagination";
 import { useDebounce } from "../../../../utils/useDebounce";
 import { useSelector } from "react-redux";
 

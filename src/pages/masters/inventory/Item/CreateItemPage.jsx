@@ -1,12 +1,12 @@
 import { useForm } from "react-hook-form";
 import { useAddItemMutation, useUpdateItemMutation, useGetItemByIdQuery } from "../../../../services/itemApi";
-import Input from "../../../../componets/common/Input";
-import Select from "../../../../componets/common/Select";
-import Button from "../../../../componets/common/Button";
+import Input from "../../../../components/common/Input";
+import Select from "../../../../components/common/Select";
+import Button from "../../../../components/common/Button";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { showToast } from "../../../../componets/common/Toast";
-import { SelectField, TextField } from "../../../../componets/common/Fields";
+import { showToast } from "../../../../components/common/Toast";
+import { SelectField, TextField } from "../../../../components/common/Fields";
 import LeftColumn from "./components/LeftColumn";
 import RightColumn from "./components/RightColumn";
 import { useGetRacksQuery } from "../../../../services/rackApi";

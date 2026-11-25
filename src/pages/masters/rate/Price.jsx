@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from 'react';
-import PageHeader from '../../../componets/common/PageHeader';
-import Input from '../../../componets/common/Input';
-import DataTable from '../../../componets/common/DataTable';
-import Card from '../../../componets/common/Card';
-import StatusBadge from '../../../componets/common/StatusBadge';
+import PageHeader from '../../../components/common/PageHeader';
+import Input from '../../../components/common/Input';
+import DataTable from '../../../components/common/DataTable';
+import Card from '../../../components/common/Card';
+import StatusBadge from '../../../components/common/StatusBadge';
 import { useGetItemsQuery } from '../../../services/itemApi';
 import { Search } from 'lucide-react';
 
