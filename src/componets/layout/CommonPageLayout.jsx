@@ -38,7 +38,7 @@ const CommonPageLayout = ({
   const tableRef = useRef();
 
   return (
-    <div className="flex space-y-2 flex-col h-[calc(100vh-120px)]">
+    <div className="flex space-y-2 flex-col h-full min-h-0">
       <PageHeader title={title} subtitle={subtitle} actions={actions} />
 
       <div
@@ -69,7 +69,7 @@ const CommonPageLayout = ({
         {extraFilters}
       </div>
 
-      <div className="flex-1 flex flex-col px-6 min-h-fit">
+      <div className="flex-1 flex flex-col px-6 min-h-0">
         {isLoading ? (
           <Loader />
         ) : (
