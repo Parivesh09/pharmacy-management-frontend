@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo, memo } from "react";
 import {
    Users,
    Package,
@@ -56,28 +56,47 @@ const DashboardMain = () => {
    const { data: companiesData, isLoading: companiesLoading } = useGetCompaniesQuery({ limit: 100 });
    const { data: prescriptionsData, isLoading: prescriptionsLoading } = useGetPrescriptionsQuery({ limit: 5 });
 
-   const totalSale = salesData?.data?.reduce((acc, bill) => acc + (parseFloat(bill.totalAmount) || 0), 0) || 0;
-   const totalPurchase = purchaseData?.data?.reduce((acc, bill) => acc + (parseFloat(bill.totalAmount) || 0), 0) || 0;
-   const patientCount = patientsData?.totalCount || patientsData?.data?.length || 0;
-   const itemCount = itemsData?.totalCount || itemsData?.data?.length || 0;
-   const agencyCount = mfrData?.totalCount || mfrData?.data?.length || 0;
-   const companyCount = companiesData?.totalCount || companiesData?.data?.length || 0;
+   // Memoize computed values to avoid recalculation on every render
+   const totalSale = useMemo(() => 
+     salesData?.data?.reduce((acc, bill) => acc + (parseFloat(bill.totalAmount) || 0), 0) || 0, 
+     [salesData]
+   );
+   const totalPurchase = useMemo(() => 
+     purchaseData?.data?.reduce((acc, bill) => acc + (parseFloat(bill.totalAmount) || 0), 0) || 0, 
+     [purchaseData]
+   );
+   const patientCount = useMemo(() => 
+     patientsData?.totalCount || patientsData?.data?.length || 0, 
+     [patientsData]
+   );
+   const itemCount = useMemo(() => 
+     itemsData?.totalCount || itemsData?.data?.length || 0, 
+     [itemsData]
+   );
+   const agencyCount = useMemo(() => 
+     mfrData?.totalCount || mfrData?.data?.length || 0, 
+     [mfrData]
+   );
+   const companyCount = useMemo(() => 
+     companiesData?.totalCount || companiesData?.data?.length || 0, 
+     [companiesData]
+   );
 
-   const miniChartData = [
+   const miniChartData = useMemo(() => [
       { name: '27-02 Dec', value: 0 },
       { name: '03-09 Jan', value: 0 },
       { name: '10-16 Jan', value: 0 },
       { name: '17-23 Jan', value: 0 },
       { name: '24-26 Jan', value: 0 },
-   ];
+   ], []);
 
-   const cashFlowData = [
+   const cashFlowData = useMemo(() => [
       { name: 'Cash', value: 0 },
       { name: 'UPI App', value: 0 },
       { name: 'Bank', value: 0 },
-   ];
+   ], []);
 
-   const SummaryCard = ({ title, value, percentage, comparison }) => (
+   const SummaryCard = memo(({ title, value, percentage, comparison }) => (
       <Card className="p-4 relative overflow-hidden group hover:shadow-xl transition-all duration-500 border-t-4 border-(--primary-color) bg-(--card-bg)">
          <div className="flex justify-between items-start mb-2">
             <h3 className="text-(--text-main)/60 font-black uppercase tracking-widest text-[10px]">{title}</h3>
@@ -110,9 +129,9 @@ const DashboardMain = () => {
             <span>24-26 Jan</span>
          </div>
       </Card>
-   );
+   ));
 
-   const InfoCard = ({ title, children, showInValue = true }) => (
+   const InfoCard = memo(({ title, children, showInValue = true }) => (
       <Card className="p-6 bg-(--card-bg) border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-2xl transition-all duration-500 rounded-3xl group">
          <div className="flex justify-between items-center mb-6 border-b border-gray-50 dark:border-white/5 pb-3">
             <h3 className="text-(--primary-color) font-black italic tracking-tighter text-lg uppercase group-hover:scale-105 transition-transform origin-left">{title}</h3>
@@ -122,16 +141,16 @@ const DashboardMain = () => {
             {children}
          </div>
       </Card>
-   );
+   ));
 
-   const ListItem = ({ label, value, color = "text-(--text-main)/60" }) => (
+   const ListItem = memo(({ label, value, color = "text-(--text-main)/60" }) => (
       <div className="flex justify-between items-center text-xs group/item py-1">
          <span className={`${color} font-bold uppercase tracking-tight group-hover/item:text-(--text-main) transition-colors`}>{label}</span>
          <span className="font-black text-(--text-main) bg-(--sidebar-active-bg)/30 px-2 py-0.5 rounded-lg group-hover/item:bg-(--primary-color)/10 transition-colors">
             {typeof value === 'number' ? `₹ ${value.toLocaleString()}` : value}
          </span>
       </div>
-   );
+   ));
 
    return (
       <div className="flex-1 overflow-y-auto no-scrollbar bg-(--bg-main) selection:bg-(--primary-color) selection:text-white">
