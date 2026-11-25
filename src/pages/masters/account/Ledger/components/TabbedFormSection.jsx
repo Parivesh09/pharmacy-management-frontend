@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Input from "../../../../../componets/common/Input";
-import Select from "../../../../../componets/common/Select";
+import Input from "../../../../../components/common/Input";
+import Select from "../../../../../components/common/Select";
 
 const TabbedFormSection = ({ register, selectedGroup, visibleTabs = [] }) => {
   const [activeTab, setActiveTab] = useState(visibleTabs[0] || "license");

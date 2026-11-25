@@ -1,5 +1,5 @@
-import Input from "../../../../../componets/common/Input";
-import Select from "../../../../../componets/common/Select";
+import Input from "../../../../../components/common/Input";
+import Select from "../../../../../components/common/Select";
 
 const DebtorCreditorForm = ({ register, errors, selectedGroup }) => {
   const isDebtor = selectedGroup?.label?.toLowerCase().includes("debtor");

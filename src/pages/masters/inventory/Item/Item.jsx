@@ -2,10 +2,10 @@ import { useNavigate } from "react-router-dom";
 import { useGetItemsQuery } from "../../../../services/itemApi";
 import { useGetStoresQuery } from "../../../../services/storeApi";
 import { useState } from "react";
-import Button from "../../../../componets/common/Button";
+import Button from "../../../../components/common/Button";
 import { Plus } from "lucide-react";
-import Select from "../../../../componets/common/Select";
-import CommonPageLayout from "../../../../componets/layout/CommonPageLayout";
+import Select from "../../../../components/common/Select";
+import CommonPageLayout from "../../../../components/layout/CommonPageLayout";
 import { useDebounce } from "../../../../utils/useDebounce";
 
 const ItemsPage = () => {

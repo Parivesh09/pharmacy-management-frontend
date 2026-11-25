@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useGetLedgerEntriesByBillQuery, useGetTransactionSummaryForBillQuery } from '../../../../../services/ledgerEntryApi';
 import { useLedgerPermissions } from '../../../../../hooks/useLedgerPermissions';
-import DataTable from '../../../../../componets/common/DataTable';
-import Button from '../../../../../componets/common/Button';
-import Modal from '../../../../../componets/common/Modal';
-import Loader from '../../../../../componets/common/Loader';
+import DataTable from '../../../../../components/common/DataTable';
+import Button from '../../../../../components/common/Button';
+import Modal from '../../../../../components/common/Modal';
+import Loader from '../../../../../components/common/Loader';
 import { formatCurrency, formatDate } from '../../../../../utils/formatters';
 
 const LedgerEntriesViewer = ({ 

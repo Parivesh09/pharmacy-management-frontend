@@ -1,9 +1,9 @@
-import Modal from "../../../../componets/common/Modal";
-import Input from "../../../../componets/common/Input";
-import Button from "../../../../componets/common/Button";
+import Modal from "../../../../components/common/Modal";
+import Input from "../../../../components/common/Input";
+import Button from "../../../../components/common/Button";
 import { Save } from "lucide-react";
 import { useState, useEffect } from "react";
-import { showToast } from "../../../../componets/common/Toast";
+import { showToast } from "../../../../components/common/Toast";
 
 export default function EmailWebsiteModal({ open, onClose, onSave, initialData }) {
   const [fields, setFields] = useState({ main: "", cc: "", bcc: "", url: "" });

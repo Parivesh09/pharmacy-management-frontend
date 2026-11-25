@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { Download } from "lucide-react";
-import Button from "../../../../componets/common/Button";
-import { showToast } from "../../../../componets/common/Toast";
-import CommonPageLayout from "../../../../componets/layout/CommonPageLayout";
+import Button from "../../../../components/common/Button";
+import { showToast } from "../../../../components/common/Toast";
+import CommonPageLayout from "../../../../components/layout/CommonPageLayout";
 import { useSelector } from "react-redux";
 import { useGetItemsQuery } from "../../../../services/itemApi";
 import { useGetStoresQuery } from "../../../../services/storeApi";

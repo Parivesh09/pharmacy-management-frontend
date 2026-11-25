@@ -1,6 +1,6 @@
 import React from 'react';
-import Modal from '../../../../../componets/common/Modal';
-import Button from '../../../../../componets/common/Button';
+import Modal from '../../../../../components/common/Modal';
+import Button from '../../../../../components/common/Button';
 import { AlertTriangle, Trash2 } from 'lucide-react';
 
 const DeleteConfirmationModal = ({ 

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useCreateLedgerEntriesFromBillMutation, useUpdateLedgerEntriesForBillMutation, useDeleteLedgerEntriesForBillMutation } from '../services/ledgerEntryApi';
 import { useLedgerPermissions } from './useLedgerPermissions';
-import { showToast } from '../componets/common/Toast';
+import { showToast } from '../components/common/Toast';
 
 export const useBillToLedgerIntegration = (partyId = null) => {
   const user = useSelector((state) => state.user.user);

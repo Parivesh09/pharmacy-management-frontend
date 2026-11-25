@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import CommonPageLayout from "../../../../componets/layout/CommonPageLayout";
-import Button from "../../../../componets/common/Button";
-import Pagination from "../../../../componets/common/Pagination";
+import CommonPageLayout from "../../../../components/layout/CommonPageLayout";
+import Button from "../../../../components/common/Button";
+import Pagination from "../../../../components/common/Pagination";
 import { Plus } from "lucide-react";
 import {
   useAddStationMutation,
@@ -9,9 +9,9 @@ import {
   useGetStationsQuery,
   useUpdateStationMutation,
 } from "../../../../services/stationApi";
-import Modal from "../../../../componets/common/Modal";
+import Modal from "../../../../components/common/Modal";
 import AddStationModal from "./AddStationModal";
-import { Toast, showToast } from "../../../../componets/common/Toast";
+import { Toast, showToast } from "../../../../components/common/Toast";
 
 const columns = [{ key: "name", title: "Name" }];
 

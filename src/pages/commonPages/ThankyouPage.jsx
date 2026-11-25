@@ -14,7 +14,7 @@ import {
   Clock,
   Gift,
 } from "lucide-react";
-import Button from "../../componets/common/Button";
+import Button from "../../components/common/Button";
 
 const ThankyouPage = ({
   title,

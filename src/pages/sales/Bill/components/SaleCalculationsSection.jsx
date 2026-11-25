@@ -1,5 +1,5 @@
 import React from "react";
-import Input from "../../../../componets/common/Input";
+import Input from "../../../../components/common/Input";
 
 const SaleCalculationsSection = ({
   form,

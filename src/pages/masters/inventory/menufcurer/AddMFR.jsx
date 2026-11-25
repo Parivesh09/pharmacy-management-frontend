@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useAddManufacturerMutation } from "../../../../services/mfrApi";
-import Input from "../../../../componets/common/Input";
-import Button from "../../../../componets/common/Button";
+import Input from "../../../../components/common/Input";
+import Button from "../../../../components/common/Button";
 import { useForm } from "react-hook-form";
-import { SelectField, TextField } from "../../../../componets/common/Fields";
+import { SelectField, TextField } from "../../../../components/common/Fields";
 import { useNavigate } from "react-router-dom";
 import { Eraser, SaveIcon, X } from "lucide-react";
 

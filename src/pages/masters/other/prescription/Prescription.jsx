@@ -1,11 +1,11 @@
 import React, { useEffect, useMemo, useState } from "react";
-import CommonPageLayout from "../../../../componets/layout/CommonPageLayout";
-import Button from "../../../../componets/common/Button";
+import CommonPageLayout from "../../../../components/layout/CommonPageLayout";
+import Button from "../../../../components/common/Button";
 import { Plus } from "lucide-react";
-import Pagination from "../../../../componets/common/Pagination";
+import Pagination from "../../../../components/common/Pagination";
 import { useDebounce } from "../../../../utils/useDebounce";
 import { useNavigate } from "react-router-dom";
-import StatusBadge from "../../../../componets/common/StatusBadge";
+import StatusBadge from "../../../../components/common/StatusBadge";
 
 
 

@@ -6,10 +6,10 @@ import {
   setUser,
   updateUserCompanies,
 } from "./services/userSlice";
-import Loader from "./componets/common/Loader";
-import { Toast } from "./componets/common/Toast";
+import Loader from "./components/common/Loader";
+import { Toast } from "./components/common/Toast";
 
-import AppLayout from "./componets/layout/AppLayout";
+import AppLayout from "./components/layout/AppLayout";
 import LoginPage from "./pages/auth/LoginPage";
 import SignUpPage from "./pages/auth/SignUpPage";
 import VerificationPage from "./pages/verification/VerificationPage";

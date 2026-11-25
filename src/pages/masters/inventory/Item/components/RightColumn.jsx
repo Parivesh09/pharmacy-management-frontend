@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { SelectField, TextField } from "../../../../../componets/common/Fields";
+import { SelectField, TextField } from "../../../../../components/common/Fields";
 import { validatePricing, calculateProfitMetrics, getPricingSummary } from "../../../../../utils/pricingValidation";
 
 const RightColumn = ({ errors, register, watch }) => {

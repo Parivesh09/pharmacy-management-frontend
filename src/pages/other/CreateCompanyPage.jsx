@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ArrowLeft, Upload, Edit, Trash2, PowerOff } from "lucide-react";
-import Input from "../../componets/common/Input";
+import Input from "../../components/common/Input";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../services/userSlice";
@@ -12,7 +12,7 @@ import {
   validatePhone,
   validateZipCode,
 } from "../../utils/inputValidation";
-import { showToast } from "../../componets/common/Toast";
+import { showToast } from "../../components/common/Toast";
 
 const CreateCompanyPage = () => {
   const navigate = useNavigate();

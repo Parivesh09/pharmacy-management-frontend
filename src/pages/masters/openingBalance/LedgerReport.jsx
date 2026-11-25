@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { Download, Filter } from "lucide-react";
-import Button from "../../../componets/common/Button";
-import { showToast } from "../../../componets/common/Toast";
-import CommonPageLayout from "../../../componets/layout/CommonPageLayout";
+import Button from "../../../components/common/Button";
+import { showToast } from "../../../components/common/Toast";
+import CommonPageLayout from "../../../components/layout/CommonPageLayout";
 import { useSelector } from "react-redux";
-import Modal from "../../../componets/common/Modal";
-import Input from "../../../componets/common/Input";
-import Select from "../../../componets/common/Select";
+import Modal from "../../../components/common/Modal";
+import Input from "../../../components/common/Input";
+import Select from "../../../components/common/Select";
 import {
   useGetLedgersByCompanyIdQuery,
   useGetLedgerDetailsQuery,

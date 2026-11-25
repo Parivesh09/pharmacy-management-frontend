@@ -8,7 +8,7 @@ import {
 import React, { Suspense } from "react";
 import ProtectedRoute from "./ProtectedRoute";
 const Unauthorized = React.lazy(() => import("../pages/Unauthorized"));
-import Loader from "../componets/common/Loader";
+import Loader from "../components/common/Loader";
 import { routeConfig } from "./routeConfig";
 
 const AppRoutes = () => {

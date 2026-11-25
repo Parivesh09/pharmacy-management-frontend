@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useMemo } from "react";
 import AddRack from "./AddRack";
-import Button from "../../../../componets/common/Button";
+import Button from "../../../../components/common/Button";
 import { Plus } from "lucide-react";
 import {
   useDeleteRackMutation,
   useEditRackMutation,
   useGetRacksQuery,
 } from "../../../../services/rackApi";
-import CommonPageLayout from "../../../../componets/layout/CommonPageLayout";
-import Pagination from "../../../../componets/common/Pagination";
+import CommonPageLayout from "../../../../components/layout/CommonPageLayout";
+import Pagination from "../../../../components/common/Pagination";
 import { useDebounce } from "../../../../utils/useDebounce";
 
 const RackPage = () => {
