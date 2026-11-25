@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { buildQueryParams } from '../utils/queryParams';
-
 import { createBaseQueryWithAuth } from './apiBase';
+import { serializeQueryArgsWithCompanyId } from '../utils/serializeQueryArgs';
 
 const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL
   ? `${import.meta.env.VITE_BACKEND_BASE_URL}/pharmacy/admin/master/inventory`
@@ -17,6 +17,7 @@ export const itemApi = createApi({
         url: `/item/v1/get-item?${buildQueryParams({ page, limit, search, filters })}`,
         method: 'GET',
       }),
+      serializeQueryArgs: serializeQueryArgsWithCompanyId,
       providesTags: ['Item'],
     }),
     getItemById: builder.query({
@@ -47,4 +48,4 @@ export const itemApi = createApi({
   overrideExisting: false,
 });
 
-export const { useGetItemsQuery, useAddItemMutation, useUpdateItemMutation, useGetItemByIdQuery } = itemApi; 
+export const { useGetItemsQuery, useAddItemMutation, useUpdateItemMutation, useGetItemByIdQuery } = itemApi;

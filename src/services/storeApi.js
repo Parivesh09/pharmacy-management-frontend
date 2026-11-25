@@ -3,6 +3,8 @@ import { buildQueryParams } from '../utils/queryParams';
 
 import { createBaseQueryWithAuth } from './apiBase';
 
+import { serializeQueryArgsWithCompanyId } from '../utils/serializeQueryArgs';
+
 const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL
   ? `${import.meta.env.VITE_BACKEND_BASE_URL}/pharmacy/admin/master/inventory`
   : '/api/admin/master/inventory';

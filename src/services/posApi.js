@@ -1,6 +1,8 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { createBaseQueryWithAuth } from './apiBase';
 
+import { serializeQueryArgsWithCompanyId } from '../utils/serializeQueryArgs';
+
 const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL
   ? `${import.meta.env.VITE_BACKEND_BASE_URL}/pharmacy/sales/bills/v1`
   : "/api/sales/bills";

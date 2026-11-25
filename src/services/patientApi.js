@@ -1,6 +1,7 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { buildQueryParams } from "../utils/queryParams";
 import { createBaseQueryWithAuth } from "./apiBase";
+import { serializeQueryArgsWithCompanyId } from '../utils/serializeQueryArgs';
 
 const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL
   ? `${import.meta.env.VITE_BACKEND_BASE_URL}/pharmacy/admin/master/other`
@@ -20,6 +21,7 @@ export const patientApi = createApi({
         })}`,
         method: "GET",
       }),
+      serializeQueryArgs: serializeQueryArgsWithCompanyId,
       providesTags: ["Patient"],
     }),
     addPatient: builder.mutation({
