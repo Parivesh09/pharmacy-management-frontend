@@ -32,5 +32,7 @@ export const Toast = () => (
   <Toaster
     position="top-center"
     reverseOrder={false}
+    aria-live="polite"
+    aria-atomic="true"
   />
 );

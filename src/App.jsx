@@ -97,6 +97,15 @@ function App() {
 
   return (
     <div className="h-screen">
+      {/* Skip link for accessibility */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 z-50 px-4 py-2 bg-(--primary-color) text-white rounded-md"
+      >
+        Skip to main content
+      </a>
+      {/* Live region for toast announcements */}
+      <div id="toast-live-region" aria-live="polite" aria-atomic="true" className="sr-only" />
       <Toast />
       <Routes>
         {/* Public routes */}

@@ -70,6 +70,10 @@ export const ledgerApi = createApi({
         )}`,
         method: "GET",
       }),
+      serializeQueryArgs: ({ queryArgs }) => {
+        // Include companyId in cache key to prevent stale data on company switch
+        return { ...queryArgs, companyId: queryArgs.companyId };
+      },
       providesTags: ["Ledger"],
     }),
     getLedgerById: builder.query({

@@ -158,12 +158,19 @@ const Sidebar = ({
               : isActive && !isDirectActive
               ? "bg-sidebar-active-bg text-primary opacity-80"
               : "text-sidebar-text hover:bg-sidebar-hover hover:text-sidebar-active-text"
-          }`}
+          } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--primary-color) focus-visible:ring-offset-2 focus-visible:ring-offset-sidebar-bg`}
           style={{ color: 'var(--sidebar-text)' }}
           onClick={() => {
             if (hasChildren && isSidebarExpanded) {
               toggleExpanded(item.title, level, parentTitles);
             } else if (item.path) {
+              handleItemClick(item.title, item.path);
+            }
+          }}
+          tabIndex={item.path ? 0 : undefined}
+          onKeyDown={(e) => {
+            if (item.path && (e.key === 'Enter' || e.key === ' ')) {
+              e.preventDefault();
               handleItemClick(item.title, item.path);
             }
           }}
@@ -281,7 +288,7 @@ const Sidebar = ({
               </span>
             )}
             <button
-              className="lg:hidden ml-auto p-2 rounded hover:bg-sidebar-hover transition focus:outline-none"
+              className="lg:hidden ml-auto p-2 rounded hover:bg-sidebar-hover transition"
               onClick={() => setMobileOpen(false)}
               aria-label="Close sidebar"
               style={{ color: 'var(--sidebar-text)' }}
