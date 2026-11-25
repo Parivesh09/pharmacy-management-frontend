@@ -70,7 +70,7 @@ export default function DefaultHeader({ title, onMenuClick }) {
   const isDark = theme.mode === 'dark';
 
   return (
-    <header className="sticky top-0 z-50 px-4 border-b flex items-center justify-between w-full min-h-[56px] transition-colors duration-300"
+    <header className="fixed top-0 left-0 right-0 z-50 px-4 border-b flex items-center justify-between w-full min-h-[56px] transition-colors duration-300"
       style={{ 
         backgroundColor: 'var(--header-bg)',
         borderColor: 'var(--sidebar-border)',

@@ -112,14 +112,10 @@ const DataTable = ({
   }
 
   return (
-    <div className="bg-(--card-bg) border border-gray-100 dark:border-white/5 shadow-2xl rounded-[2rem] overflow-hidden transition-all duration-500">
+    <div className="bg-(--card-bg) border border-gray-100 dark:border-white/5 shadow-2xl rounded-[2rem] overflow-hidden transition-all duration-500 flex flex-col h-full min-h-0">
       <div
         ref={tableContainerRef}
-        className="no-scrollbar"
-        style={{
-          maxHeight: fullHeight ? "calc(100vh - 200px)" : "calc(100vh - 300px)",
-          overflowY: "auto",
-        }}
+        className="no-scrollbar flex-1 min-h-0 overflow-y-auto"
       >
         <table
           className="min-w-full divide-y divide-gray-100 dark:divide-white/5 text-xs sm:text-sm"
