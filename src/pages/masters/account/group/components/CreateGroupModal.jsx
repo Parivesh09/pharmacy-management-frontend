@@ -1,8 +1,8 @@
 import React from 'react';
-import Modal from '../../../../../componets/common/Modal';
-import Button from '../../../../../componets/common/Button';
-import Input from '../../../../../componets/common/Input';
-import SearchableSelect from '../../../../../componets/common/SearchableSelect';
+import Modal from '../../../../../components/common/Modal';
+import Button from '../../../../../components/common/Button';
+import Input from '../../../../../components/common/Input';
+import SearchableSelect from '../../../../../components/common/SearchableSelect';
 
 const CreateGroupModal = ({ 
   isOpen, 

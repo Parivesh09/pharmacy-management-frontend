@@ -1,6 +1,6 @@
 import { CheckCircle, Phone } from "lucide-react";
-import Button from "../../../componets/common/Button";
-import Input from "../../../componets/common/Input";
+import Button from "../../../components/common/Button";
+import Input from "../../../components/common/Input";
 
 const RenderStep1 = ({
   formData,

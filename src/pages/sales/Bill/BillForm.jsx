@@ -9,9 +9,9 @@ import {
 import PatientListModal from "../../masters/other/prescription/PatientListModal";
 import DoctorListModal from "../../masters/other/doctor/DoctorListModal";
 import LedgerListModal from "../Bill/components/LedgerListModal";
-import SelectItemDialog from "../../../componets/common/SelectItemDialog";
+import SelectItemDialog from "../../../components/common/SelectItemDialog";
 import BatchSelectionDialog from "../../purchase/Bill/components/BatchSelectionDialog";
-import Button from "../../../componets/common/Button";
+import Button from "../../../components/common/Button";
 import { calculateBillTotals, formatCurrency } from "../../../utils/billCalculations";
 import toast from "react-hot-toast";
 

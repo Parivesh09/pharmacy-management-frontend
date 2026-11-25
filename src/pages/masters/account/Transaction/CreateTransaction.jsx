@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Button from "../../../../componets/common/Button";
-import Input from "../../../../componets/common/Input";
-import Select from "../../../../componets/common/Select";
+import Button from "../../../../components/common/Button";
+import Input from "../../../../components/common/Input";
+import Select from "../../../../components/common/Select";
 import { useForm } from "react-hook-form";
-import { showToast } from "../../../../componets/common/Toast";
+import { showToast } from "../../../../components/common/Toast";
 import { useGetLedgersQuery } from "../../../../services/ledgerApi";
 import { 
   useGetTransactionByIdQuery, 

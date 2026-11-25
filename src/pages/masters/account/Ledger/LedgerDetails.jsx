@@ -12,11 +12,11 @@ import {
   Filter,
   Calendar
 } from 'lucide-react';
-import Button from '../../../../componets/common/Button';
-import Input from '../../../../componets/common/Input';
-import Select from '../../../../componets/common/Select';
-import Loader from '../../../../componets/common/Loader';
-import {showToast} from '../../../../componets/common/Toast';
+import Button from '../../../../components/common/Button';
+import Input from '../../../../components/common/Input';
+import Select from '../../../../components/common/Select';
+import Loader from '../../../../components/common/Loader';
+import {showToast} from '../../../../components/common/Toast';
 
 const LedgerDetails = () => {
   const { id } = useParams();

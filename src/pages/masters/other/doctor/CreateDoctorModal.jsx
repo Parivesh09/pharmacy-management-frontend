@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Modal from "../../../../componets/common/Modal";
-import Input from "../../../../componets/common/Input";
-import Select from "../../../../componets/common/Select";
-import Button from "../../../../componets/common/Button";
+import Modal from "../../../../components/common/Modal";
+import Input from "../../../../components/common/Input";
+import Select from "../../../../components/common/Select";
+import Button from "../../../../components/common/Button";
 import { PhoneIcon } from "lucide-react";
 
 const specializationOptions = [

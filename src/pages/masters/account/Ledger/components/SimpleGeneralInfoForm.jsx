@@ -1,5 +1,5 @@
-import Input from "../../../../../componets/common/Input";
-import SearchableSelect from "../../../../../componets/common/SearchableSelect";
+import Input from "../../../../../components/common/Input";
+import SearchableSelect from "../../../../../components/common/SearchableSelect";
 
 const SimpleGeneralInfoForm = ({
   register,

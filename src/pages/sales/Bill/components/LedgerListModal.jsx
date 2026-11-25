@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef } from "react";
-import Modal from "../../../../componets/common/Modal.jsx";
-import DataTable from "../../../../componets/common/DataTable.jsx";
-import StatusBadge from "../../../../componets/common/StatusBadge.jsx";
+import Modal from "../../../../components/common/Modal.jsx";
+import DataTable from "../../../../components/common/DataTable.jsx";
+import StatusBadge from "../../../../components/common/StatusBadge.jsx";
 import { useGetLedgersQuery } from "../../../../services/ledgerApi.js";
 import { useDebounce } from "../../../../utils/useDebounce.js";
 import { useGroupIds } from "../../../../hooks/useGroupIds.js";
-import Input from "../../../../componets/common/Input.jsx";
-import Select from "../../../../componets/common/Select.jsx";
+import Input from "../../../../components/common/Input.jsx";
+import Select from "../../../../components/common/Select.jsx";
 
 const LedgerListModal = ({ open, onClose, onSelectLedger }) => {
   const [search, setSearch] = useState("");

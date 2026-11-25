@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { ChevronLeft } from 'lucide-react';
-import Button from '../../../../componets/common/Button';
-import { showToast } from '../../../../componets/common/Toast';
+import Button from '../../../../components/common/Button';
+import { showToast } from '../../../../components/common/Toast';
 import {
   useCreateLedgerMutation,
   useUpdateLedgerMutation,

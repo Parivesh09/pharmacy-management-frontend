@@ -1,12 +1,12 @@
 import { useForm } from "react-hook-form";
 import { useAddPatientMutation, useEditPatientMutation, useGetPatientsQuery } from "../../../../services/patientApi";
-import Input from "../../../../componets/common/Input";
-import Select from "../../../../componets/common/Select";
-import Button from "../../../../componets/common/Button";
+import Input from "../../../../components/common/Input";
+import Select from "../../../../components/common/Select";
+import Button from "../../../../components/common/Button";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { TextField, SelectField } from "../../../../componets/common/Fields";
-import { showToast } from "../../../../componets/common/Toast";
+import { TextField, SelectField } from "../../../../components/common/Fields";
+import { showToast } from "../../../../components/common/Toast";
 
 const GENDER_OPTIONS = [
   { label: "Male", value: "Male" },

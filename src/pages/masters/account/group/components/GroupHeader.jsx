@@ -1,7 +1,7 @@
 import React from 'react';
 import { Plus } from 'lucide-react';
-import PageHeader from '../../../../../componets/common/PageHeader';
-import Button from '../../../../../componets/common/Button';
+import PageHeader from '../../../../../components/common/PageHeader';
+import Button from '../../../../../components/common/Button';
 
 const GroupHeader = ({ onAddGroup, creatingGroup }) => {
   return (

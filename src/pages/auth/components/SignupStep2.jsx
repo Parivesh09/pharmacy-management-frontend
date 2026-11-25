@@ -1,5 +1,5 @@
 import { Mail } from "lucide-react";
-import Input from "../../../componets/common/Input";
+import Input from "../../../components/common/Input";
 
 const RenderStep2 = ({ formData, handleChange, errors }) => (
   <div className="space-y-4">

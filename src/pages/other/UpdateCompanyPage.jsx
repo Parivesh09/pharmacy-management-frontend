@@ -7,7 +7,7 @@ import {
   useUpdateCompanyMutation,
 } from "../../services/userCompanyApi";
 import { logout, setCurrentCompany } from "../../services/userSlice";
-import { showToast } from "../../componets/common/Toast";
+import { showToast } from "../../components/common/Toast";
 import LeftSection from "./components/createCompanyPageComponents/LeftSection";
 import RightSection from "./components/createCompanyPageComponents/RightSection";
 

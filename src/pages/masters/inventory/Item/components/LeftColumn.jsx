@@ -1,6 +1,6 @@
 import React from "react";
-import { SelectField, TextField } from "../../../../../componets/common/Fields";
-import SearchableSelect from "../../../../../componets/common/SearchableSelect";
+import { SelectField, TextField } from "../../../../../components/common/Fields";
+import SearchableSelect from "../../../../../components/common/SearchableSelect";
 
 const LeftColumn = ({
   errors,

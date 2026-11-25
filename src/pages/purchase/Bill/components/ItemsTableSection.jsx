@@ -1,7 +1,7 @@
 import React from "react";
 import { Trash2, Plus } from "lucide-react";
-import Button from "../../../../componets/common/Button";
-import Input from "../../../../componets/common/Input";
+import Button from "../../../../components/common/Button";
+import Input from "../../../../components/common/Input";
 import toast from "react-hot-toast";
 
 const ItemsTableSection = ({

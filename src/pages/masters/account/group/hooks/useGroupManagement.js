@@ -6,7 +6,7 @@ import {
   useCreateGroupMutation,
   useGetAvailableParentsQuery,
 } from "../../../../../services/groupApi";
-import { showToast } from "../../../../../componets/common/Toast";
+import { showToast } from "../../../../../components/common/Toast";
 import { useSelector } from "react-redux";
 
 export const useGroupManagement = () => {

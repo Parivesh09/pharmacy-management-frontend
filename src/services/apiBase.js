@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { logout, setUser } from "./userSlice";
-import { showToast } from "../componets/common/Toast";
+import { showToast } from "../components/common/Toast";
 
 
 const createBaseQueryWithAuth = (baseUrl) => {
@@ -49,9 +49,9 @@ const createBaseQueryWithAuth = (baseUrl) => {
                     return result;
                 }
             }
-         } catch (refreshError) {
-             console.log("Refresh failed", refreshError);
-         }
+          } catch (refreshError) {
+              console.log("Refresh failed", refreshError);
+          }
       }
       
       if (
@@ -70,6 +70,19 @@ const createBaseQueryWithAuth = (baseUrl) => {
           window.location.href = "/";
         }, 1000);
         return result;
+      }
+    }
+
+    // Handle other error statuses
+    if (result.error) {
+      const errorData = result.error.data;
+      const status = result.error.status;
+      
+      // Don't show toast for 404 errors (they might be expected)
+      if (status !== 404) {
+        const message = errorData?.message || errorData?.error || 
+                       `Request failed with status ${status}`;
+        showToast(message, { type: "error" });
       }
     }
 
