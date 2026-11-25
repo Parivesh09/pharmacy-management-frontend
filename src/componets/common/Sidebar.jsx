@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import {
   ChevronDown,
   ChevronRight,
@@ -111,33 +111,34 @@ const Sidebar = ({
   const location = useLocation();
   const navigate = useNavigate();
 
-  const menuItems = filterMenuByPermission(
-    menuConfig[user?.role] || [],
-    user?.role
+  // Memoize filtered menu items to avoid re-filtering on every render
+  const menuItems = useMemo(
+    () => filterMenuByPermission(menuConfig[user?.role] || [], user?.role),
+    [user?.role]
   );
 
-  const toggleExpanded = (title, level = 0, parentTitles = []) => {
+  const toggleExpanded = useCallback((title, level = 0, parentTitles = []) => {
     setExpandedItems((prev) => {
       if (prev.includes(title)) {
         return prev.filter((item) => item !== title);
       }
       return [...parentTitles, title];
     });
-  };
+  }, []);
 
-  const handleItemClick = (title, path) => {
+  const handleItemClick = useCallback((title, path) => {
     if (path) {
       navigate(path, { state: { title } });
     }
-  };
+  }, [navigate]);
 
-  const isItemActive = (item) => {
+  const isItemActive = useCallback((item) => {
     if (item.path === location.pathname) return true;
     if (item.children) {
       return item.children.some((child) => isItemActive(child));
     }
     return false;
-  };
+  }, [location.pathname]);
 
   const renderMenuItem = (item, level = 0, parentTitles = []) => {
     const Icon = item.icon;
