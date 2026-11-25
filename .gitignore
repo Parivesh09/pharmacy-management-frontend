@@ -26,3 +26,8 @@ docs
 *.sw?
 
 .env
+
+test-results/*
+tests/*
+playwright.config.ts
+update-api-cache.cjs
