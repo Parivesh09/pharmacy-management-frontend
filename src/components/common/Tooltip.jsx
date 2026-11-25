@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 const Tooltip = ({ content, children, position = "top", delay = 200 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
-  const tooltipRef = useRef();
+  const tooltipRef = useRef(null);
   const childRef = useRef(null);
   const timeoutRef = useRef(null);
 
@@ -40,7 +40,7 @@ const Tooltip = ({ content, children, position = "top", delay = 200 }) => {
         break;
       case "left":
         top = childRect.top + scrollTop + (childRect.height - tooltipRect.height) / 2;
-        left = childRef.current.getBoundingClientRect().left + scrollLeft - tooltipRect.width - 8;
+        left = childRect.left + scrollLeft - tooltipRect.width - 8;
         break;
       case "right":
         top = childRect.top + scrollTop + (childRect.height - tooltipRect.height) / 2;
@@ -48,7 +48,7 @@ const Tooltip = ({ content, children, position = "top", delay = 200 }) => {
         break;
       default:
         top = childRect.top + scrollTop - tooltipRect.height - 8;
-        left = childRef.current.getBoundingClientRect().left + scrollLeft + (childRect.width - tooltipRect.width) / 2;
+        left = childRect.left + scrollLeft + (childRect.width - tooltipRect.width) / 2;
     }
 
     // Keep tooltip within viewport
@@ -104,7 +104,7 @@ const Tooltip = ({ content, children, position = "top", delay = 200 }) => {
         >
           {content}
         </div>
-      </div>
+      )}
     </>
   );
 };
