@@ -249,6 +249,13 @@ const SignUpPage = () => {
 
   return (
     <div className="min-h-screen bg-(--bg-main) flex items-center justify-center p-4">
+      {/* Skip link for accessibility */}
+      <a
+        href="#signup-form"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 z-50 px-4 py-2 bg-(--primary-color) text-white rounded-md"
+      >
+        Skip to signup form
+      </a>
       <div className="bg-(--card-bg) p-8 rounded-2xl shadow-2xl w-full max-w-4xl border border-gray-100 dark:border-gray-700 animate-fade-in">
         <div className="text-center mb-10">
           <div className="mx-auto mb-4 flex justify-center">
@@ -266,7 +273,7 @@ const SignUpPage = () => {
         </div>
 
         {RenderStepIndicator()}
-        <div className="bg-white/50 dark:bg-black/5 p-6 rounded-2xl border border-gray-100 dark:border-white/5">
+        <div id="signup-form" className="bg-white/50 dark:bg-black/5 p-6 rounded-2xl border border-gray-100 dark:border-white/5">
           {RenderStepContent()}
         </div>
         {renderNavigation()}

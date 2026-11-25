@@ -145,6 +145,13 @@ const LoginPage = () => {
 
   return (
     <div className="min-h-screen bg-(--bg-main) flex items-center justify-center p-4">
+      {/* Skip link for accessibility */}
+      <a
+        href="#login-form"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 z-50 px-4 py-2 bg-(--primary-color) text-white rounded-md"
+      >
+        Skip to login form
+      </a>
       <div className="bg-(--card-bg) p-8 rounded-2xl shadow-2xl w-full max-w-md border border-gray-100 dark:border-gray-700 animate-fade-in">
         <div className="text-center mb-10">
           <div className="mx-auto mb-4 flex justify-center">
@@ -159,7 +166,7 @@ const LoginPage = () => {
           <p className="text-(--text-main) opacity-60 mt-2 text-sm">Sign in to your account</p>
         </div>
 
-        <form className="space-y-6" onSubmit={handleLogin}>
+        <form id="login-form" className="space-y-6" onSubmit={handleLogin}>
           <div>
             <label className="block text-xs font-bold text-(--text-main) opacity-80 mb-2 uppercase tracking-wider">
               Login
