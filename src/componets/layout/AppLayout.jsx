@@ -15,21 +15,23 @@ const AppLayout = () => {
     }
   };
 
-  return (
-    <div className="flex h-full">
+return (
+    <div className="flex h-screen">
       <Sidebar
         isCollapsed={isCollapsed}
         setIsCollapsed={setIsCollapsed}
         mobileOpen={isMobileSidebarOpen}
         setMobileOpen={setMobileSidebarOpen}
       />
-      <main className="flex-1 overflow-y-auto">
+      <div className="flex-1 flex flex-col h-full">
         <Header
           isCollapsed={isCollapsed}
           onMenuClick={handleMenuClick}
         />
-        <AppRoutes />
-      </main>
+        <main id="main-content" className="flex-1 overflow-y-auto pt-14">
+          <AppRoutes />
+        </main>
+      </div>
     </div>
   );
 };

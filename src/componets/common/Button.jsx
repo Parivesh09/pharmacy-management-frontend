@@ -1,7 +1,7 @@
 import { SaveIcon, Eraser, X } from "lucide-react";
 import React, { useEffect } from "react";
 
-const base = "px-2 py-1 rounded font-medium transition focus:outline-none";
+const base = "px-2 py-1 rounded font-medium transition";
 const variants = {
   primary: "bg-(--primary-color) text-white hover:bg-(--primary-dark) disabled:opacity-50 cursor-not-allowed",
   secondary: "bg-gray-100 text-gray-800 hover:bg-gray-200 disabled:bg-gray-300 cursor-not-allowed",
@@ -10,7 +10,7 @@ const variants = {
   custom: ""
 };
 const iconButton =
-  "p-2 rounded-full bg-transparent hover:bg-gray-100 focus:outline-none flex items-center justify-center";
+  "p-2 rounded-full bg-transparent hover:bg-gray-100 flex items-center justify-center";
 
 const keyMap = {
   save: { key: "F10", icon: <SaveIcon className="w-4" /> },
