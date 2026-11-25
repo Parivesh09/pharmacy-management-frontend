@@ -6,10 +6,11 @@ import {
   setUser,
   updateUserCompanies,
 } from "./services/userSlice";
-import Loader from "./componets/common/Loader";
-import { Toast } from "./componets/common/Toast";
+import Loader from "./components/common/Loader";
+import { Toast } from "./components/common/Toast";
+import ErrorBoundary from "./components/common/ErrorBoundary";
 
-import AppLayout from "./componets/layout/AppLayout";
+import AppLayout from "./components/layout/AppLayout";
 import LoginPage from "./pages/auth/LoginPage";
 import SignUpPage from "./pages/auth/SignUpPage";
 import VerificationPage from "./pages/verification/VerificationPage";
@@ -98,22 +99,24 @@ function App() {
   return (
     <div className="h-screen">
       <Toast />
-      <Routes>
-        {/* Public routes */}
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/verify-email" element={<VerificationPage />} />
-        <Route path="/signup-success" element={<RegistrationSuccessPage />} />
-        <Route path="/company-list" element={<CompanyList />} />
-        <Route path="/create-company" element={<CreateCompanyPage />} />
-        <Route path="/edit-company/:companyId" element={<UpdateComapanyPage />} />
+      <ErrorBoundary>
+        <Routes>
+          {/* Public routes */}
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/verify-email" element={<VerificationPage />} />
+          <Route path="/signup-success" element={<RegistrationSuccessPage />} />
+          <Route path="/company-list" element={<CompanyList />} />
+          <Route path="/create-company" element={<CreateCompanyPage />} />
+          <Route path="/edit-company/:companyId" element={<UpdateComapanyPage />} />
 
-        {/* Protected routes (everything else) */}
-        <Route
-          path="/*"
-          element={isAuthenticated ? <AppLayout /> : <Navigate to="/login" />}
-        />
-      </Routes>
+          {/* Protected routes (everything else) */}
+          <Route
+            path="/*"
+            element={isAuthenticated ? <AppLayout /> : <Navigate to="/login" />}
+          />
+        </Routes>
+      </ErrorBoundary>
     </div>
   );
 }
