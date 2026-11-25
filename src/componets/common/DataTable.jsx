@@ -1,8 +1,9 @@
-import { useRef, useEffect, useState } from "react";
-import { Edit, Trash2, Eye, Plus, Package } from "lucide-react";
+import { useRef, useEffect, useState, useMemo, useCallback } from "react";
+import { Edit, Trash2, Eye, Plus, Package, ChevronUp, ChevronDown } from "lucide-react";
 import Button from "./Button";
 import IconButton from "./IconButton";
 import Loader from "./Loader";
+import Tooltip from "./Tooltip";
 
 // Helper function to access nested properties
 const getNestedValue = (obj, path) => {
@@ -24,12 +25,15 @@ const DataTable = ({
   hasMore = false,
   loading = false,
   enableInfiniteScroll = true,
+  enableSorting = true,
+  enableRowNumbers = true,
 }) => {
   const rowRefs = useRef([]);
   const tableContainerRef = useRef(null);
   const loadMoreRef = useRef(null);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const prevDataLengthRef = useRef(0);
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
 
   useEffect(() => {
     if (selectedRow && rowRefs.current) {
@@ -43,6 +47,14 @@ const DataTable = ({
     }
   }, [selectedRow, data]);
   
+  // Clean up row refs when data changes to prevent memory leak
+  useEffect(() => {
+    const currentLength = data.length;
+    if (rowRefs.current.length > currentLength) {
+      rowRefs.current.length = currentLength;
+    }
+  }, [data.length]);
+  
   useEffect(() => {
     if (!enableInfiniteScroll || !onLoadMore || !hasMore || !loadMoreRef.current) return;
 
@@ -54,12 +66,7 @@ const DataTable = ({
       (entries) => {
         const target = entries[0];
         
-        // Only trigger if:
-        // 1. Element is visible
-        // 2. Not already loading
-        // 3. Data has stabilized (prevent initial double-load)
         if (target.isIntersecting && !isLoadingMore && data.length > 0) {
-          // Add a small delay to prevent rapid-fire calls
           clearTimeout(timeoutId);
           timeoutId = setTimeout(() => {
             setIsLoadingMore(true);
@@ -69,7 +76,7 @@ const DataTable = ({
       },
       {
         root: container,
-        rootMargin: "200px", // Load earlier to make it smoother
+        rootMargin: "200px",
         threshold: 0,
       }
     );
@@ -90,7 +97,31 @@ const DataTable = ({
     prevDataLengthRef.current = data.length;
   }, [data.length]);
 
-  if (!Array.isArray(data) || data.length === 0) {
+  // Sorting handler
+  const handleSort = useCallback((key) => {
+    if (!enableSorting) return;
+    setSortConfig((prev) => ({
+      key,
+      direction: prev.key === key && prev.direction === "asc" ? "desc" : "asc",
+    }));
+  }, [enableSorting]);
+
+  // Get sorted data
+  const sortedData = useMemo(() => {
+    if (!sortConfig.key || !enableSorting) return data;
+    return [...data].sort((a, b) => {
+      const aVal = getNestedValue(a, sortConfig.key);
+      const bVal = getNestedValue(b, sortConfig.key);
+      if (aVal === bVal) return 0;
+      const direction = sortConfig.direction === "asc" ? 1 : -1;
+      if (typeof aVal === "number" && typeof bVal === "number") {
+        return (aVal - bVal) * direction;
+      }
+      return String(aVal).localeCompare(String(bVal)) * direction;
+    });
+  }, [data, sortConfig, enableSorting]);
+
+  if (!Array.isArray(sortedData) || sortedData.length === 0) {
     return (
       <div className="text-center py-20 bg-(--card-bg) rounded-3xl shadow-2xl border border-gray-100 dark:border-white/5 flex flex-col items-center animate-fade-in">
         <div className="w-20 h-20 bg-(--sidebar-active-bg)/30 rounded-full flex items-center justify-center mb-6">
@@ -112,14 +143,10 @@ const DataTable = ({
   }
 
   return (
-    <div className="bg-(--card-bg) border border-gray-100 dark:border-white/5 shadow-2xl rounded-[2rem] overflow-hidden transition-all duration-500">
+    <div className="bg-(--card-bg) border border-gray-100 dark:border-white/5 shadow-2xl rounded-[2rem] overflow-hidden transition-all duration-500 flex flex-col h-full min-h-0">
       <div
         ref={tableContainerRef}
-        className="no-scrollbar"
-        style={{
-          maxHeight: fullHeight ? "calc(100vh - 200px)" : "calc(100vh - 300px)",
-          overflowY: "auto",
-        }}
+        className="no-scrollbar flex-1 min-h-0 overflow-y-auto"
       >
         <table
           className="min-w-full divide-y divide-gray-100 dark:divide-white/5 text-xs sm:text-sm"
@@ -127,39 +154,60 @@ const DataTable = ({
         >
           <thead className="bg-(--sidebar-active-bg)/50 backdrop-blur-md sticky top-0 z-20">
             <tr>
+              {enableRowNumbers && (
+                <th className="px-4 py-4 text-center text-[10px] font-black text-gray-400 uppercase tracking-widest sticky top-0 z-10 border-b border-gray-100 dark:border-white/5 w-12">
+                  S.No.
+                </th>
+              )}
               {columns.map((column, idx) => (
                 <th
                   key={idx}
-                  className={`px-6 py-5 text-left text-[10px] font-black text-gray-400 uppercase tracking-widest ${
-                    idx === 0 ? "w-3/4" : "w-1/4"
-                  } sticky top-0 z-10 border-b border-gray-100 dark:border-white/5`}
+                  className={`px-4 py-4 text-left text-[10px] font-black text-gray-400 uppercase tracking-widest min-w-[120px] sticky top-0 z-10 border-b border-gray-100 dark:border-white/5 ${
+                    enableSorting && column.sortable !== false ? "cursor-pointer hover:bg-(--sidebar-active-bg)/20" : ""
+                  }`}
+                  onClick={() => enableSorting && column.sortable !== false && handleSort(column.key)}
                 >
-                  {column.title}
-                </th>
-              ))}
+                  <div className="flex items-center gap-1">
+                    {column.title}
+                    {enableSorting && column.sortable !== false && sortConfig.key === column.key ? (
+                      <span className="flex-shrink-0">
+                        {sortConfig.direction === "asc" ? (
+                          <ChevronUp className="w-4 h-4 text-(--primary-color)" />
+                        ) : (
+                          <ChevronDown className="w-4 h-4 text-(--primary-color)" />
+                        )}
+                      </span>
+                    ) : null}
+                  </div>
+                  </th>
+                ))}
               {(onView || onEdit || onDelete) && (
-                <th className="px-6 py-5 text-center text-[10px] font-black text-gray-400 uppercase tracking-widest sticky top-0 z-10 w-32 border-b border-gray-100 dark:border-white/5">
-                  Access Points
+                <th className="px-4 py-4 text-center text-[10px] font-black text-gray-400 uppercase tracking-widest sticky top-0 z-10 w-36 border-b border-gray-100 dark:border-white/5">
+                  Actions
                 </th>
               )}
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-50 dark:divide-white/5">
-            {data.map((row, index) => (
+            {sortedData.map((row, index) => (
               <tr
                 key={row.id || index}
                 ref={(el) => (rowRefs.current[index] = el)}
-                className={`group/row hover:bg-(--sidebar-active-bg)/30 cursor-pointer transition-all duration-300 ${
+                className={`group/row hover:bg-(--sidebar-active-bg)/30 cursor-pointer transition-colors duration-200 ${
                   selectedRow?.id === row.id ? "bg-(--sidebar-active-bg) shadow-inner" : ""
                 }`}
                 onClick={() => onRowSelect && onRowSelect(row)}
               >
+                {enableRowNumbers && (
+                  <td className="px-4 py-3 text-center text-xs font-medium text-(--text-muted) w-12">
+                    {index + 1}
+                  </td>
+                )}
                 {columns.map((column, idx) => (
                   <td
                     key={idx}
-                    className={`px-6 py-4 whitespace-nowrap text-xs font-bold text-(--text-main) ${
-                      idx === 0 ? "w-3/4" : "w-1/4"
-                    } transition-all group-hover/row:translate-x-1`}
+                    className="px-4 py-3 text-xs font-medium text-(--text-main) min-w-[120px] truncate"
+                    title={getNestedValue(row, column.key)}
                   >
                     {column.render
                       ? column.render(getNestedValue(row, column.key), row)
@@ -168,39 +216,51 @@ const DataTable = ({
                 ))}
 
                 {(onView || onEdit || onDelete) && (
-                  <td className="px-6 py-4 whitespace-nowrap text-center text-sm font-medium w-32">
-                    <div className="flex justify-center gap-1 opacity-40 group-hover/row:opacity-100 transition-all scale-95 group-hover/row:scale-100">
+                  <td className="px-4 py-3 text-center w-36">
+                    <div className="flex justify-center gap-1.5 opacity-60 group-hover/row:opacity-100 transition-opacity duration-200">
                       {onView && (
-                        <IconButton
-                          icon={Eye}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onView(row);
-                          }}
-                          className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500 hover:text-white transition-all border-none"
-                        />
+                        <Tooltip content="View details">
+                          <IconButton
+                            icon={Eye}
+                            size="sm"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onView(row);
+                            }}
+                            aria-label="View details"
+                            className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500 hover:text-white transition-colors border-none"
+                          />
+                        </Tooltip>
                       )}
                       {onEdit && (
-                        <IconButton
-                          icon={Edit}
-                          disabled={row.isDefault}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onEdit(row);
-                          }}
-                          className="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-500 hover:bg-indigo-500 hover:text-white transition-all border-none"
-                        />
+                        <Tooltip content="Edit">
+                          <IconButton
+                            icon={Edit}
+                            size="sm"
+                            disabled={row.isDefault}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onEdit(row);
+                            }}
+                            aria-label="Edit"
+                            className="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-500 hover:bg-indigo-500 hover:text-white transition-colors border-none"
+                          />
+                        </Tooltip>
                       )}
                       {onDelete && (
-                        <IconButton
-                          icon={Trash2}
-                          disabled={row.isDefault}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onDelete(row);
-                          }}
-                          className="w-8 h-8 rounded-lg bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all border-none"
-                        />
+                        <Tooltip content="Delete">
+                          <IconButton
+                            icon={Trash2}
+                            size="sm"
+                            disabled={row.isDefault}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onDelete(row);
+                            }}
+                            aria-label="Delete"
+                            className="w-8 h-8 rounded-lg bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-colors border-none"
+                          />
+                        </Tooltip>
                       )}
                     </div>
                   </td>
@@ -211,14 +271,14 @@ const DataTable = ({
         </table>
 
         {onLoadMore && (
-          <div ref={loadMoreRef} className="py-8 flex justify-center min-h-[100px] bg-gradient-to-t from-(--card-bg) to-transparent">
+          <div ref={loadMoreRef} className="py-8 flex justify-center min-h-[100px] bg-gradient-to-t from-(--card-bg) to-transparent flex-shrink-0">
             {isLoadingMore && hasMore && (
               <div className="flex flex-col items-center gap-3 animate-pulse">
                 <Loader />
                 <span className="text-gray-400 text-[10px] font-black uppercase tracking-widest">Synchronizing Metadata...</span>
               </div>
             )}
-            {!isLoadingMore && !hasMore && data.length > 0 && (
+            {!isLoadingMore && !hasMore && sortedData.length > 0 && (
               <span className="text-gray-300 text-[10px] font-black uppercase tracking-widest italic opacity-50">Operational End of Stack</span>
             )}
           </div>
