@@ -7,11 +7,11 @@ import {
   useGetBillByIdQuery,
 } from "../../../services/purchaseBillApi";
 import { useGetItemsQuery } from "../../../services/itemApi";
-import SelectItemDialog from "../../../componets/common/SelectItemDialog";
+import SelectItemDialog from "../../../components/common/SelectItemDialog";
 import CreditorLedgerListModal from "./components/CreditorLedgerListModal";
 import PurchaseMasterListModal from "./components/PurchaseMasterListModal";
 import BatchSelectionDialog from "./components/BatchSelectionDialog";
-import Button from "../../../componets/common/Button";
+import Button from "../../../components/common/Button";
 import toast from "react-hot-toast";
 
 import { calculateBillTotals } from "../../../utils/billCalculations";

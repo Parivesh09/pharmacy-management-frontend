@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import { Plus } from "lucide-react";
-import Button from "../../../../componets/common/Button";
+import Button from "../../../../components/common/Button";
 import { useNavigate } from "react-router-dom";
-import { showToast } from "../../../../componets/common/Toast";
+import { showToast } from "../../../../components/common/Toast";
 import { 
   useGetTransactionsQuery, 
   useDeleteTransactionMutation, 
   usePostTransactionMutation 
 } from "../../../../services/transactionApi";
-import CommonPageLayout from "../../../../componets/layout/CommonPageLayout";
+import CommonPageLayout from "../../../../components/layout/CommonPageLayout";
 
 const TransactionList = () => {
   const [search, setSearch] = useState("");

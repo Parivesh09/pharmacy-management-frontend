@@ -1,6 +1,6 @@
-import Input from "../../../../../componets/common/Input";
-import Select from "../../../../../componets/common/Select";
-import SearchableSelect from "../../../../../componets/common/SearchableSelect";
+import Input from "../../../../../components/common/Input";
+import Select from "../../../../../components/common/Select";
+import SearchableSelect from "../../../../../components/common/SearchableSelect";
 import { useGetStationsQuery } from "../../../../../services/stationApi";
 
 const GeneralInfoForm = ({

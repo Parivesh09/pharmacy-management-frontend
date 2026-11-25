@@ -1,8 +1,8 @@
-import Input from "../../../../../componets/common/Input";
-import Select from "../../../../../componets/common/Select";
+import Input from "../../../../../components/common/Input";
+import Select from "../../../../../components/common/Select";
 import { useLedgerPermissions } from "../../../../../hooks/useLedgerPermissions";
 import { useDefaultLedgerPermissions } from "../../../../../hooks/useDefaultLedgerPermissions";
-import FieldPermissionWarning from "../../../../../componets/common/FieldPermissionWarning";
+import FieldPermissionWarning from "../../../../../components/common/FieldPermissionWarning";
 
 const BalanceForm = ({ register, errors, selectedGroup, ledgerData }) => {
   const { isBalanceEditable } = useLedgerPermissions(selectedGroup);

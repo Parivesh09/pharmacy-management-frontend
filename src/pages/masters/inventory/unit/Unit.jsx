@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Plus } from "lucide-react";
 import AddUnit from "../unit/AddUnit";
 import { useDeleteUnitMutation, useEditUnitMutation, useGetUnitsQuery } from "../../../../services/unitApi";
-import Button from "../../../../componets/common/Button";
-import CommonPageLayout from "../../../../componets/layout/CommonPageLayout";
-import Pagination from '../../../../componets/common/Pagination';
+import Button from "../../../../components/common/Button";
+import CommonPageLayout from "../../../../components/layout/CommonPageLayout";
+import Pagination from '../../../../components/common/Pagination';
 import { useDebounce } from '../../../../utils/useDebounce';
 
 const UnitPage = () => {

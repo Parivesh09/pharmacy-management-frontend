@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useAddHSNMutation } from "../../../../services/hsnApi";
-import Modal from "../../../../componets/common/Modal";
-import Input from "../../../../componets/common/Input";
-import Button from "../../../../componets/common/Button";
-import { TextField } from "../../../../componets/common/Fields";
+import Modal from "../../../../components/common/Modal";
+import Input from "../../../../components/common/Input";
+import Button from "../../../../components/common/Button";
+import { TextField } from "../../../../components/common/Fields";
 import { useForm } from "react-hook-form";
-import { showToast } from "../../../../componets/common/Toast";
+import { showToast } from "../../../../components/common/Toast";
 
 export default function CreateHsnSacForm({
   isOpen = true,

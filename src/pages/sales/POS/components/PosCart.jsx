@@ -18,7 +18,7 @@ import {
   Bookmark,
 } from "lucide-react";
 import PatientListModal from "../../../masters/other/prescription/PatientListModal";
-import GlobalLedgerListModal from "../../../../componets/common/GlobalLedgerListModal";
+import GlobalLedgerListModal from "../../../../components/common/GlobalLedgerListModal";
 import {
   useCreateQuickSaleMutation,
   useHoldBillMutation,

@@ -12,13 +12,13 @@ import {
   Users,
   Settings
 } from 'lucide-react';
-import PageHeader from '../../../../componets/common/PageHeader';
-import Button from '../../../../componets/common/Button';
-import Modal from '../../../../componets/common/Modal';
-import Input from '../../../../componets/common/Input';
-import Select from '../../../../componets/common/Select';
-import Loader from '../../../../componets/common/Loader';
-import { Toast, showToast } from '../../../../componets/common/Toast';
+import PageHeader from '../../../../components/common/PageHeader';
+import Button from '../../../../components/common/Button';
+import Modal from '../../../../components/common/Modal';
+import Input from '../../../../components/common/Input';
+import Select from '../../../../components/common/Select';
+import Loader from '../../../../components/common/Loader';
+import { Toast, showToast } from '../../../../components/common/Toast';
 import {
   useGetGroupHierarchyQuery,
   useGetAvailableParentsQuery,

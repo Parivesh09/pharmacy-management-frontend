@@ -1,8 +1,8 @@
 import { Edit, Trash2, Upload } from "lucide-react";
 import React from "react";
-import Input from "../../../../componets/common/Input";
-import SearchableSelect from "../../../../componets/common/SearchableSelect";
-import Select from "../../../../componets/common/Select";
+import Input from "../../../../components/common/Input";
+import SearchableSelect from "../../../../components/common/SearchableSelect";
+import Select from "../../../../components/common/Select";
 
 const RightSection = ({
   formData,

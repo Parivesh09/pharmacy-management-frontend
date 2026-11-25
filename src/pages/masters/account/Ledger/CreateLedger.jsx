@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Button from "../../../../componets/common/Button";
+import Button from "../../../../components/common/Button";
 import { useForm } from "react-hook-form";
-import { showToast } from "../../../../componets/common/Toast";
+import { showToast } from "../../../../components/common/Toast";
 import { useGetGroupsQuery } from "../../../../services/groupApi";
 import {
   useGetLedgerByIdQuery,
@@ -12,12 +12,18 @@ import {
 } from "../../../../services/ledgerApi";
 import { useGetStationsQuery } from "../../../../services/stationApi";
 import { flattenGroups } from "../../../../utils/groupUtils";
-import Input from "../../../../componets/common/Input";
-import Select from "../../../../componets/common/Select";
-import SearchableSelect from "../../../../componets/common/SearchableSelect";
+import Input from "../../../../components/common/Input";
+import Select from "../../../../components/common/Select";
+import SearchableSelect from "../../../../components/common/SearchableSelect";
 import { useLedgerPermissions } from "../../../../hooks/useLedgerPermissions";
 import { useDefaultLedgerPermissions } from "../../../../hooks/useDefaultLedgerPermissions";
-import DefaultLedgerIndicator from "../../../../componets/common/DefaultLedgerIndicator";
+import DefaultLedgerIndicator from "../../../../components/common/DefaultLedgerIndicator";
+import GeneralTab from "./components/GeneralTab";
+import AddressTab from "./components/AddressTab";
+import GSTTab from "./components/GSTTab";
+import BankTab from "./components/BankTab";
+import CashTab from "./components/CashTab";
+import PartyTab from "./components/PartyTab";
 
 const INDIAN_STATES = [
   "Andhra Pradesh",
@@ -315,130 +321,21 @@ const CreateLedger = () => {
     { id: "income", label: "Income Details", show: showIncomeDetails },
   ].filter((tab) => tab.show);
 
-  const renderGeneralTab = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-      <div className="space-y-2">
-        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">
-          Ledger Name <span className="text-red-500">*</span>
-        </label>
-        <Input
-          type="text"
-          placeholder="Enter logical entity name"
-          className={errors.ledgerName ? "border-red-500" : ""}
-          {...register("ledgerName", {
-            required: "Ledger name is required",
-            minLength: { value: 2, message: "Min 2 characters" },
-          })}
-        />
-        {errors.ledgerName && (
-          <p className="text-red-500 text-[10px] font-bold uppercase mt-1 px-1 tracking-wider">
-            {errors.ledgerName.message}
-          </p>
-        )}
-      </div>
-      <div className="space-y-2">
-        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">
-          Account Group <span className="text-red-500">*</span>
-        </label>
-        <SearchableSelect
-          options={groupOptions}
-          value={selectedGroup?.value}
-          onChange={(opt) => {
-            setSelectedGroup(opt);
-            setValue("acgroup", opt?.value || "", { shouldValidate: true });
-          }}
-          placeholder="Categorize entity"
-        />
-      </div>
-      <div className="space-y-2">
-        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">
-          Parent Hierarchy
-        </label>
-        <SearchableSelect
-          options={parentLedgersData?.map((l) => ({
-            label: l.ledgerName,
-            value: l.id,
-          }))}
-          value={watch("parentLedger")}
-          onChange={(opt) => setValue("parentLedger", opt?.value || "")}
-          placeholder="Optional parent link"
-        />
-      </div>
-      <div className="space-y-2">
-        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">
-          Financial Station
-        </label>
-        <SearchableSelect
-          options={stationOptions}
-          value={watch("station")}
-          isLoading={stationsLoading}
-          onChange={(opt) => setValue("station", opt?.value || "")}
-          placeholder="Geographical locus"
-        />
-      </div>
-      <div className="space-y-2">
-        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">
-          Opening Balance & Liquidity
-        </label>
-        <div className="flex gap-0 relative">
-          <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10 text-gray-400 font-bold text-sm pointer-events-none">
-            ₹
-          </div>
-          <Input
-            type="number"
-            step="0.01"
-            className="flex-1 rounded-r-none pl-10"
-            placeholder="0.00"
-            readOnly={!defaultLedgerPermissions.canEditOpeningBalance}
-            {...register("openingBalance")}
-          />
-          <Select
-            className="w-24 rounded-l-none border-l-0"
-            {...register("balanceType")}
-          >
-            <option value="Debit">DEBIT (DR)</option>
-            <option value="Credit">CREDIT (CR)</option>
-          </Select>
-        </div>
-      </div>
-      <div className="space-y-2">
-        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">
-          Settlement Currency
-        </label>
-        <Select className="w-full" {...register("currency")}>
-          <option value="INR">INDIAN RUPEE (₹)</option>
-          <option value="USD">US DOLLAR ($)</option>
-          <option value="EUR">EURO (€)</option>
-          <option value="GBP">BRITISH POUND (£)</option>
-        </Select>
-      </div>
-      <div className="md:col-span-2 space-y-2">
-        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">
-          Categorization & Memo
-        </label>
-        <textarea
-          className="w-full bg-white/50 dark:bg-white/5 border border-gray-400 dark:border-white/20 rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-(--primary-color)/20 focus:border-(--primary-color) text-sm font-bold transition-all no-scrollbar shadow-sm"
-          rows="3"
-          placeholder="Additional entity properties or remarks..."
-          {...register("description")}
-        />
-      </div>
-      <div className="flex items-center gap-3 p-4 rounded-2xl bg-white/50 dark:bg-white/5 border border-gray-200 dark:border-white/5 w-fit">
-        <input
-          type="checkbox"
-          id="isActive"
-          className="w-5 h-5 text-(--primary-color) border-gray-400 rounded-lg focus:ring-(--primary-color)"
-          {...register("isActive")}
-        />
-        <label
-          htmlFor="isActive"
-          className="text-[10px] font-black uppercase tracking-widest text-(--text-main) cursor-pointer"
-        >
-          Entity Operational Status (Active)
-        </label>
-      </div>
-    </div>
-  );
+  // Tab component map
+  const tabComponents = {
+    general: GeneralTab,
+    address: AddressTab,
+    gst: GSTTab,
+    license: () => <div className="p-4 text-center text-gray-400">License Info - Coming Soon</div>,
+    bank: BankTab,
+    cash: CashTab,
+    party: PartyTab,
+    asset: () => <div className="p-4 text-center text-gray-400">Asset Details - Coming Soon</div>,
+    investment: () => <div className="p-4 text-center text-gray-400">Investment Details - Coming Soon</div>,
+    loan: () => <div className="p-4 text-center text-gray-400">Loan Details - Coming Soon</div>,
+    expense: () => <div className="p-4 text-center text-gray-400">Expense Details - Coming Soon</div>,
+    income: () => <div className="p-4 text-center text-gray-400">Income Details - Coming Soon</div>,
+};
 
   const renderAddressTab = () => (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
@@ -1161,34 +1058,24 @@ const CreateLedger = () => {
   );
 
   const renderTabContent = () => {
-    switch (activeTab) {
-      case "general":
-        return renderGeneralTab();
-      case "address":
-        return renderAddressTab();
-      case "gst":
-        return renderGstTab();
-      case "license":
-        return renderLicenseTab();
-      case "bank":
-        return renderBankTab();
-      case "cash":
-        return renderCashTab();
-      case "party":
-        return renderPartyTab();
-      case "asset":
-        return renderAssetTab();
-      case "investment":
-        return renderInvestmentTab();
-      case "loan":
-        return renderLoanTab();
-      case "expense":
-        return renderExpenseTab();
-      case "income":
-        return renderIncomeTab();
-      default:
-        return renderGeneralTab();
+    const TabComponent = tabComponents[activeTab];
+    if (TabComponent) {
+      const commonProps = {
+        register,
+        errors,
+        watch,
+        setValue,
+        setSelectedGroup,
+        selectedGroup,
+        groupOptions,
+        parentLedgersData,
+        stationOptions,
+        stationsLoading,
+        defaultLedgerPermissions,
+      };
+      return <TabComponent {...commonProps} />;
     }
+    return <GeneralTab {...commonProps} />;
   };
 
   return (

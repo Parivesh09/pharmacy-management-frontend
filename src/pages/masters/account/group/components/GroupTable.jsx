@@ -1,8 +1,8 @@
 import React from 'react';
 import { ChevronDown, ChevronRight, Edit, Trash2 } from 'lucide-react';
-import Button from '../../../../../componets/common/Button';
-import IconButton from '../../../../../componets/common/IconButton';
-import {showToast} from '../../../../../componets/common/Toast';
+import Button from '../../../../../components/common/Button';
+import IconButton from '../../../../../components/common/IconButton';
+import {showToast} from '../../../../../components/common/Toast';
 
 const GroupTable = ({ 
   groups, 

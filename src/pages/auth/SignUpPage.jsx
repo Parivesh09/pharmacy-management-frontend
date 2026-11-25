@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Button from "../../componets/common/Button";
+import Button from "../../components/common/Button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import {
   useSendPhoneOTPMutation,
@@ -9,9 +9,9 @@ import {
 } from "../../services/authApi";
 import RenderStep1 from "./components/SignupStep1";
 import RenderStep2 from "./components/SignupStep2";
-import { showToast } from "../../componets/common/Toast";
+import { showToast } from "../../components/common/Toast";
 import { validatePassword, validatePhone } from "../../utils/inputValidation";
-import Logo from "../../componets/common/Logo";
+import Logo from "../../components/common/Logo";
 
 const SignUpPage = () => {
   const navigate = useNavigate();

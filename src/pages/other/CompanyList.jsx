@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useGetUserCompaniesQuery } from "../../services/userCompanyApi";
-import CommonPageLayout from "../../componets/layout/CommonPageLayout";
+import CommonPageLayout from "../../components/layout/CommonPageLayout";
 import { useLocation, useNavigate } from "react-router-dom";
-import Button from "../../componets/common/Button";
+import Button from "../../components/common/Button";
 import { LogOut, Plus } from "lucide-react";
 import { logout, setCurrentCompany } from "../../services/userSlice";
 

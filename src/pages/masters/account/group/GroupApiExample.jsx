@@ -23,8 +23,8 @@ import {
   useUpdateGroupLedgerMutation,
   useDeleteGroupLedgerMutation,
 } from '../../../../services/groupApi';
-import Button from '../../../../componets/common/Button';
-import { Toast, showToast } from '../../../../componets/common/Toast';
+import Button from '../../../../components/common/Button';
+import { Toast, showToast } from '../../../../components/common/Toast';
 
 const GroupApiExample = () => {
   const [selectedGroupId, setSelectedGroupId] = useState(null);

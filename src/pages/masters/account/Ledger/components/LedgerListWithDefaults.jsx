@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useGetLedgersQuery, useDeleteLedgerMutation } from '../../../../../services/ledgerApi';
 import { useNavigate } from 'react-router-dom';
-import DataTable from '../../../../../componets/common/DataTable';
-import Button from '../../../../../componets/common/Button';
-import DefaultLedgerIndicator from '../../../../../componets/common/DefaultLedgerIndicator';
+import DataTable from '../../../../../components/common/DataTable';
+import Button from '../../../../../components/common/Button';
+import DefaultLedgerIndicator from '../../../../../components/common/DefaultLedgerIndicator';
 import { useDefaultLedgerPermissions } from '../../../../../hooks/useDefaultLedgerPermissions';
-import { showToast } from '../../../../../componets/common/Toast';
+import { showToast } from '../../../../../components/common/Toast';
 import { formatCurrency } from '../../../../../utils/formatters';
 
 const LedgerListWithDefaults = () => {

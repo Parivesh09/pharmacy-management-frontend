@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useAddUnitMutation } from "../../../../services/unitApi";
-import Modal from "../../../../componets/common/Modal";
-import Input from "../../../../componets/common/Input";
-import Button from "../../../../componets/common/Button";
+import Modal from "../../../../components/common/Modal";
+import Input from "../../../../components/common/Input";
+import Button from "../../../../components/common/Button";
 import { useForm } from "react-hook-form";
-import { TextField } from "../../../../componets/common/Fields";
+import { TextField } from "../../../../components/common/Fields";
 
 export default function CreateUnitForm({
   isOpen = true,

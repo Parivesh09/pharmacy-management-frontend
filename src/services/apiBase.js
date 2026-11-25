@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { logout, setUser } from "./userSlice";
-import { showToast } from "../componets/common/Toast";
+import { showToast } from "../components/common/Toast";
 
 
 const createBaseQueryWithAuth = (baseUrl) => {

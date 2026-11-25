@@ -4,8 +4,8 @@ import { useGetBillsQuery, useDeleteBillMutation } from "../../../services/purch
 import { useDebounce } from '../../../utils/useDebounce';
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import CommonPageLayout from "../../../componets/layout/CommonPageLayout";
-import Button from "../../../componets/common/Button";
+import CommonPageLayout from "../../../components/layout/CommonPageLayout";
+import Button from "../../../components/common/Button";
 
 const PurchaseBillList = () => {
   const navigate = useNavigate();

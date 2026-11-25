@@ -1,13 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Plus } from "lucide-react";
-import Button from "../../../../componets/common/Button";
-import { showToast } from "../../../../componets/common/Toast";
+import Button from "../../../../components/common/Button";
+import { showToast } from "../../../../components/common/Toast";
 import {
   useDeleteLedgerMutation,
   useGetLedgersByCompanyIdQuery,
 } from "../../../../services/ledgerApi";
-import CommonPageLayout from "../../../../componets/layout/CommonPageLayout";
+import CommonPageLayout from "../../../../components/layout/CommonPageLayout";
 import { useSelector } from "react-redux";
 
 const Viewledger = () => {
